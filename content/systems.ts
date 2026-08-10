@@ -214,7 +214,7 @@ export const systems: System[] = [
     tagline:
       "Engineering data for a magnetocaloric hardware company behind one agentic interface — where agents propose and people release.",
     tags: ["PDM", "ECM", "QMS", "LangGraph", "MCP", "pgvector"],
-    evidence: "open-source",
+    evidence: "live",
     headline: {
       value: "Reads answered · writes proposed",
       label: "The rule the whole system is built around",
@@ -302,7 +302,13 @@ export const systems: System[] = [
       "Next.js 16",
       "Argon2id + JWT roles",
     ],
-    links: [],
+    links: [
+      {
+        label: "Live app",
+        href: "https://agentic-enterprise-tool.vercel.app/",
+        kind: "live",
+      },
+    ],
   },
 
   {
