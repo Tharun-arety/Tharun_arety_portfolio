@@ -88,10 +88,17 @@ export function SystemSheet({ system }: { system: System }) {
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="text-ink-faint hover:text-ink inline-flex items-center gap-1.5 text-sm transition-colors"
+              className={
+                link.kind === "live"
+                  ? "border-verdigris bg-verdigris-soft text-verdigris hover:bg-verdigris hover:text-sheet inline-flex items-center gap-2 border px-3 py-2 text-sm font-semibold shadow-sm transition-colors"
+                  : "text-ink-faint hover:text-ink inline-flex items-center gap-1.5 text-sm transition-colors"
+              }
             >
+              {link.kind === "live" && (
+                <span className="size-1.5 bg-current" aria-hidden="true" />
+              )}
               {link.label}
-              <ExternalLink className="size-3" />
+              <ExternalLink className={link.kind === "live" ? "size-3.5" : "size-3"} />
             </a>
           ))}
         </div>
