@@ -1,0 +1,305 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * A controlled engineering document, not a landing page.
+ *
+ * The subject is someone who came from materials engineering and now builds
+ * agentic systems whose central claim is that a machine may propose but a
+ * person must release. Both halves of that share one vernacular: the drawing
+ * sheet, with its revision state, its callouts, and its approval block. So the
+ * page is set as a sheet rather than as a screen.
+ *
+ * The ground is drafting film — a cool grey mylar, not paper and not cream.
+ * Ink is graphite. Two accents carry meaning and nothing else is allowed to:
+ *
+ *   verdigris  verified · released · passed a gate
+ *   signal     a human must decide · a guardrail blocked this
+ *
+ * Oxidised copper for the accent is a materials reference, and it is the one
+ * hue this field does not already use.
+ * ------------------------------------------------------------------------ */
+
+:root {
+  --ground: #e8e6e1;
+  --sheet: #f5f4f0;
+  --inset: #dedcd6;
+  --rule: #c8c5bd;
+  --rule-strong: #a9a59b;
+
+  --ink: #1f2328;
+  --ink-mid: #565d64;
+  --ink-faint: #83898f;
+
+  --verdigris: #2e7d6b;
+  --verdigris-soft: #d5e4de;
+  --signal: #b93f0c;
+  --signal-soft: #f2ded2;
+
+  --shadow-sheet: 0 1px 2px rgb(31 35 40 / 0.05), 0 8px 24px -12px rgb(31 35 40 / 0.16);
+  color-scheme: light;
+}
+
+/* Light is the default and the OS preference does not override it — a released
+   drawing is white, and this page should look the way it was drawn to whoever
+   opens the link. Dark exists for readers who ask for it, and asking means
+   pressing the toggle. */
+:root[data-theme="dark"] {
+  --ground: #1f2328;
+  --sheet: #272c32;
+  --inset: #191d21;
+  --rule: #383e45;
+  --rule-strong: #4e555d;
+
+  --ink: #e4e2dc;
+  --ink-mid: #9aa1a8;
+  --ink-faint: #737a81;
+
+  --verdigris: #55b69e;
+  --verdigris-soft: #1d3a34;
+  --signal: #e8763f;
+  --signal-soft: #38231a;
+
+  --shadow-sheet: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-sheet: var(--sheet);
+  --color-inset: var(--inset);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-mid: var(--ink-mid);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-verdigris: var(--verdigris);
+  --color-verdigris-soft: var(--verdigris-soft);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+
+  /* Bricolage Grotesque letters the sheet: headings and every field label. The
+     width axis is why it is here — title-block lettering is condensed, and
+     letter-spacing a normal-width face only looks stretched. */
+  --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
+  /* Geist carries running text, at the small sizes this document lives in. */
+  --font-body: var(--font-text), ui-sans-serif, system-ui, sans-serif;
+  /* Geist Mono carries every measurement, and pairs with the text face by
+     construction rather than by luck. */
+  --font-mono: var(--font-mono-face), ui-monospace, "Cascadia Mono", monospace;
+}
+
+/* No `scroll-behavior: smooth` here, deliberately.
+ *
+ * With it set, every in-page anchor on this site silently did nothing: the hash
+ * updated and the page never moved. A smooth scroll is an animation, and an
+ * animation that something else cancels on its first frame leaves the reader
+ * exactly where they were, having pressed a button that appeared to be broken.
+ * An instant jump cannot be cancelled, and a navigation control that always
+ * works beats one that glides when conditions allow. */
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* This document is full of identifiers — Agent_Architecture_model,
+     grounding.floor, query_rig_telemetry — and a single unbreakable token sets
+     the min-content width of whatever contains it. On a phone that is the
+     difference between a column that fits and a page that scrolls sideways. */
+  overflow-wrap: break-word;
+}
+
+/* Tracking is size-specific. A single letter-spacing value is wrong somewhere:
+   large text reads too loose as it grows, small caps read too tight. */
+/* Headings are lettered, not merely enlarged. Tracking tightens as size grows,
+   because letters read further apart the bigger they get. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--verdigris-soft);
+  color: var(--ink);
+}
+
+@layer components {
+  /* --- Lettering -------------------------------------------------------- */
+
+  /* Title-block lettering: condensed, widely tracked, uppercase. Used for every
+     field label on the sheet. The width axis does the work, not the tracking. */
+  .letter {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.4;
+  }
+
+  /* A section head. The rule runs to the edge of the sheet the way a zone
+     divider does on a drawing. */
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .legend::after {
+    content: "";
+    flex: 1 1 0%;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* Every measurement on the site. Tabular so columns of numbers compare by
+     eye, which is the only reason to show them at once. */
+  .tnum {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* Sustained prose. Only case-study bodies and ledes get this. */
+  .prose-doc {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    color: var(--ink-mid);
+    letter-spacing: -0.005em;
+  }
+  .prose-doc strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* --- Sheet ------------------------------------------------------------ */
+
+  /* The document surface. Square corners, one hairline, a shallow lift — a
+     sheet resting on film, not a card floating in space. */
+  .sheet {
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-sheet);
+  }
+
+  /* A recessed field, for anything machine-written: trace output, tool
+     arguments, captured JSON. */
+  .inset {
+    background: var(--inset);
+    border: 1px solid var(--rule);
+  }
+
+  /* --- Callout ---------------------------------------------------------- */
+
+  /* A boxed value at the end of a leader — how a drawing states a tolerance.
+     Reserved for figures that carry an argument, never for decoration. */
+  .callout {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    border: 1px solid var(--rule-strong);
+    padding: 0.1875rem 0.5rem;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--ink);
+    background: var(--sheet);
+  }
+  .callout-pass {
+    border-color: var(--verdigris);
+    color: var(--verdigris);
+    background: var(--verdigris-soft);
+  }
+  .callout-gate {
+    border-color: var(--signal);
+    color: var(--signal);
+    background: var(--signal-soft);
+  }
+
+  /* --- Focus ------------------------------------------------------------ */
+
+  .ring:focus-visible,
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--verdigris);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Accessibility preferences. Reduced motion is not "no feedback" — it is a
+ * non-vestibular equivalent, so state changes still land, they just stop
+ * travelling.
+ * ------------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --rule: var(--rule-strong);
+    --ink-faint: var(--ink-mid);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Print. The résumé has no PDF in `public/` — this stylesheet is the PDF, so
+ * that there is only ever one version of the facts.
+ *
+ * The palette is forced back to light regardless of theme: a reader who has
+ * dark mode on does not want a page of toner, and a recruiter opening the file
+ * later wants black on white.
+ * ------------------------------------------------------------------------ */
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    --ground: #ffffff;
+    --sheet: #ffffff;
+    --inset: #ffffff;
+    --rule: #c9c9c9;
+    --rule-strong: #9a9a9a;
+    --ink: #000000;
+    --ink-mid: #2c2c2c;
+    --ink-faint: #5c5c5c;
+    --verdigris: #1f5c4f;
+    --signal: #8c3208;
+    --shadow-sheet: none;
+    color-scheme: light;
+  }
+
+  @page {
+    margin: 14mm 14mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .sheet,
+  .inset {
+    box-shadow: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

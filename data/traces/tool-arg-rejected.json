@@ -1,0 +1,765 @@
+{
+  "id": "tool-arg-rejected",
+  "prompt": "What was the chamber temperature on rig 7 during the recorded window?",
+  "claim": "The model invented a rig. The bounds gate rejected the call, named the three that exist, and the model corrected itself rather than answering anyway.",
+  "capturedAt": "2026-08-10T08:39:03.967Z",
+  "source": "Agent_Architecture_model",
+  "frames": [
+    {
+      "atMs": 31,
+      "event": "agent_state",
+      "data": {
+        "agent": "Guardrails",
+        "status": "checking input"
+      }
+    },
+    {
+      "atMs": 31,
+      "event": "guardrail",
+      "data": {
+        "id": "input.secrets",
+        "passed": true,
+        "latencyMs": 0.011800000000221189
+      }
+    },
+    {
+      "atMs": 31,
+      "event": "guardrail",
+      "data": {
+        "id": "input.injection",
+        "passed": true,
+        "latencyMs": 0.007100000002537854
+      }
+    },
+    {
+      "atMs": 31,
+      "event": "guardrail",
+      "data": {
+        "id": "input.domain",
+        "passed": true,
+        "latencyMs": 0.029199999997217674,
+        "detail": {
+          "matched": [
+            "rig",
+            "eco"
+          ]
+        }
+      }
+    },
+    {
+      "atMs": 31,
+      "event": "agent_state",
+      "data": {
+        "agent": "Router",
+        "status": "thinking"
+      }
+    },
+    {
+      "atMs": 795,
+      "event": "agent_state",
+      "data": {
+        "agent": "Router",
+        "status": "routed",
+        "detail": "telemetry — The question is asking for a specific measurement from a test rig."
+      }
+    },
+    {
+      "atMs": 795,
+      "event": "agent_state",
+      "data": {
+        "agent": "Telemetry Agent",
+        "status": "working"
+      }
+    },
+    {
+      "atMs": 1841,
+      "event": "agent_state",
+      "data": {
+        "agent": "Telemetry Agent",
+        "status": "calling tool",
+        "detail": "query_rig_telemetry"
+      }
+    },
+    {
+      "atMs": 2242,
+      "event": "guardrail",
+      "data": {
+        "id": "args.schema",
+        "passed": true,
+        "latencyMs": 3.0482000000047265,
+        "detail": {
+          "tool": "query_rig_telemetry"
+        }
+      }
+    },
+    {
+      "atMs": 2242,
+      "event": "guardrail",
+      "data": {
+        "id": "args.bounds",
+        "passed": false,
+        "latencyMs": 401.79449999999633,
+        "reason": "Unknown rig \"rig_7\". Known rigs: rig_1, rig_2, rig_3. Call list_rigs if you are unsure which one the user means.",
+        "detail": {
+          "tool": "query_rig_telemetry",
+          "supplied": "rig_7",
+          "known": [
+            "rig_1",
+            "rig_2",
+            "rig_3"
+          ]
+        }
+      }
+    },
+    {
+      "atMs": 3334,
+      "event": "agent_state",
+      "data": {
+        "agent": "Telemetry Agent",
+        "status": "calling tool",
+        "detail": "list_rigs"
+      }
+    },
+    {
+      "atMs": 3334,
+      "event": "guardrail",
+      "data": {
+        "id": "args.schema",
+        "passed": true,
+        "latencyMs": 0.7776999999987311,
+        "detail": {
+          "tool": "list_rigs"
+        }
+      }
+    },
+    {
+      "atMs": 3837,
+      "event": "tool_result",
+      "data": {
+        "tool": "list_rigs",
+        "payload": {
+          "rigs": [
+            {
+              "rigId": "rig_1",
+              "label": "POLARIS 100W bench",
+              "productLine": "POLARIS",
+              "location": "Darmstadt — Lab A",
+              "commissioned": "2024-03-10"
+            },
+            {
+              "rigId": "rig_2",
+              "label": "ECLIPSE 1kW bench",
+              "productLine": "ECLIPSE",
+              "location": "Darmstadt — Lab A",
+              "commissioned": "2024-11-03"
+            },
+            {
+              "rigId": "rig_3",
+              "label": "STELLAR high-capacity bench",
+              "productLine": "STELLAR",
+              "location": "Darmstadt — Hall 2",
+              "commissioned": "2025-06-22"
+            }
+          ],
+          "dataWindow": {
+            "from": "2026-05-04T06:00:00.000Z",
+            "to": "2026-08-01T18:00:00.000Z"
+          }
+        }
+      }
+    },
+    {
+      "atMs": 5652,
+      "event": "agent_state",
+      "data": {
+        "agent": "Synthesizer",
+        "status": "writing"
+      }
+    },
+    {
+      "atMs": 6171,
+      "event": "token",
+      "data": {
+        "text": "The"
+      }
+    },
+    {
+      "atMs": 6171,
+      "event": "token",
+      "data": {
+        "text": " evidence"
+      }
+    },
+    {
+      "atMs": 6176,
+      "event": "token",
+      "data": {
+        "text": " provided"
+      }
+    },
+    {
+      "atMs": 6176,
+      "event": "token",
+      "data": {
+        "text": " does"
+      }
+    },
+    {
+      "atMs": 6178,
+      "event": "token",
+      "data": {
+        "text": " not"
+      }
+    },
+    {
+      "atMs": 6178,
+      "event": "token",
+      "data": {
+        "text": " include"
+      }
+    },
+    {
+      "atMs": 6184,
+      "event": "token",
+      "data": {
+        "text": " any"
+      }
+    },
+    {
+      "atMs": 6184,
+      "event": "token",
+      "data": {
+        "text": " information"
+      }
+    },
+    {
+      "atMs": 6189,
+      "event": "token",
+      "data": {
+        "text": " about"
+      }
+    },
+    {
+      "atMs": 6189,
+      "event": "token",
+      "data": {
+        "text": " the"
+      }
+    },
+    {
+      "atMs": 6213,
+      "event": "token",
+      "data": {
+        "text": " chamber"
+      }
+    },
+    {
+      "atMs": 6213,
+      "event": "token",
+      "data": {
+        "text": " temperature"
+      }
+    },
+    {
+      "atMs": 6245,
+      "event": "token",
+      "data": {
+        "text": " on"
+      }
+    },
+    {
+      "atMs": 6245,
+      "event": "token",
+      "data": {
+        "text": " rig"
+      }
+    },
+    {
+      "atMs": 6272,
+      "event": "token",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "atMs": 6272,
+      "event": "token",
+      "data": {
+        "text": "7"
+      }
+    },
+    {
+      "atMs": 6285,
+      "event": "token",
+      "data": {
+        "text": ","
+      }
+    },
+    {
+      "atMs": 6285,
+      "event": "token",
+      "data": {
+        "text": " as"
+      }
+    },
+    {
+      "atMs": 6303,
+      "event": "token",
+      "data": {
+        "text": " it"
+      }
+    },
+    {
+      "atMs": 6303,
+      "event": "token",
+      "data": {
+        "text": " only"
+      }
+    },
+    {
+      "atMs": 6325,
+      "event": "token",
+      "data": {
+        "text": " lists"
+      }
+    },
+    {
+      "atMs": 6325,
+      "event": "token",
+      "data": {
+        "text": " three"
+      }
+    },
+    {
+      "atMs": 6340,
+      "event": "token",
+      "data": {
+        "text": " rigs"
+      }
+    },
+    {
+      "atMs": 6340,
+      "event": "token",
+      "data": {
+        "text": " ("
+      }
+    },
+    {
+      "atMs": 6349,
+      "event": "token",
+      "data": {
+        "text": "rig"
+      }
+    },
+    {
+      "atMs": 6349,
+      "event": "token",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "atMs": 6376,
+      "event": "token",
+      "data": {
+        "text": "1"
+      }
+    },
+    {
+      "atMs": 6376,
+      "event": "token",
+      "data": {
+        "text": ","
+      }
+    },
+    {
+      "atMs": 6388,
+      "event": "token",
+      "data": {
+        "text": " rig"
+      }
+    },
+    {
+      "atMs": 6388,
+      "event": "token",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "atMs": 6415,
+      "event": "token",
+      "data": {
+        "text": "2"
+      }
+    },
+    {
+      "atMs": 6415,
+      "event": "token",
+      "data": {
+        "text": ","
+      }
+    },
+    {
+      "atMs": 6433,
+      "event": "token",
+      "data": {
+        "text": " and"
+      }
+    },
+    {
+      "atMs": 6433,
+      "event": "token",
+      "data": {
+        "text": " rig"
+      }
+    },
+    {
+      "atMs": 6457,
+      "event": "token",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "atMs": 6457,
+      "event": "token",
+      "data": {
+        "text": "3"
+      }
+    },
+    {
+      "atMs": 6469,
+      "event": "token",
+      "data": {
+        "text": ")"
+      }
+    },
+    {
+      "atMs": 6469,
+      "event": "token",
+      "data": {
+        "text": " and"
+      }
+    },
+    {
+      "atMs": 6490,
+      "event": "token",
+      "data": {
+        "text": " their"
+      }
+    },
+    {
+      "atMs": 6490,
+      "event": "token",
+      "data": {
+        "text": " commissioning"
+      }
+    },
+    {
+      "atMs": 6512,
+      "event": "token",
+      "data": {
+        "text": " dates"
+      }
+    },
+    {
+      "atMs": 6512,
+      "event": "token",
+      "data": {
+        "text": "."
+      }
+    },
+    {
+      "atMs": 6531,
+      "event": "token",
+      "data": {
+        "text": " Therefore"
+      }
+    },
+    {
+      "atMs": 6531,
+      "event": "token",
+      "data": {
+        "text": ","
+      }
+    },
+    {
+      "atMs": 6553,
+      "event": "token",
+      "data": {
+        "text": " the"
+      }
+    },
+    {
+      "atMs": 6553,
+      "event": "token",
+      "data": {
+        "text": " specific"
+      }
+    },
+    {
+      "atMs": 6566,
+      "event": "token",
+      "data": {
+        "text": " temperature"
+      }
+    },
+    {
+      "atMs": 6566,
+      "event": "token",
+      "data": {
+        "text": " data"
+      }
+    },
+    {
+      "atMs": 6595,
+      "event": "token",
+      "data": {
+        "text": " for"
+      }
+    },
+    {
+      "atMs": 6595,
+      "event": "token",
+      "data": {
+        "text": " rig"
+      }
+    },
+    {
+      "atMs": 6613,
+      "event": "token",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "atMs": 6613,
+      "event": "token",
+      "data": {
+        "text": "7"
+      }
+    },
+    {
+      "atMs": 6632,
+      "event": "token",
+      "data": {
+        "text": " during"
+      }
+    },
+    {
+      "atMs": 6632,
+      "event": "token",
+      "data": {
+        "text": " the"
+      }
+    },
+    {
+      "atMs": 6651,
+      "event": "token",
+      "data": {
+        "text": " recorded"
+      }
+    },
+    {
+      "atMs": 6651,
+      "event": "token",
+      "data": {
+        "text": " window"
+      }
+    },
+    {
+      "atMs": 6672,
+      "event": "token",
+      "data": {
+        "text": " is"
+      }
+    },
+    {
+      "atMs": 6672,
+      "event": "token",
+      "data": {
+        "text": " missing"
+      }
+    },
+    {
+      "atMs": 6698,
+      "event": "token",
+      "data": {
+        "text": "."
+      }
+    },
+    {
+      "atMs": 6719,
+      "event": "trace",
+      "data": {
+        "intent": "telemetry",
+        "routerRationale": "The question is asking for a specific measurement from a test rig.",
+        "stages": [
+          {
+            "name": "input_guardrails",
+            "durationMs": 0
+          },
+          {
+            "name": "router",
+            "durationMs": 767,
+            "usage": {
+              "model": "gpt-4o-mini",
+              "inputTokens": 495,
+              "outputTokens": 23
+            }
+          },
+          {
+            "name": "tool_loop",
+            "durationMs": 0,
+            "usage": {
+              "model": "gpt-4o-mini",
+              "inputTokens": 2091,
+              "outputTokens": 118
+            }
+          },
+          {
+            "name": "tool_loop",
+            "durationMs": 4858
+          },
+          {
+            "name": "synthesis",
+            "durationMs": 1068,
+            "usage": {
+              "model": "gpt-4o-mini",
+              "inputTokens": 534,
+              "outputTokens": 59
+            }
+          }
+        ],
+        "guardrails": [
+          {
+            "id": "input.secrets",
+            "passed": true,
+            "latencyMs": 0.01
+          },
+          {
+            "id": "input.injection",
+            "passed": true,
+            "latencyMs": 0.01
+          },
+          {
+            "id": "input.domain",
+            "passed": true,
+            "latencyMs": 0.03,
+            "detail": {
+              "matched": [
+                "rig",
+                "eco"
+              ]
+            }
+          },
+          {
+            "id": "args.schema",
+            "passed": true,
+            "latencyMs": 3.05,
+            "detail": {
+              "tool": "query_rig_telemetry"
+            }
+          },
+          {
+            "id": "args.bounds",
+            "passed": false,
+            "latencyMs": 401.79,
+            "reason": "Unknown rig \"rig_7\". Known rigs: rig_1, rig_2, rig_3. Call list_rigs if you are unsure which one the user means.",
+            "detail": {
+              "tool": "query_rig_telemetry",
+              "supplied": "rig_7",
+              "known": [
+                "rig_1",
+                "rig_2",
+                "rig_3"
+              ]
+            }
+          },
+          {
+            "id": "args.schema",
+            "passed": true,
+            "latencyMs": 0.78,
+            "detail": {
+              "tool": "list_rigs"
+            }
+          }
+        ],
+        "toolAttempts": [
+          {
+            "name": "query_rig_telemetry",
+            "arguments": {
+              "rig_id": "rig_7",
+              "metrics": [
+                "temperature_span_K"
+              ]
+            },
+            "accepted": false,
+            "verdicts": [
+              {
+                "id": "args.schema",
+                "passed": true,
+                "latencyMs": 3.0482000000047265,
+                "detail": {
+                  "tool": "query_rig_telemetry"
+                }
+              },
+              {
+                "id": "args.bounds",
+                "passed": false,
+                "latencyMs": 401.79449999999633,
+                "reason": "Unknown rig \"rig_7\". Known rigs: rig_1, rig_2, rig_3. Call list_rigs if you are unsure which one the user means.",
+                "detail": {
+                  "tool": "query_rig_telemetry",
+                  "supplied": "rig_7",
+                  "known": [
+                    "rig_1",
+                    "rig_2",
+                    "rig_3"
+                  ]
+                }
+              }
+            ],
+            "durationMs": 405,
+            "error": "Unknown rig \"rig_7\". Known rigs: rig_1, rig_2, rig_3. Call list_rigs if you are unsure which one the user means."
+          },
+          {
+            "name": "list_rigs",
+            "arguments": {},
+            "accepted": true,
+            "verdicts": [
+              {
+                "id": "args.schema",
+                "passed": true,
+                "latencyMs": 0.7776999999987311,
+                "detail": {
+                  "tool": "list_rigs"
+                }
+              }
+            ],
+            "durationMs": 503
+          }
+        ],
+        "retrieval": null,
+        "totals": {
+          "durationMs": 6694,
+          "inputTokens": 3120,
+          "outputTokens": 200,
+          "costUsd": 0.000588,
+          "modelCalls": 3
+        },
+        "refusedBy": null
+      }
+    },
+    {
+      "atMs": 6719,
+      "event": "final",
+      "data": {
+        "text": "The evidence provided does not include any information about the chamber temperature on rig 7, as it only lists three rigs (rig 1, rig 2, and rig 3) and their commissioning dates. Therefore, the specific temperature data for rig 7 during the recorded window is missing.",
+        "intent": "telemetry",
+        "refused": false
+      }
+    }
+  ]
+}

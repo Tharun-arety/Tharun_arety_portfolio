@@ -1,0 +1,325 @@
+{
+  "id": "off-corpus-refusal",
+  "prompt": "What is the recommended torque for a Boeing 787 landing gear actuator?",
+  "claim": "Nothing cleared the grounding floor, so no answer was generated at all.",
+  "capturedAt": "2026-08-10T08:39:20.984Z",
+  "source": "Agent_Architecture_model",
+  "frames": [
+    {
+      "atMs": 21,
+      "event": "agent_state",
+      "data": {
+        "agent": "Guardrails",
+        "status": "checking input"
+      }
+    },
+    {
+      "atMs": 21,
+      "event": "guardrail",
+      "data": {
+        "id": "input.secrets",
+        "passed": true,
+        "latencyMs": 0.007400000002235174
+      }
+    },
+    {
+      "atMs": 21,
+      "event": "guardrail",
+      "data": {
+        "id": "input.injection",
+        "passed": true,
+        "latencyMs": 0.0072000000000116415
+      }
+    },
+    {
+      "atMs": 21,
+      "event": "guardrail",
+      "data": {
+        "id": "input.domain",
+        "passed": true,
+        "latencyMs": 0.021200000002863817,
+        "detail": {
+          "matched": [
+            "eco"
+          ]
+        }
+      }
+    },
+    {
+      "atMs": 21,
+      "event": "agent_state",
+      "data": {
+        "agent": "Router",
+        "status": "thinking"
+      }
+    },
+    {
+      "atMs": 905,
+      "event": "agent_state",
+      "data": {
+        "agent": "Router",
+        "status": "routed",
+        "detail": "knowledge — This question pertains to specifications, which would be found in a technical document or datasheet rather than measured performance."
+      }
+    },
+    {
+      "atMs": 905,
+      "event": "agent_state",
+      "data": {
+        "agent": "Knowledge Agent",
+        "status": "working"
+      }
+    },
+    {
+      "atMs": 1763,
+      "event": "agent_state",
+      "data": {
+        "agent": "Knowledge Agent",
+        "status": "calling tool",
+        "detail": "search_engineering_knowledge"
+      }
+    },
+    {
+      "atMs": 1763,
+      "event": "guardrail",
+      "data": {
+        "id": "args.schema",
+        "passed": true,
+        "latencyMs": 0.008899999993445817,
+        "detail": {
+          "tool": "search_engineering_knowledge"
+        }
+      }
+    },
+    {
+      "atMs": 1763,
+      "event": "guardrail",
+      "data": {
+        "id": "args.bounds",
+        "passed": true,
+        "latencyMs": 0.028299999998125713,
+        "detail": {
+          "tool": "search_engineering_knowledge"
+        }
+      }
+    },
+    {
+      "atMs": 2981,
+      "event": "guardrail",
+      "data": {
+        "id": "grounding.floor",
+        "passed": false,
+        "latencyMs": 0.0025000000023283064,
+        "reason": "No verified patent or technical documentation matches this query with sufficient confidence.",
+        "detail": {
+          "floor": 0.35,
+          "retrieved": 3,
+          "kept": 0,
+          "rejected": 3,
+          "topScore": 0.2192,
+          "bestRejected": 0.2192
+        }
+      }
+    },
+    {
+      "atMs": 2981,
+      "event": "tool_result",
+      "data": {
+        "tool": "search_engineering_knowledge",
+        "payload": {
+          "query": "Boeing 787 landing gear actuator torque",
+          "hits": [],
+          "floor": 0.35,
+          "rejected": [
+            {
+              "sourceRef": "WIKI-MCE",
+              "sourceUrl": "https://en.wikipedia.org/wiki/Magnetic_refrigeration",
+              "docTitle": "Magnetic refrigeration",
+              "docType": "reference",
+              "chunkIndex": 4,
+              "text": "Barcelona [ 13 ] [ 14 ]\nBarcelona, Spain May 2000 Rotary ? 5 0.95 (P) Gd foil\nChubu Electric/Toshiba [ 15 ]\nYokohama, Japan Summer 2000 Reciprocating 100 21 4 (S) Gd spheres\nUniversity of Victoria [ 16 ] [ 17 ]\nVictoria, British Columbia Canada July 2001 Reciprocating 2 14 2 (S) Gd & Gd 1−x Tb x L.B.\nAstronautics [ 18 ]\nMadison, Wisconsin, US September 18, 2001 Rotary 95 25 1.5 (P) Gd spheres\nSichuan Inst. Tech./Nanjing University [ 19 ]\nNanjing, China 23 April 2002 Reciprocating ? 23 1.4 (P) Gd spheres and Gd 5 Si 1.985 Ge 1.985 Ga 0.03 powder\nChubu Electric/Toshiba [ 20 ]\nYokohama, Japan October 5, 2002 Reciprocating 40 27 0.6 (P) Gd 1−x Dy x L.B.\nChubu Electric/Toshiba [ 20 ]\nYokohama, Japan March 4, 2003 Rotary 60 10 0.76 (P) Gd 1−x Dy x L.B. 1\nLab. d'Electrotechnique Grenoble [ 21 ]\nGrenoble, France April 2003 Reciprocating 8.8 4 0.8 (P) Gd foil\nGeorge Washington University [ 22 ]\nUS July 2004 Reciprocating ? 5 2 (P) Gd foil\nAstronautics [ 23 ]\nMadison, Wisconsin, US 2004 Rotary 95 25 1.5 (P) Gd and GdEr spheres / La(Fe 0.88 Si 130− 0.12 H 1.0\nUniversity of Victoria [ 24 ]",
+              "similarity": 0.2192
+            },
+            {
+              "sourceRef": "WIKI-ISO10007",
+              "sourceUrl": "https://en.wikipedia.org/wiki/ISO_10007",
+              "docTitle": "ISO 10007 — Configuration management",
+              "docType": "standard_summary",
+              "chunkIndex": 5,
+              "text": "2848\n2852\n2921\n3029\n3103\n3166\n-1\n-2\n-3\n3297\n3307\n3601\n3602\n3864\n3901\n3950\n3977\n4031\n4157\n4165\n4217\n4909\n5218\n5426\n5427\n5428\n5725\n5775\n5776\n5800\n5807\n5964\n6166\n6344\n6346\n6373\n6385\n6425\n6429\n6438\n6523\n6709\n6943\n7001\n7002\n7010\n7027\n7064\n7098\n7185\n7200\n7498\n-1\n7637\n7736\n7810\n7811\n7812\n7813\n7816\n7942\n8000\n8093\n8178\n8217\n8373\n8501-1\n8571\n8583\n8601\n8613\n8632\n8651\n8652\n8691\n8805/8806\n8807\n8820-5\n8859\n-1\n-2\n-3\n-4\n-5\n-6\n-7\n-8\n-8-I\n-9\n-10\n-11\n-12\n-13\n-14\n-15\n-16\n8879\n9000/9001\n9036\n9075\n9126\n9141\n9227\n9241\n9293\n9314\n9362\n9407\n9496\n9506\n9529\n9564\n9592/9593\n9594\n9660\n9797-1\n9897\n9899\n9945\n9984\n9985\n9995\n10000–19999\n10006\n10007\n10116\n10118-3\n10160\n10161\n10165\n10179\n10206\n10218\n10279\n10303\n-11\n-21\n-22\n-28\n-238\n10383\n10585\n10589\n10628\n10646\n10664\n10746\n10861\n10957\n10962\n10967\n11073\n11170\n11172\n11179\n11404\n11544\n11783\n11784\n11785\n11801\n11889\n11898\n11940 ( -2 )\n11941\n11941 (TR)\n11992\n12006\n12052\n12182\n12207\n12234-2\n12620\n13211\n-1\n-2\n13216\n13250\n13399\n13406-2\n13450\n13485\n13490\n13567\n13568\n13584\n13616\n13816\n13818\n14000\n14031\n14224\n14289\n14396\n14443\n14496\n-2\n-3\n-6\n-10\n-11\n-12\n-14\n-17\n-20\n14617\n14644\n14649\n14651\n14698\n14764\n14882\n14971\n15022\n15118\n15189\n15288\n15291\n15398\n15408\n15444\n-3\n-9\n15445\n15438",
+              "similarity": 0.1974
+            },
+            {
+              "sourceRef": "ATMO-R290",
+              "sourceUrl": "https://naturalrefrigerants.com/news/atmo-europe-magnotherms-refrigerant-free-cooling-solution-15-more-energy-efficient-than-propane-says-ceo/",
+              "docTitle": "ATMOsphere Europe — 15% more energy efficient than a comparable R290 unit",
+              "docType": "press",
+              "chunkIndex": 3,
+              "text": "a few kelvins below its initial value.\nMagnotherm uses an active magnetic regenerator (AMR) to increase the cooling span, with a water-based fluid circulating through the system.\nThe unit includes a magnetocaloric material block, an AMR with control valves, a rotating permanent magnet assembly, a fluid pump, electronic controls and two water-air heat exchangers for cooling and heat rejection.\nThe study/scalability: Magnotherm partnered with a supermarket chain that operates tens of thousands of propane display cases to pilot a 0.4kW (0.1TR)-capacity Eclipse by installing the unit in a retrofitted R290 cabinet.\nIn the 11-week study, running from May to September, the retailer confirmed that the Eclipse cabinet used 15% less energy than the incumbent propane cases, while maintaining the target temperature of 4‒5°C (39.2 to 41°F).\n“The customer plans to deploy a minimum of 10 more Eclipse units in supermarkets next year,” Sirman said.\nThe magnetocaloric technology has the potential to offer a cooling capacity range from 0.1 to 500kW (0.3 to 142.2TR), according to Sirman, with different materials providing a temperature range from −270 to 160°C (−454 to 320°F).",
+              "similarity": 0.1779
+            }
+          ]
+        }
+      }
+    },
+    {
+      "atMs": 3805,
+      "event": "token",
+      "data": {
+        "text": "No verified patent or technical documentation matches this query with sufficient confidence."
+      }
+    },
+    {
+      "atMs": 3805,
+      "event": "trace",
+      "data": {
+        "intent": "knowledge",
+        "routerRationale": "This question pertains to specifications, which would be found in a technical document or datasheet rather than measured performance.",
+        "stages": [
+          {
+            "name": "input_guardrails",
+            "durationMs": 0
+          },
+          {
+            "name": "router",
+            "durationMs": 885,
+            "usage": {
+              "model": "gpt-4o-mini",
+              "inputTokens": 495,
+              "outputTokens": 31
+            }
+          },
+          {
+            "name": "tool_loop",
+            "durationMs": 0,
+            "usage": {
+              "model": "gpt-4o-mini",
+              "inputTokens": 650,
+              "outputTokens": 50
+            }
+          },
+          {
+            "name": "tool_loop",
+            "durationMs": 2902
+          }
+        ],
+        "guardrails": [
+          {
+            "id": "input.secrets",
+            "passed": true,
+            "latencyMs": 0.01
+          },
+          {
+            "id": "input.injection",
+            "passed": true,
+            "latencyMs": 0.01
+          },
+          {
+            "id": "input.domain",
+            "passed": true,
+            "latencyMs": 0.02,
+            "detail": {
+              "matched": [
+                "eco"
+              ]
+            }
+          },
+          {
+            "id": "args.schema",
+            "passed": true,
+            "latencyMs": 0.01,
+            "detail": {
+              "tool": "search_engineering_knowledge"
+            }
+          },
+          {
+            "id": "args.bounds",
+            "passed": true,
+            "latencyMs": 0.03,
+            "detail": {
+              "tool": "search_engineering_knowledge"
+            }
+          },
+          {
+            "id": "grounding.floor",
+            "passed": false,
+            "latencyMs": 0,
+            "reason": "No verified patent or technical documentation matches this query with sufficient confidence.",
+            "detail": {
+              "floor": 0.35,
+              "retrieved": 3,
+              "kept": 0,
+              "rejected": 3,
+              "topScore": 0.2192,
+              "bestRejected": 0.2192
+            }
+          }
+        ],
+        "toolAttempts": [
+          {
+            "name": "search_engineering_knowledge",
+            "arguments": {
+              "query": "Boeing 787 landing gear actuator torque",
+              "limit": 5
+            },
+            "accepted": true,
+            "verdicts": [
+              {
+                "id": "args.schema",
+                "passed": true,
+                "latencyMs": 0.008899999993445817,
+                "detail": {
+                  "tool": "search_engineering_knowledge"
+                }
+              },
+              {
+                "id": "args.bounds",
+                "passed": true,
+                "latencyMs": 0.028299999998125713,
+                "detail": {
+                  "tool": "search_engineering_knowledge"
+                }
+              }
+            ],
+            "durationMs": 1217
+          }
+        ],
+        "retrieval": {
+          "floor": 0.35,
+          "kept": [],
+          "rejected": [
+            {
+              "sourceRef": "WIKI-MCE",
+              "similarity": 0.2192
+            },
+            {
+              "sourceRef": "WIKI-ISO10007",
+              "similarity": 0.1974
+            },
+            {
+              "sourceRef": "ATMO-R290",
+              "similarity": 0.1779
+            }
+          ]
+        },
+        "totals": {
+          "durationMs": 3787,
+          "inputTokens": 1145,
+          "outputTokens": 81,
+          "costUsd": 0.00022,
+          "modelCalls": 2
+        },
+        "refusedBy": "grounding.floor"
+      }
+    },
+    {
+      "atMs": 3805,
+      "event": "final",
+      "data": {
+        "text": "No verified patent or technical documentation matches this query with sufficient confidence.",
+        "intent": "knowledge",
+        "refused": true
+      }
+    }
+  ]
+}
