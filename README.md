@@ -121,6 +121,19 @@ npm run dev
 
 ## Deploying
 
+Live at **https://tharunaretyportfolio.vercel.app** — note that the production hostname is not the
+Vercel project name, which is `landing-page-portfolio`.
+
+`main` is connected to the Vercel project, so **pushing to `main` deploys to production**. Other
+branches get preview deployments.
+
+To deploy by hand, the team scope is required — without it the CLI fails with `Not authorized`
+even when `vercel whoami` succeeds, because the project lives under the `tharun-arety1` team:
+
+```bash
+npx vercel --prod --scope tharun-arety1
+```
+
 Set `NEXT_PUBLIC_SITE_URL` to the custom domain once there is one, so share cards stop advertising
 a `*.vercel.app` address. Without it, Vercel's own hostname is used.
 
