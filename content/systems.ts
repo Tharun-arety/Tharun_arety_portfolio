@@ -16,6 +16,22 @@ import type { Tier } from "@/components/site/ArchitectureStack";
 
 export type Decision = { title: string; body: string };
 export type Architecture = { tiers: Tier[]; caption: string };
+
+/**
+ * Stills of the system actually running.
+ *
+ * Captured by a script rather than by hand — `scripts/capture-sheet03.ts` signs
+ * in as a seeded role and photographs the real application against the real
+ * database, so these can be regenerated rather than curated.
+ */
+export type EvidenceShot = {
+  src: string;
+  alt: string;
+  caption: string;
+  provenance: string;
+  width: number;
+  height: number;
+};
 export type Outcome = { value: string; label: string; note?: string };
 export type SystemLink = { label: string; href: string; kind: "live" | "repo" | "none" };
 
@@ -41,6 +57,7 @@ export type System = {
   problem: string;
   built: string;
   architecture: Architecture;
+  evidenceShots?: EvidenceShot[];
   decisions: Decision[];
   outcomes: Outcome[];
   stack: string[];
@@ -291,6 +308,35 @@ export const systems: System[] = [
     outcomes: [
       { value: "3", label: "Domains behind one interface", note: "PDM, QMS and knowledge." },
       { value: "Role-gated", label: "Every write", note: "JWT roles, append-only audit trail." },
+    ],
+    evidenceShots: [
+      {
+        src: "/shots/sheet03-approval-inbox.png",
+        alt: "The approval inbox: two pending agent proposals, each with a dry-run diff of what would change, the role required to decide, and Approve or Reject controls.",
+        caption:
+          "The approval gate, running. Two proposals are waiting — one from the ECM impact analyst, one from the QMS agent — each showing exactly what it would change before anything is written. The note under the buttons is the whole design: approving runs the tool for real, in one transaction, with your name on it.",
+        provenance: "Captured from the toolchain running locally, signed in as the admin seat.",
+        width: 2880,
+        height: 1800,
+      },
+      {
+        src: "/shots/sheet03-pdm-bom.png",
+        alt: "Product data view showing a nested bill of materials with lifecycle state and revision per part.",
+        caption:
+          "Product data: the nested bill of materials for the ECLIPSE line, with lifecycle state and revision carried per part. This is the structure the PDM agent traverses when asked where a part is used.",
+        provenance: "Captured from the toolchain running locally.",
+        width: 2880,
+        height: 2150,
+      },
+      {
+        src: "/shots/sheet03-agent-runs.png",
+        alt: "Agent runs view listing router decisions and the tool calls made on each run.",
+        caption:
+          "Agent runs: which specialist the router picked, and the tools it called. The same registry backs both the in-process graph and the MCP server, so a run looks identical from either side.",
+        provenance: "Captured from the toolchain running locally.",
+        width: 2880,
+        height: 1800,
+      },
     ],
     stack: [
       "FastAPI",

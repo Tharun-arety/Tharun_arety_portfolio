@@ -92,6 +92,14 @@ function buildSystems(): string {
         lines.push(`Links: none published.`);
       }
 
+      // So the agent can say a system is shown running rather than only described.
+      if (system.evidenceShots?.length) {
+        lines.push(
+          `Screenshots on the case study (${system.evidenceShots.length}): ` +
+            system.evidenceShots.map((shot) => shot.caption).join(" "),
+        );
+      }
+
       if (system.nda) {
         lines.push(``, `NDA: ${system.nda}`);
       }

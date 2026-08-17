@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink, Lock } from "lucide-react";
 
 import { ArchitectureStack } from "@/components/site/ArchitectureStack";
+import { Shot } from "@/components/site/Shot";
 import { StackChip } from "@/components/site/StackIcon";
 import { EVIDENCE_LABEL, systemBySlug, systems } from "@/content/systems";
 
@@ -128,6 +129,26 @@ export default async function SystemPage(props: PageProps<"/systems/[slug]">) {
       <Block label="Architecture">
         <ArchitectureStack tiers={system.architecture.tiers} caption={system.architecture.caption} />
       </Block>
+
+      {system.evidenceShots && system.evidenceShots.length > 0 && (
+        <Block label="Running">
+          <div className="space-y-6">
+            {system.evidenceShots.map((shot, index) => (
+              <Shot
+                key={shot.src}
+                src={shot.src}
+                alt={shot.alt}
+                caption={shot.caption}
+                provenance={shot.provenance}
+                width={shot.width}
+                height={shot.height}
+                // Only the first is above the fold on a phone; the rest can wait.
+                priority={index === 0}
+              />
+            ))}
+          </div>
+        </Block>
+      )}
 
       <Block label="Decisions and trade-offs">
         <div className="space-y-7">
