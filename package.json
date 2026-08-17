@@ -9,11 +9,15 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "capture": "tsx scripts/capture-traces.ts",
-    "sync:evals": "tsx scripts/sync-evals.ts"
+    "sync:evals": "tsx scripts/sync-evals.ts",
+    "build:corpus": "tsx scripts/build-corpus.ts",
+    "eval:ask": "tsx evals/run-ask.ts",
+    "prebuild": "tsx scripts/build-corpus.ts"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",
     "next": "16.3.0",
+    "openai": "^7.4.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
