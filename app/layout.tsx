@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { AskDock } from "@/components/agent/AskDock";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { profile } from "@/content/profile";
 import "./globals.css";
@@ -115,6 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+        <AskDock />
       </body>
     </html>
   );

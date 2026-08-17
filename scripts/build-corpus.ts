@@ -24,6 +24,7 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import evals from "../data/evals.json";
+import { methodNotes } from "../content/method";
 import { systems } from "../content/systems";
 import {
   achievements,
@@ -169,6 +170,7 @@ const corpusText = [
   section("Who this is about", buildProfile()),
   section("The five systems", buildSystems()),
   section("Eval results for Sheet 04", buildEvals()),
+  section("How this site itself was built", methodNotes.join("\n\n")),
 ].join("\n");
 
 // --- The gate ---------------------------------------------------------------

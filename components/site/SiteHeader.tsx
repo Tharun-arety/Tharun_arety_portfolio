@@ -16,6 +16,7 @@ const NAV = [
   { href: "/#ask", label: "Ask", always: true },
   { href: "/#reliability", label: "Reliability", always: false },
   { href: "/#background", label: "Background", always: false },
+  { href: "/method", label: "Method", always: true },
   { href: "/resume", label: "Résumé", always: true },
 ];
 

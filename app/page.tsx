@@ -140,7 +140,10 @@ export default function Page() {
           </p>
         }
       >
-        <AskPanel />
+        {/* The dock withdraws while this is on screen — see AskDock. */}
+        <div data-ask-inline>
+          <AskPanel />
+        </div>
       </Section>
 
       {/* ---------------------------------------------------------------- */}

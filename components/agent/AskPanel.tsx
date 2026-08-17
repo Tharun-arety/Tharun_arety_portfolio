@@ -9,7 +9,12 @@ import { ArrowUp, Loader2 } from "lucide-react";
  * Deliberately not a floating chat bubble. This site is set as a controlled
  * document, and a rounded pill hovering over the corner of a drawing sheet
  * would be the one element that admitted the whole thing was a landing page.
- * It is a section you scroll to, with an entry in the header.
+ *
+ * It appears in three places, all of them in the document's own vocabulary: a
+ * section on the landing page, a block at the foot of every case study and of
+ * the method page, and inside the drawer behind the index tab in `AskDock` —
+ * which is the `compact` variant. Each instance carries starter questions about
+ * whatever the reader is currently looking at; see `content/ask.ts`.
  *
  * It renders its own turn in the same notation as the recorded turns further
  * down — latency, tokens, cost, guardrail verdicts — badged LIVE rather than
@@ -57,6 +62,16 @@ const SUGGESTIONS = [
   "What is the difference between sheet 03 and sheet 04?",
   "Do you use retrieval?",
 ];
+
+type AskPanelProps = {
+  /** Questions worth asking from wherever this instance is mounted. The panel
+   *  appears on every page, and "try one" is only useful if the suggestions
+   *  are about what the reader is currently looking at. */
+  suggestions?: string[];
+  /** Set when the panel is inside the drawer, where vertical room is the
+   *  constraint and the header is already carried by the drawer chrome. */
+  compact?: boolean;
+};
 
 const formatMs = (ms: number) => (ms >= 1000 ? `${(ms / 1000).toFixed(2)}s` : `${Math.round(ms)}ms`);
 const formatUsd = (usd: number) => (usd === 0 ? "$0" : `$${usd.toFixed(6)}`);
@@ -116,7 +131,11 @@ function TraceStrip({ trace }: { trace: Trace }) {
   );
 }
 
-export function AskPanel() {
+export function AskPanel({ suggestions = SUGGESTIONS, compact = false }: AskPanelProps = {}) {
+  // More than one panel can be mounted at once — the section on the landing
+  // page and the one in the drawer — so the input's id has to be per-instance
+  // or the label points at whichever mounted first.
+  const inputId = React.useId();
   const [turns, setTurns] = React.useState<Turn[]>([]);
   const [input, setInput] = React.useState("");
   const [busy, setBusy] = React.useState(false);
@@ -243,21 +262,25 @@ export function AskPanel() {
   }
 
   return (
-    <div className="sheet">
-      <div className="border-rule flex flex-wrap items-center gap-x-3 gap-y-1 border-b px-5 py-3">
-        <span className="letter border-verdigris text-verdigris bg-verdigris-soft border px-2 py-1">
-          Live
-        </span>
+    <div className={compact ? "flex h-full min-h-0 flex-col" : "sheet"}>
+      <div className="border-rule flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-b px-5 py-3">
+        {/* In the drawer the badge is already in the drawer's own header, and
+            two LIVE marks stacked on top of each other read as a mistake. */}
+        {!compact && (
+          <span className="letter border-verdigris text-verdigris bg-verdigris-soft border px-2 py-1">
+            Live
+          </span>
+        )}
         <span className="text-ink-mid text-xs">
           Answers from this site&rsquo;s own content. No retrieval — it all fits in one context window.
         </span>
       </div>
 
       {turns.length === 0 ? (
-        <div className="px-5 py-5">
+        <div className={`px-5 py-5 ${compact ? "min-h-0 flex-1 overflow-y-auto" : ""}`}>
           <div className="letter mb-3">Try one</div>
           <div className="flex flex-wrap gap-2">
-            {SUGGESTIONS.map((suggestion) => (
+            {suggestions.map((suggestion) => (
               <button
                 key={suggestion}
                 type="button"
@@ -271,7 +294,7 @@ export function AskPanel() {
           </div>
         </div>
       ) : (
-        <div className="divide-rule/60 max-h-[32rem] divide-y overflow-y-auto">
+        <div className={`divide-rule/60 divide-y overflow-y-auto ${compact ? "min-h-0 flex-1" : "max-h-[32rem]"}`}>
           {turns.map((turn, i) =>
             turn.role === "user" ? (
               <div key={i} className="px-5 py-4">
@@ -309,14 +332,14 @@ export function AskPanel() {
           event.preventDefault();
           ask(input);
         }}
-        className="border-rule border-t px-5 py-4"
+        className="border-rule shrink-0 border-t px-5 py-4"
       >
         <div className="flex items-end gap-2">
-          <label htmlFor="ask-input" className="sr-only">
+          <label htmlFor={inputId} className="sr-only">
             Ask about Tharun&rsquo;s work
           </label>
           <textarea
-            id="ask-input"
+            id={inputId}
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={(event) => {

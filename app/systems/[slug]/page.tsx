@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ExternalLink, Lock } from "lucide-react";
 
+import { AskPanel } from "@/components/agent/AskPanel";
+import { asksFor } from "@/content/ask";
 import { ArchitectureStack } from "@/components/site/ArchitectureStack";
 import { Shot } from "@/components/site/Shot";
 import { StackChip } from "@/components/site/StackIcon";
@@ -184,6 +186,15 @@ export default async function SystemPage(props: PageProps<"/systems/[slug]">) {
           {system.stack.map((item) => (
             <StackChip key={item} name={item} />
           ))}
+        </div>
+      </Block>
+
+      {/* The agent, where the questions actually arise. A reader who has just
+          finished a sheet has a specific question about that sheet, and sending
+          them back to the landing page to ask it loses most of them. */}
+      <Block label="Ask about this sheet">
+        <div data-ask-inline>
+          <AskPanel suggestions={asksFor(`/systems/${system.slug}`)} />
         </div>
       </Block>
 
