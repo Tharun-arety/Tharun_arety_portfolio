@@ -13,6 +13,7 @@ import { profile } from "@/content/profile";
  */
 const NAV = [
   { href: "/#systems", label: "Systems", always: false },
+  { href: "/#ask", label: "Ask", always: true },
   { href: "/#reliability", label: "Reliability", always: false },
   { href: "/#background", label: "Background", always: false },
   { href: "/resume", label: "Résumé", always: true },

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
+import { AskPanel } from "@/components/agent/AskPanel";
 import { Section } from "@/components/site/Section";
 import { StackChip } from "@/components/site/StackIcon";
 import { SystemSheet } from "@/components/site/SystemSheet";
@@ -121,6 +122,25 @@ export default function Page() {
             <SystemSheet key={system.slug} system={system} />
           ))}
         </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Ask                                                               */}
+      {/* ---------------------------------------------------------------- */}
+      <Section
+        id="ask"
+        label="Ask"
+        title="Ask about any of it"
+        lede={
+          <p>
+            A live agent over this site&rsquo;s own content. It answers from what is published here
+            and refuses what is not — including anything that would identify the two clients under
+            NDA. It shows its own latency, tokens and cost on every turn, the same way the recorded
+            turns below do.
+          </p>
+        }
+      >
+        <AskPanel />
       </Section>
 
       {/* ---------------------------------------------------------------- */}
