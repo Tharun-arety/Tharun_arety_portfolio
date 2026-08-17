@@ -1,211 +1,110 @@
+import { ArrowRight, RotateCcw } from "lucide-react";
+
 /**
  * From information to action.
  *
- * The whole argument of the site in one drawing: where most enterprise AI work
- * stops, and where these systems stop instead. Two rows, deliberately drawn at
- * the same scale so the difference is length rather than styling.
+ * The whole argument of the site in one figure: where most enterprise AI work
+ * stops, and where these systems stop instead. Two chains, drawn the same way,
+ * so the difference reads as length rather than as styling.
  *
- * The gate on the last box is the part that matters. A loop that ends in an
+ * Built from wrapping chips rather than from a drawing. The first version was
+ * an SVG 880 units wide inside a horizontal scroller — fine as a mid-page
+ * figure, useless as the first thing on the site, because on a phone the reader
+ * saw the left third and both punchlines (`nothing happens`, and the action a
+ * person releases) sat off-screen behind a sideways drag. Chips wrap in reading
+ * order at every width, so nothing is ever hidden and no breakpoint has to
+ * decide between horizontal and vertical.
+ *
+ * The gate on the last step is the part that matters. A loop that ends in an
  * action is only trustworthy if something can refuse the action, so the release
- * is drawn as a real element rather than implied.
- *
- * Inline SVG using the theme's custom properties, so it inverts with the page
- * and prints correctly. Wide by nature — it scrolls inside its own container
- * rather than shrinking its lettering past legibility.
+ * is a real element rather than an implication.
  */
 
-const BOX_H = 46;
+type Step = { name: string; sub?: string; gate?: boolean };
 
-function Box({
-  x,
-  y,
-  w,
-  lines,
-  accent = false,
-}: {
-  x: number;
-  y: number;
-  w: number;
-  lines: string[];
-  accent?: boolean;
-}) {
+function Chip({ step }: { step: Step }) {
   return (
-    <g>
-      <rect
-        x={x}
-        y={y}
-        width={w}
-        height={BOX_H}
-        fill="var(--sheet)"
-        stroke={accent ? "var(--signal)" : "var(--rule-strong)"}
-        strokeWidth={1}
-      />
-      {accent && <rect x={x} y={y} width={3} height={BOX_H} fill="var(--signal)" />}
-      {lines.map((line, i) => (
-        <text
-          key={line}
-          x={x + w / 2}
-          y={y + BOX_H / 2 + (lines.length === 1 ? 4 : i === 0 ? -3 : 11)}
-          textAnchor="middle"
-          fill="var(--ink)"
-          fontSize={11.5}
-          fontFamily="var(--font-display)"
-        >
-          {line}
-        </text>
+    <span
+      className={`relative inline-flex flex-col px-3 py-2 text-center ${
+        step.gate ? "border-signal bg-signal-soft border" : "bg-sheet border-rule-strong border"
+      }`}
+    >
+      {step.gate && <span className="bg-signal absolute inset-y-0 left-0 w-[3px]" />}
+      <span className={`text-sm leading-tight ${step.gate ? "text-signal" : "text-ink"}`}>
+        {step.name}
+      </span>
+      {step.sub && (
+        <span className="text-ink-faint mt-0.5 text-[11px] leading-tight">{step.sub}</span>
+      )}
+    </span>
+  );
+}
+
+function Chain({ steps }: { steps: Step[] }) {
+  return (
+    <div className="flex flex-wrap items-stretch gap-x-2 gap-y-2">
+      {steps.map((step, i) => (
+        // The arrow leads the chip it points at rather than trailing the one
+        // before it, so a wrap puts "→ Action" at the head of the next line
+        // instead of stranding a dangling arrow at the end of the last one.
+        <span key={step.name} className="inline-flex items-center gap-2">
+          {i > 0 && <ArrowRight className="text-ink-faint size-3.5 shrink-0" aria-hidden />}
+          <Chip step={step} />
+        </span>
       ))}
-    </g>
+    </div>
   );
 }
 
-function Arrow({ x1, x2, y }: { x1: number; x2: number; y: number }) {
-  return (
-    <line
-      x1={x1}
-      y1={y}
-      x2={x2}
-      y2={y}
-      stroke="var(--ink-faint)"
-      strokeWidth={1}
-      markerEnd="url(#head)"
-    />
-  );
-}
+const STOPS: Step[] = [
+  { name: "Documents" },
+  { name: "Retrieval" },
+  { name: "Answer" },
+];
+
+const SYSTEMS: Step[] = [
+  { name: "Documents", sub: "& business data" },
+  { name: "Structured knowledge" },
+  { name: "Agent" },
+  { name: "Tools & systems" },
+  { name: "Action", sub: "released by a person", gate: true },
+];
 
 export function ThesisDiagram() {
-  // Row B: five boxes of 140 with four 45px gaps fills exactly 880.
-  const b = [0, 185, 370, 555, 740];
-  const W = 140;
-  const rowA = 62;
-  const rowB = 196;
-
   return (
-    <div className="overflow-x-auto">
-      <svg
-        viewBox="0 0 880 310"
-        className="block h-auto w-full min-w-[720px]"
-        role="img"
-        aria-label={
-          "Two pipelines drawn at the same scale. The first: documents, retrieval, answer — and it " +
-          "ends there. The second: documents and data, structured knowledge, agent, tools and " +
-          "systems, then an action that a person releases, with feedback returning to the knowledge " +
-          "layer."
-        }
-      >
-        <defs>
-          <marker id="head" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6" fill="none" stroke="var(--ink-faint)" strokeWidth={1} />
-          </marker>
-          <marker id="head-up" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6" fill="none" stroke="var(--verdigris)" strokeWidth={1} />
-          </marker>
-        </defs>
-
-        {/* --- Row A: the common stopping point --------------------------- */}
-        <text
-          x={0}
-          y={28}
-          fill="var(--ink-faint)"
-          fontSize={10}
-          fontWeight={600}
-          letterSpacing="1.4"
-          fontFamily="var(--font-display)"
-        >
-          WHERE MOST ENTERPRISE AI STOPS
-        </text>
-
-        <Box x={0} y={rowA} w={W} lines={["Documents"]} />
-        <Arrow x1={W} x2={b[1] - 4} y={rowA + BOX_H / 2} />
-        <Box x={b[1]} y={rowA} w={W} lines={["Retrieval"]} />
-        <Arrow x1={b[1] + W} x2={b[2] - 4} y={rowA + BOX_H / 2} />
-        <Box x={b[2]} y={rowA} w={W} lines={["Answer"]} />
-
-        {/* A terminator, the way a drawing marks the end of a run. */}
-        <line
-          x1={b[2] + W + 14}
-          y1={rowA + 10}
-          x2={b[2] + W + 14}
-          y2={rowA + BOX_H - 10}
-          stroke="var(--ink-faint)"
-          strokeWidth={1}
-        />
-        <line
-          x1={b[2] + W}
-          y1={rowA + BOX_H / 2}
-          x2={b[2] + W + 14}
-          y2={rowA + BOX_H / 2}
-          stroke="var(--ink-faint)"
-          strokeWidth={1}
-        />
-        <text
-          x={b[2] + W + 24}
-          y={rowA + BOX_H / 2 + 4}
-          fill="var(--ink-faint)"
-          fontSize={11}
-          fontFamily="var(--font-display)"
-        >
+    <figure
+      className="w-full"
+      aria-label={
+        "Two pipelines drawn at the same scale. The first: documents, retrieval, answer — and it " +
+        "ends there, nothing happens. The second: documents and business data, structured " +
+        "knowledge, an agent, tools and systems, then an action a person releases, with what " +
+        "happened feeding back in."
+      }
+    >
+      <div className="legend mb-3">
+        <span className="letter">Where most enterprise AI stops</span>
+      </div>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <Chain steps={STOPS} />
+        {/* The terminator. On a drawing this is how the end of a run is marked;
+            here it is the point of the whole row. */}
+        <span className="text-ink-faint inline-flex items-center gap-2 text-sm">
+          <span aria-hidden className="font-mono">
+            ⊣
+          </span>
           nothing happens
-        </text>
+        </span>
+      </div>
 
-        {/* --- Row B: the full loop --------------------------------------- */}
-        <text
-          x={0}
-          y={rowB - 34}
-          fill="var(--verdigris)"
-          fontSize={10}
-          fontWeight={600}
-          letterSpacing="1.4"
-          fontFamily="var(--font-display)"
-        >
-          WHAT THESE SYSTEMS DO
-        </text>
+      <div className="legend mt-9 mb-3">
+        <span className="letter text-verdigris">What these systems do</span>
+      </div>
+      <Chain steps={SYSTEMS} />
 
-        <Box x={b[0]} y={rowB} w={W} lines={["Documents", "& business data"]} />
-        <Arrow x1={b[0] + W} x2={b[1] - 4} y={rowB + BOX_H / 2} />
-        <Box x={b[1]} y={rowB} w={W} lines={["Structured", "knowledge"]} />
-        <Arrow x1={b[1] + W} x2={b[2] - 4} y={rowB + BOX_H / 2} />
-        <Box x={b[2]} y={rowB} w={W} lines={["Agent"]} />
-        <Arrow x1={b[2] + W} x2={b[3] - 4} y={rowB + BOX_H / 2} />
-        <Box x={b[3]} y={rowB} w={W} lines={["Tools &", "systems"]} />
-        <Arrow x1={b[3] + W} x2={b[4] - 4} y={rowB + BOX_H / 2} />
-        <Box x={b[4]} y={rowB} w={W} lines={["Action"]} accent />
-
-        <text
-          x={b[4] + W / 2}
-          y={rowB + BOX_H + 15}
-          textAnchor="middle"
-          fill="var(--signal)"
-          fontSize={10}
-          fontWeight={600}
-          letterSpacing="0.8"
-          fontFamily="var(--font-display)"
-        >
-          RELEASED BY A PERSON
-        </text>
-
-        {/* Feedback: the action's result returns to the knowledge layer, which
-            is what makes it a loop rather than a longer straight line. */}
-        <path
-          d={`M ${b[4] + W / 2} ${rowB + BOX_H + 24}
-              L ${b[4] + W / 2} ${rowB + BOX_H + 46}
-              L ${b[1] + W / 2} ${rowB + BOX_H + 46}
-              L ${b[1] + W / 2} ${rowB + BOX_H + 8}`}
-          fill="none"
-          stroke="var(--verdigris)"
-          strokeWidth={1}
-          markerEnd="url(#head-up)"
-        />
-        <text
-          x={(b[4] + b[1]) / 2 + W / 2}
-          y={rowB + BOX_H + 41}
-          textAnchor="middle"
-          fill="var(--verdigris)"
-          fontSize={10.5}
-          fontFamily="var(--font-display)"
-        >
-          what happened feeds back
-        </text>
-      </svg>
-    </div>
+      <div className="text-verdigris mt-4 inline-flex items-center gap-2 text-sm">
+        <RotateCcw className="size-3.5 shrink-0" aria-hidden />
+        what happened feeds back in
+      </div>
+    </figure>
   );
 }

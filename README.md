@@ -81,10 +81,27 @@ lettered tile, which looks chosen rather than missing. Tools get marks; concepts
 hash updated and the page never moved, because something cancels the smooth scroll on its first
 frame. Anchors jump instantly now, and they work.
 
-The signature is the **stage bar**: a real turn drawn at true proportions, appearing in the hero,
-in each recorded turn, and scrubbable. On a grounded answer the input guardrails are 2ms of twelve
-seconds and render as a hairline; on a prompt injection the same guardrails *are* the turn — one
-band, one millisecond, zero model calls, $0. Those two pictures next to each other are the argument.
+The signature is the **stage bar**: a real turn drawn at true proportions. On a grounded answer the
+input guardrails are 2ms of twelve seconds and render as a hairline; on a prompt injection the same
+guardrails *are* the turn — one band, one millisecond, zero model calls, $0. Those two pictures next
+to each other are the argument.
+
+### Why the stage bar is not in the hero
+
+It was, and it was wrong. The first screen is read by recruiters and founders who do not work in
+agent systems, and it opened on `TOOL LOOP`, `SYNTHESIS` and `3 model calls` — the strongest proof on
+the site sitting in the one place where nobody had yet been given a reason to care. A reader who
+bounces there never reaches the part that would have convinced them.
+
+The hero now opens on the **thesis diagram**: two chains of plain boxes, `Documents → Retrieval →
+Answer ⊣ nothing happens` against the full loop ending in an action a person releases. No jargon,
+and it says what the work is for. The stage bar leads the Reliability section instead, where the
+reader has been told what they are looking at, and it is the one trace on the page that plays and
+scrubs — it starts when it scrolls into view, not on mount, so it no longer plays to an empty room.
+
+Both diagrams on this site are built from **reflowing boxes, not SVG**, for the same reason: a fixed
+720-unit drawing in a horizontal scroller shows a phone reader the left third and hides the payoff
+behind a sideways drag. Chips wrap in reading order at every width.
 
 ---
 

@@ -226,12 +226,38 @@ export function TraceReplay({
     settle(target, velocity / width);
   }
 
-  // Autoplay once, and only for readers who have not asked for less motion.
+  /**
+   * Play once, when the reader actually reaches it.
+   *
+   * This used to fire on mount, which was right when the trace led the page and
+   * wrong the moment it moved below the fold — it would have played to an empty
+   * room and been finished before anyone scrolled down. Tied to intersection, it
+   * starts as the panel comes into view and never repeats. Skipped entirely for
+   * readers who asked for less motion; the play button still works for them.
+   */
   React.useEffect(() => {
     if (!autoPlay) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setTimeout(() => play(0), 450);
-    return () => window.clearTimeout(timer);
+
+    const host = hostRef.current;
+    if (!host) return;
+
+    let timer = 0;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        timer = window.setTimeout(() => play(0), 250);
+      },
+      // Most of the panel has to be on screen, not a sliver of its top edge.
+      { threshold: 0.5 },
+    );
+    observer.observe(host);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timer);
+    };
   }, [autoPlay, play]);
 
   React.useEffect(() => stop, [stop]);

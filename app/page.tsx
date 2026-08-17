@@ -6,18 +6,18 @@ import { StackChip } from "@/components/site/StackIcon";
 import { SystemSheet } from "@/components/site/SystemSheet";
 import { ThesisDiagram } from "@/components/site/ThesisDiagram";
 import { EvalMatrix } from "@/components/trace/EvalMatrix";
-import { StageBar } from "@/components/trace/StageBar";
 import { TraceCard } from "@/components/trace/TraceCard";
-import { TraceReplay } from "@/components/trace/TraceReplay";
 import { systems } from "@/content/systems";
 import { engineeringRepos, profile, skills } from "@/content/profile";
-import { formatMs, formatUsd, traceById, traceOf, traces } from "@/lib/traces";
+import { traceById, traces } from "@/lib/traces";
 
 export default function Page() {
-  // The hero shows a turn where a gate actually did something. A clean run
-  // proves the pipeline exists; this one proves it has teeth.
-  const heroTurn = traceById("tool-arg-rejected");
-  const heroTrace = heroTurn ? traceOf(heroTurn) : null;
+  // The turn where a gate actually did something. A clean run proves the
+  // pipeline exists; this one proves it has teeth — so it leads the recorded
+  // turns rather than sitting anonymously in the grid, and it is the one that
+  // can be played and scrubbed.
+  const featured = traceById("tool-arg-rejected");
+  const rest = traces.filter((turn) => turn.id !== featured?.id);
 
   return (
     <div className="mx-auto max-w-5xl space-y-24 px-5 pt-12 pb-8 sm:px-8 sm:pt-20">
@@ -69,56 +69,37 @@ export default function Page() {
           </a>
         </div>
 
-        {/* The signature. A real turn, at true scale, with a gate visibly
-            refusing something. */}
-        {heroTurn && heroTrace && (
-          <div className="sheet mt-14">
-            <div className="border-rule flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b px-5 py-3">
-              <span className="letter">Recorded turn</span>
-              <span className="text-ink-mid font-mono text-xs">{heroTurn.prompt}</span>
-            </div>
-            <div className="px-5 py-5">
-              <TraceReplay durationMs={heroTrace.totals.durationMs} autoPlay>
-                <StageBar trace={heroTrace} />
-              </TraceReplay>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="callout">{formatMs(heroTrace.totals.durationMs)}</span>
-                <span className="callout">{heroTrace.totals.modelCalls} model calls</span>
-                <span className="callout">{formatUsd(heroTrace.totals.costUsd)}</span>
-                <span className="callout callout-gate">1 tool call rejected</span>
-              </div>
-              <p className="text-ink-mid mt-4 max-w-2xl text-sm leading-relaxed">{heroTurn.claim}</p>
-            </div>
-          </div>
-        )}
+        {/* The opening visual explains the work rather than demonstrating it.
+            A recorded agent trace was here, and it was the strongest technical
+            proof on the site sitting in the one place where the reader has not
+            yet been given a reason to care what a tool loop is. It now leads
+            the Reliability section instead, where that reason has been given. */}
+        <div className="border-rule mt-10 border-t pt-8 sm:mt-14 sm:pt-10">
+          <p className="prose-doc mb-7 max-w-2xl">
+            Most enterprise AI work stops at an answer. An answer is where the useful part starts —
+            the systems worth building carry a decision into the tools a business already runs on,
+            do something, and feed the result back.
+          </p>
+          <ThesisDiagram />
+        </div>
+
       </header>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Thesis                                                            */}
+      {/* Principle                                                         */}
       {/* ---------------------------------------------------------------- */}
       <Section
         id="thesis"
-        label="Thesis"
-        title="From information to action"
+        label="Principle"
+        title={profile.principle}
         lede={
           <p>
-            Most enterprise AI work stops at an answer. An answer is where the useful part starts:
-            the systems worth building carry a decision into the tools the business already runs on,
-            do something, and feed the result back.
-          </p>
-        }
-      >
-        <ThesisDiagram />
-
-        <blockquote className="border-verdigris mt-10 border-l-2 pl-5">
-          <p className="text-ink max-w-xl text-xl leading-snug">{profile.principle}</p>
-          <p className="prose-doc mt-3 max-w-xl text-base">
             The clearest version of this: a compliance pipeline that wrote its results back into the
             spreadsheet the team already lived in, rather than asking anyone to adopt a new tool.
             Nobody had to be persuaded, so it got used.
           </p>
-        </blockquote>
-      </Section>
+        }
+      />
 
       {/* ---------------------------------------------------------------- */}
       {/* Systems                                                           */}
@@ -165,8 +146,17 @@ export default function Page() {
           <div className="legend mb-6">
             <span className="letter">Recorded turns</span>
           </div>
+
+          {/* One turn gets the full width and the playback controls, because a
+              reader who scrubs one understands the other five by reading. */}
+          {featured && (
+            <div className="mb-5">
+              <TraceCard turn={featured} featured />
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            {traces.map((turn) => (
+            {rest.map((turn) => (
               <TraceCard key={turn.id} turn={turn} />
             ))}
           </div>

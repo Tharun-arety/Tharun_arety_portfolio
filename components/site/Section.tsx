@@ -16,7 +16,9 @@ export function Section({
   label: string;
   title: string;
   lede?: React.ReactNode;
-  children: React.ReactNode;
+  /** Optional: a section whose whole point is its title and lede should not be
+   *  followed by an empty block reserving space for content it does not have. */
+  children?: React.ReactNode;
 }) {
   return (
     <section id={id} className="scroll-mt-20">
@@ -25,7 +27,7 @@ export function Section({
       </div>
       <h2 className="text-ink max-w-2xl text-2xl sm:text-3xl">{title}</h2>
       {lede && <div className="prose-doc mt-4 max-w-2xl">{lede}</div>}
-      <div className="mt-8">{children}</div>
+      {children && <div className="mt-8">{children}</div>}
     </section>
   );
 }

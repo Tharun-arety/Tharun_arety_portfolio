@@ -1,4 +1,5 @@
 import { StageBar } from "@/components/trace/StageBar";
+import { TraceReplay } from "@/components/trace/TraceReplay";
 import {
   formatMs,
   formatUsd,
@@ -16,7 +17,15 @@ import {
  * live system, so every card says when it was captured and against which model,
  * and the replay never pretends to be re-running.
  */
-export function TraceCard({ turn }: { turn: CapturedTurn }) {
+export function TraceCard({
+  turn,
+  /** Adds playback and scrubbing. One turn per page earns this; six would be
+   *  six things asking to be fiddled with instead of read. */
+  featured = false,
+}: {
+  turn: CapturedTurn;
+  featured?: boolean;
+}) {
   const trace = traceOf(turn);
   if (!trace) return null;
 
@@ -45,7 +54,13 @@ export function TraceCard({ turn }: { turn: CapturedTurn }) {
       </div>
 
       <div className="px-5 py-5">
-        <StageBar trace={trace} />
+        {featured ? (
+          <TraceReplay durationMs={trace.totals.durationMs} autoPlay>
+            <StageBar trace={trace} />
+          </TraceReplay>
+        ) : (
+          <StageBar trace={trace} />
+        )}
 
         <div className="mt-5 flex flex-wrap gap-2">
           <span className="callout">
