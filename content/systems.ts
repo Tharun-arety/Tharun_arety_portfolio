@@ -405,6 +405,35 @@ export const systems: System[] = [
         "synthesis. A rejected argument goes back to the model as an error it can read. Nothing " +
         "clearing the floor means the synthesis call never happens at all.",
     },
+    evidenceShots: [
+      {
+        src: "/shots/sheet04-arg-rejected.png",
+        alt: "The inspector after a question about a rig that does not exist: eight guardrail checks with two blocked, three tool calls of which one was accepted, and the rejection messages the model was handed.",
+        caption:
+          "The argument guardrail, working, in the one case worth showing. Asked for rig_999 in January 2099, the agent calls the telemetry tool and is refused — not with a failure, but with an error naming the rigs that do exist. It reads that, calls list_rigs, retries with a real rig, and is refused a second time on the date window. Then it says there is no such data. Three tool calls, one accepted, and no invented number anywhere.",
+        provenance: "Captured from the live deployment by clicking a probe the app ships with.",
+        width: 1200,
+        height: 2235,
+      },
+      {
+        src: "/shots/sheet04-injection-refused.png",
+        alt: "The inspector after a prompt-injection attempt: refused by input.injection, zero model calls, zero cost, three milliseconds.",
+        caption:
+          "The cheapest refusal on the site. A prompt injection is caught by a deterministic filter before the first model call, so the turn costs nothing and takes three milliseconds — 0 usd, 0 model calls. Deciding this with a model would have been slower, more expensive, and less predictable.",
+        provenance: "Captured from the live deployment by clicking a probe the app ships with.",
+        width: 1200,
+        height: 1233,
+      },
+      {
+        src: "/shots/sheet04-dashboard.png",
+        alt: "The full application: a rig telemetry chart with fifty readings marked outside the acceptance limit, the indexed document corpus, and the chat panel.",
+        caption:
+          "The instrument as a whole — measured rig telemetry against its acceptance limit, the ten indexed documents behind every citation, and the chat panel. Note the last corpus row: one source was unreachable at ingest and is recorded as skipped rather than quietly dropped.",
+        provenance: "Captured from the live deployment.",
+        width: 2880,
+        height: 2000,
+      },
+    ],
     decisions: [
       {
         title: "The grounding floor was measured, not chosen",
@@ -504,6 +533,36 @@ export const systems: System[] = [
         "An ordinary applicant tracking flow, which is the point — the interesting decisions here " +
         "were about access and data handling, not about the pipeline shape.",
     },
+    evidenceShots: [
+      {
+        src: "/shots/sheet05-pipeline.png",
+        alt: "The pipeline board: candidates as cards in Applied, Screening, Interview and Offer columns, each card carrying the role applied for, skills, a rating and the source they came from.",
+        caption:
+          "The pipeline board. Candidates move between stages by dragging, and each card carries what a recruiter actually decides on — the role, the skills, the rating so far, and where the applicant came from. The board scrolls sideways; Hired is the column past the edge.",
+        provenance:
+          "Captured from the application running locally against fictional seeded data — the deployment is invite-only, and a real pipeline holds real candidates' details.",
+        width: 3840,
+        height: 1800,
+      },
+      {
+        src: "/shots/sheet05-funnel.png",
+        alt: "The dashboard: open roles, active candidates and time to hire, a conversion funnel from 52 applied down to 2 hired, source breakdown, and average time spent in each stage.",
+        caption:
+          "What the stages produce. The funnel counts everyone who reached a stage rather than everyone sitting in it — the distinction that decides whether the number means anything — and time-in-stage says where the process is actually slow.",
+        provenance: "Captured from the application running locally against fictional seeded data.",
+        width: 2880,
+        height: 1800,
+      },
+      {
+        src: "/shots/sheet05-scorecard.png",
+        alt: "A candidate record with the scorecards tab open, showing one interviewer's ratings across technical depth, problem solving, communication and role fit, a no-hire verdict, and their written reasoning.",
+        caption:
+          "Structured feedback, per interviewer: fixed dimensions, an explicit verdict, and the reasoning underneath it. Fixed dimensions are what make two interviewers' opinions comparable instead of merely adjacent.",
+        provenance: "Captured from the application running locally against fictional seeded data.",
+        width: 2880,
+        height: 1250,
+      },
+    ],
     decisions: [
       {
         title: "Invite-only, for a reason worth stating",

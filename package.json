@@ -13,7 +13,9 @@
     "build:corpus": "tsx scripts/build-corpus.ts",
     "eval:ask": "tsx evals/run-ask.ts",
     "prebuild": "tsx scripts/build-corpus.ts",
-    "capture:sheet03": "tsx scripts/capture-sheet03.ts"
+    "capture:sheet03": "tsx scripts/capture-sheet03.ts",
+    "capture:sheet04": "tsx scripts/capture-sheet04.ts",
+    "capture:sheet05": "tsx scripts/capture-sheet05.ts"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",
