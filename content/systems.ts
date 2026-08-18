@@ -120,6 +120,16 @@ export const systems: System[] = [
           "store — because knowledge that outlives the person who wrote it is the actual deliverable, " +
           "and an unstructured corpus degrades into a search box nobody trusts.",
       },
+      {
+        title: "A report answers only what you already knew to ask",
+        body:
+          "The reflex when data is scattered is a dashboard, and for questions you can write down " +
+          "in advance that is the right answer. The ones that cost an afternoon cannot be written " +
+          "down in advance, because each is a follow-up to something that just happened and each " +
+          "crosses the systems differently. A report has to be built one question at a time; an " +
+          "agent covers the open-ended set. That distinction is the reason this is an agent layer " +
+          "and not a reporting layer.",
+      },
     ],
     outcomes: [
       {
@@ -196,6 +206,29 @@ export const systems: System[] = [
           "trigger into the system — detect, classify, record, monitor, then initiate outreach — is " +
           "what turns a report into an outcome. It also means the failure mode is now loud instead " +
           "of silent.",
+      },
+      {
+        title: "Chosen because the work has the right shape",
+        body:
+          "Most automation disappoints because it was pointed at judgement wearing the costume of " +
+          "repetition. The test is four questions: does it happen constantly, are the rules stable, " +
+          "how much judgement does it need, and what does an error cost. Certificate handling " +
+          "answers all four the right way — every supplier, every renewal, the same handful of " +
+          "fields, almost no judgement until something is wrong, and expensive when missed. There " +
+          "is a fifth question people leave out: does anyone want the job. Nobody wants this one, " +
+          "which is why it drifts to whoever can least refuse it and is the first thing to slip in " +
+          "a busy week.",
+      },
+      {
+        title: "The hour a week is the smaller saving",
+        body:
+          "Cutting a batch from about an hour to under two minutes is the number that gets quoted, " +
+          "and it is the lesser half. The expensive failure is a certificate that lapsed while " +
+          "nobody was looking: goods keep arriving against a supplier who is no longer qualified " +
+          "and nothing appears wrong, until an audit raises a finding against the receiving " +
+          "process itself. The cost then is re-qualification, and deciding what to do about " +
+          "everything received meanwhile. Monitoring moves that discovery from the audit back to " +
+          "thirty days before expiry, where it costs one email.",
       },
     ],
     outcomes: [
@@ -303,6 +336,29 @@ export const systems: System[] = [
           "DIN 199 EBOM/MBOM separation, ISO 10007 configuration management, and the ECR → CCB → ECO → ECN " +
           "workflow are the domain spine rather than background reading. An engineering-change system " +
           "that invents its own lifecycle is a system no quality manager will sign off.",
+      },
+      {
+        title: "The expensive change is the one nobody scoped",
+        body:
+          "The costly failure in engineering change is not the research time. It is approving a " +
+          "change whose reach nobody worked out: the drawing that also needed revising, the units " +
+          "already shipped, the test that now has to be repeated, the price that moved and was " +
+          "never repriced, so margin leaks on every unit built until someone notices. Each is " +
+          "discovered later, and later is where the cost sits. Here the impact assessment is " +
+          "generated with the change request and frozen for review — affected product, units, " +
+          "documents, revalidation and cost exposure, in front of the board before the decision " +
+          "rather than after it, with the manufacturing BOM rebuilt and repriced on release.",
+      },
+      {
+        title: "Read-only first, and writes enabled one tool at a time",
+        body:
+          "Nothing is migrated: the systems that hold the records keep holding them, and the " +
+          "connectors start read-only. That is a commercial decision as much as a technical one. " +
+          "In read-only mode the worst outcome during a trial is a wrong answer on a screen, which " +
+          "costs a conversation rather than a record — so the trial can run against real data " +
+          "instead of a sanitised copy, which is the only way anyone finds out whether it is " +
+          "useful. Each mutating tool is then paired with its approving role before it becomes " +
+          "available at all.",
       },
     ],
     outcomes: [
@@ -468,6 +524,25 @@ export const systems: System[] = [
           "is judged offline by the eval suite. Rendering a live figure that was never computed is " +
           "precisely the failure the project argues against.",
       },
+      {
+        title: "Three outcomes, and the worst is the cheapest to produce",
+        body:
+          "Guardrails are not about making an agent timid. A refusal costs nothing — nothing clears " +
+          "the floor, no model is called, and the system says so. A grounded answer costs one call " +
+          "and arrives with its sources attached. A confident invention costs less than either to " +
+          "generate, and costs you the reader, because nobody asks a second question after the " +
+          "first made-up one. Two of the three are nearly free and the third cannot be undone. " +
+          "That asymmetry is the whole argument for building the checks at all.",
+      },
+      {
+        title: "85.6% is what makes 95.9% mean anything",
+        body:
+          "Any agent can be given a percentage. What makes one meaningful is that it was lower " +
+          "before, that something specific changed, and that the cases did not move in between. " +
+          "This suite opened at 85.6%. Calibrating the floor took it to 90.3%, fixing the router " +
+          "to 95.2%, and diversifying retrieval to 95.9% — across the same 144 cases throughout, " +
+          "so each step measures a change to the system rather than a change to the exam.",
+      },
     ],
     outcomes: [
       { value: "95.9%", label: "Overall", note: "138 of 144 cases, full tier." },
@@ -579,9 +654,37 @@ export const systems: System[] = [
           "migrations and seed data included. Anyone can run it without provisioning anything, and " +
           "the deployment path stays a genuine managed Postgres rather than a different code path.",
       },
+      {
+        title: "Counting who reached a stage, not who is sitting in it",
+        body:
+          "The conversion funnel measures candidates who have ever reached each stage: 52 applied, " +
+          "33 screened, 10 interviewed, 5 offered, 2 hired. The naive version counts who is in " +
+          "each column right now, which is what a board gives you for free and is also wrong — it " +
+          "understates throughput by everyone who has already moved on, and makes a healthy " +
+          "pipeline look empty. That is the difference between a board and a measurement.",
+      },
+      {
+        title: "Idle time is the metric a spreadsheet never gives you",
+        body:
+          "Every card carries how long it has been untouched, and the dashboard reports average " +
+          "time in each stage. The failure of a hiring pipeline is rarely a wrong decision — it is " +
+          "no decision, a good candidate sitting for three weeks until they take another offer. " +
+          "Nothing surfaces that before it has already cost you, and none of it exists at all " +
+          "until the pipeline is records rather than messages.",
+      },
     ],
     outcomes: [
       { value: "Live", label: "Deployed on Vercel", note: "Neon Postgres, Auth.js, Vercel Blob." },
+      {
+        value: "32 d",
+        label: "Average time to hire",
+        note: "Over the seeded demonstration data. Measurable at all only because the pipeline is records rather than messages.",
+      },
+      {
+        value: "1 of 5",
+        label: "Channels billed per hire",
+        note: "Careers site, LinkedIn, referral and inbound cost nothing per hire; the agency does. That trade can only be weighed if attribution is captured when someone applies.",
+      },
     ],
     stack: [
       "Next.js 16",
