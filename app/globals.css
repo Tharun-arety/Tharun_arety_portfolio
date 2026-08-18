@@ -108,9 +108,9 @@
   --dot-step: 24px;
 
   /* The hero atmosphere: two washes for colour, one band of light for shape. */
-  --aurora-a: rgb(56 225 196 / 0.16);
-  --aurora-b: rgb(96 132 255 / 0.15);
-  --ribbon: rgb(226 240 255 / 0.115);
+  --aurora-a: rgb(56 225 196 / 0.38);
+  --aurora-b: rgb(96 132 255 / 0.34);
+  --ribbon: rgb(226 240 255 / 0.2);
 }
 
 /* Warm paper rather than pure white: white pages glare, and the warmth is what
@@ -145,11 +145,11 @@
 
   --dots: rgb(20 20 24 / 0.07);
 
-  --aurora-a: rgb(15 118 110 / 0.14);
-  --aurora-b: rgb(70 100 190 / 0.11);
+  --aurora-a: rgb(15 118 110 / 0.28);
+  --aurora-b: rgb(70 100 190 / 0.24);
   /* On paper the bands read as light falling across it rather than as light
      itself, so they go white and lift the ground instead of darkening it. */
-  --ribbon: rgb(255 255 255 / 0.85);
+  --ribbon: rgb(255 255 255 / 1);
 }
 
 html,
@@ -198,14 +198,19 @@ body::before {
 .field {
   position: relative;
   isolation: isolate;
+  /* `clip` lets the two layers sit larger than the hero and travel inside it
+     without ever exposing an edge or widening the page. */
+  overflow: clip;
 }
 .field::before,
 .field::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -20% -14%;
   pointer-events: none;
+  will-change: transform;
 }
+
 .field::before {
   z-index: -2;
   /* Both radii are capped against the viewport as well as set in rem. Sized in
@@ -213,26 +218,73 @@ body::before {
      which measured 4.42:1 behind the location line — the composition has to be
      proportionally the same at every width, not just the wide one. */
   background:
-    radial-gradient(min(78rem, 130vw) min(26rem, 44vh) at 10% -10%, var(--aurora-a), transparent 68%),
-    radial-gradient(min(62rem, 118vw) min(30rem, 48vh) at 82% 2%, var(--aurora-b), transparent 66%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+    radial-gradient(min(78rem, 130vw) min(28rem, 46vh) at 6% 7%, var(--aurora-a), transparent 64%),
+    radial-gradient(min(66rem, 122vw) min(32rem, 52vh) at 89% 12%, var(--aurora-b), transparent 68%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 6%, transparent 84%);
+  mask-image: linear-gradient(to bottom, #000 6%, transparent 84%);
 }
 .field::after {
   z-index: -1;
+  animation: drift-warp 43s ease-in-out infinite alternate;
   background-color: var(--ribbon);
   /* Two masks composited: the bands give the shape, the linear fade makes sure
      they never end on the section boundary. */
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='s' x='-40%25' y='-40%25' width='180%25' height='180%25'%3E%3CfeGaussianBlur stdDeviation='58'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23s%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 250C160 96 470 372 880 214 1210 88 1420 52 1900 196' stroke-width='104' opacity='.62'/%3E%3Cpath d='M-260 486C230 640 600 322 1010 498 1350 644 1560 690 1900 452' stroke-width='142' opacity='.42'/%3E%3Cpath d='M-260 92C280 268 690 30 1090 152 1400 246 1590 318 1900 108' stroke-width='66' opacity='.3'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%);
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='s' x='-40%25' y='-40%25' width='180%25' height='180%25'%3E%3CfeGaussianBlur stdDeviation='58'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23s%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 250C160 96 470 372 880 214 1210 88 1420 52 1900 196' stroke-width='104' opacity='.62'/%3E%3Cpath d='M-260 486C230 640 600 322 1010 498 1350 644 1560 690 1900 452' stroke-width='142' opacity='.42'/%3E%3Cpath d='M-260 92C280 268 690 30 1090 152 1400 246 1590 318 1900 108' stroke-width='66' opacity='.3'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%);
-  -webkit-mask-size: cover, 100% 100%;
-  mask-size: cover, 100% 100%;
-  -webkit-mask-position: center top, center top;
-  mask-position: center top, center top;
-  -webkit-mask-repeat: no-repeat, no-repeat;
-  mask-repeat: no-repeat, no-repeat;
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='b' x='-40%' y='-40%' width='180%' height='180%'%3E%3CfeGaussianBlur stdDeviation='44'/%3E%3C/filter%3E%3Cfilter id='r' x='-25%' y='-25%' width='150%' height='150%'%3E%3CfeGaussianBlur stdDeviation='9'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23b%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 236C160 74 470 366 880 198 1210 66 1420 28 1900 182' stroke-width='108' opacity='.8'/%3E%3Cpath d='M-260 494C230 660 600 314 1010 502 1350 660 1560 706 1900 448' stroke-width='146' opacity='.54'/%3E%3Cpath d='M-260 78C280 264 690 16 1090 142 1400 242 1590 318 1900 92' stroke-width='68' opacity='.38'/%3E%3C/g%3E%3Cg filter='url%28%23r%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 208C160 46 470 338 880 170 1210 38 1420 0 1900 154' stroke-width='12' opacity='1'/%3E%3Cpath d='M-260 262C160 100 470 392 880 224 1210 92 1420 54 1900 208' stroke-width='6' opacity='.62'/%3E%3Cpath d='M-260 534C230 700 600 354 1010 542 1350 700 1560 746 1900 488' stroke-width='9' opacity='.82'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%),
+    linear-gradient(to right, rgb(0 0 0 / 0.1) 4%, rgb(0 0 0 / 0.5) 34%, #000 64%);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='b' x='-40%' y='-40%' width='180%' height='180%'%3E%3CfeGaussianBlur stdDeviation='44'/%3E%3C/filter%3E%3Cfilter id='r' x='-25%' y='-25%' width='150%' height='150%'%3E%3CfeGaussianBlur stdDeviation='9'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23b%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 236C160 74 470 366 880 198 1210 66 1420 28 1900 182' stroke-width='108' opacity='.8'/%3E%3Cpath d='M-260 494C230 660 600 314 1010 502 1350 660 1560 706 1900 448' stroke-width='146' opacity='.54'/%3E%3Cpath d='M-260 78C280 264 690 16 1090 142 1400 242 1590 318 1900 92' stroke-width='68' opacity='.38'/%3E%3C/g%3E%3Cg filter='url%28%23r%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 208C160 46 470 338 880 170 1210 38 1420 0 1900 154' stroke-width='12' opacity='1'/%3E%3Cpath d='M-260 262C160 100 470 392 880 224 1210 92 1420 54 1900 208' stroke-width='6' opacity='.62'/%3E%3Cpath d='M-260 534C230 700 600 354 1010 542 1350 700 1560 746 1900 488' stroke-width='9' opacity='.82'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%),
+    linear-gradient(to right, rgb(0 0 0 / 0.1) 4%, rgb(0 0 0 / 0.5) 34%, #000 64%);
+  -webkit-mask-size: 135% auto, 100% 100%, 100% 100%;
+  mask-size: 135% auto, 100% 100%, 100% 100%;
+  -webkit-mask-position: 78% top, center top, center top;
+  mask-position: 78% top, center top, center top;
+  -webkit-mask-repeat: no-repeat, no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat, no-repeat;
+  -webkit-mask-composite: source-in, source-in;
+  mask-composite: intersect, intersect;
+}
+
+/* A phone is a fifth of the width and the introduction sits near the top of a
+   hero that is twice as tall, so the same composition puts the brightest part of
+   the light exactly where the smallest text is — measured at 4.03:1 against the
+   location line. The layers pull up and back on narrow screens rather than the
+   palette being weakened everywhere to suit them. */
+@media (max-width: 640px) {
+  .field::before {
+    background:
+      radial-gradient(150vw 24vh at 6% 6%, var(--aurora-a), transparent 64%),
+      radial-gradient(170vw 30vh at 92% 11%, var(--aurora-b), transparent 68%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 4%, transparent 76%);
+    mask-image: linear-gradient(to bottom, #000 4%, transparent 76%);
+  }
+  .field::after {
+    -webkit-mask-size: 235% auto, 100% 100%, 100% 100%;
+    mask-size: 235% auto, 100% 100%, 100% 100%;
+    -webkit-mask-position: 68% -18%, center top, center top;
+    mask-position: 68% -18%, center top, center top;
+  }
+}
+
+
+/* The light moves, slowly. Two layers on periods that share no common multiple
+   in any watchable span, so the pair never returns to an arrangement anyone
+   sees twice; `alternate` means neither ever snaps back to a start frame. Both
+   animate transform only, so this is composited and costs no layout. The
+   reduced-motion block above already stops it — nothing extra is needed here. */
+@keyframes drift-warp {
+  from {
+    transform: translate3d(-2.5%, -1.6%, 0) scale(1.04) rotate(-0.6deg);
+  }
+  to {
+    transform: translate3d(3.2%, 2.2%, 0) scale(1.13) rotate(0.8deg);
+  }
+}
+@keyframes drift-weft {
+  from {
+    transform: translate3d(2.4%, 1.4%, 0) scale(1.11);
+  }
+  to {
+    transform: translate3d(-3%, -2.2%, 0) scale(1.02);
+  }
 }
 
 @layer components {
