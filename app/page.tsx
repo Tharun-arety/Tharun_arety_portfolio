@@ -1,297 +1,158 @@
-import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+/**
+ * The page.
+ *
+ * A server component: the hero figures come from the eval report at build time
+ * rather than from a fetch, so the numbers are in the first byte of HTML. Only
+ * the console, the eval badge and the corpus count are client islands, because
+ * only they need to talk to a running system.
+ *
+ * Two surfaces with two jobs. Everything here is a document, written for
+ * someone deciding whether to get in touch. The console inside the systems
+ * section is an instrument, and it keeps its own denser visual language.
+ */
 
-import { AskPanel } from "@/components/agent/AskPanel";
-import { Section } from "@/components/site/Section";
-import { StackChip } from "@/components/site/StackIcon";
-import { SystemSheet } from "@/components/site/SystemSheet";
-import { ThesisDiagram } from "@/components/site/ThesisDiagram";
-import { EvalMatrix } from "@/components/trace/EvalMatrix";
-import { TraceCard } from "@/components/trace/TraceCard";
-import { systems } from "@/content/systems";
-import { engineeringRepos, profile, skills } from "@/content/profile";
-import { traceById, traces } from "@/lib/traces";
+import { FileCheck2, Link2, Ruler, ShieldAlert } from "lucide-react";
+
+import report from "@/public/eval-report.json";
+import { AnswerText } from "@/components/AnswerText";
+import { CitationList } from "@/components/CitationList";
+import { EvalMetrics, EvalTargetNote, type EvalReport } from "@/components/EvalMetrics";
+import { InspectorDrawer } from "@/components/InspectorDrawer";
+import { FeatureRow } from "@/components/site/FeatureRow";
+import { Hero } from "@/components/site/Hero";
+import { HowItsBuilt } from "@/components/site/HowItsBuilt";
+import { Resume } from "@/components/site/Resume";
+import { ProfileAgent } from "@/components/site/ProfileAgent";
+import { Contact, SiteFooter, SiteHeader } from "@/components/site/SiteChrome";
+import { Systems } from "@/components/site/Systems";
+import { TechStack } from "@/components/site/TechStack";
+import { WhatIDo } from "@/components/site/WhatIDo";
+import { ANSWER_SAMPLE, ISO_RETRIEVAL, REFUSAL_TRACE } from "@/components/site/fixtures";
+import {
+  GROUNDING_FLOOR,
+  IN_CORPUS_MEAN,
+  OFF_CORPUS_MEAN,
+  SEPARATION,
+} from "@/components/site/site-data";
+
+const evalReport = report as EvalReport;
+
+const belowTarget = evalReport.metrics.filter((metric) => metric.score < 0.9).length;
 
 export default function Page() {
-  // The turn where a gate actually did something. A clean run proves the
-  // pipeline exists; this one proves it has teeth — so it leads the recorded
-  // turns rather than sitting anonymously in the grid, and it is the one that
-  // can be played and scrubbed.
-  const featured = traceById("tool-arg-rejected");
-  const rest = traces.filter((turn) => turn.id !== featured?.id);
-
   return (
-    <div className="mx-auto max-w-5xl space-y-24 px-5 pt-12 pb-8 sm:px-8 sm:pt-20">
-      {/* ---------------------------------------------------------------- */}
-      {/* Hero                                                              */}
-      {/* ---------------------------------------------------------------- */}
-      <header>
-        {/* Whose portfolio this is comes first and comes big. The claim is the
-            reason to keep reading; the name is the reason to remember it. */}
-        <h1 className="text-ink text-5xl leading-[0.95] sm:text-7xl">{profile.name}</h1>
-
-        {/* Separators live inside their span rather than between siblings, so a
-            wrap never strands a middot at the end of a line. */}
-        <div className="border-rule mt-5 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t pt-4">
-          <span className="letter text-ink">{profile.role}</span>
-          <span className="text-ink-faint text-xs">
-            {profile.location} · {profile.relocation}
-          </span>
+    <>
+      <SiteHeader />
+      <main id="main">
+        <div id="top">
+          <Hero report={evalReport} />
         </div>
 
-        <p className="text-ink mt-8 max-w-3xl text-2xl leading-tight font-semibold sm:text-4xl">
-          I build AI-leveraged systems.
-        </p>
+        <WhatIDo />
+        <Systems />
 
-        <p className="prose-doc mt-4 max-w-2xl text-lg">{profile.thesis}</p>
-
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-          {/* A native anchor, not a router Link. Next's client navigation
-              treats a same-page hash as a route change with no work to do and
-              never performs the scroll, so the button silently did nothing. */}
-          <a
-            href="#systems"
-            className="border-ink bg-ink text-ground hover:bg-ink-mid hover:border-ink-mid inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium transition-colors"
-          >
-            Explore the systems
-            <ArrowRight className="size-3.5" />
-          </a>
-          <Link
-            href="/resume"
-            className="border-rule-strong text-ink hover:border-ink inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium transition-colors"
-          >
-            Résumé
-          </Link>
-          <a
-            href={`mailto:${profile.contact.email}`}
-            className="text-ink-mid hover:text-ink text-sm transition-colors"
-          >
-            {profile.contact.email}
-          </a>
-        </div>
-
-        {/* The opening visual explains the work rather than demonstrating it.
-            A recorded agent trace was here, and it was the strongest technical
-            proof on the site sitting in the one place where the reader has not
-            yet been given a reason to care what a tool loop is. It now leads
-            the Reliability section instead, where that reason has been given. */}
-        <div className="border-rule mt-10 border-t pt-8 sm:mt-14 sm:pt-10">
-          <p className="prose-doc mb-7 max-w-2xl">
-            Most enterprise AI work stops at an answer. An answer is where the useful part starts —
-            the systems worth building carry a decision into the tools a business already runs on,
-            do something, and feed the result back.
-          </p>
-          <ThesisDiagram />
-        </div>
-
-      </header>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Principle                                                         */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="thesis"
-        label="Principle"
-        title={profile.principle}
-        lede={
+        <FeatureRow
+          eyebrow="Guardrails"
+          icon={ShieldAlert}
+          title="Bad input never reaches the model"
+          veiled
+          visual={<InspectorDrawer trace={REFUSAL_TRACE} />}
+          visualNote="A real refusal, captured. Read the last two figures: no model was called, so it cost nothing."
+        >
           <p>
-            The clearest version of this: a compliance pipeline that wrote its results back into the
-            spreadsheet the team already lived in, rather than asking anyone to adopt a new tool.
-            Nobody had to be persuaded, so it got used.
+            The checks that catch prompt injection are patterns, not a classifier call. That is the
+            point. A filter that has to ask a model whether something is an injection can itself be
+            talked out of the answer.
           </p>
-        }
-      />
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Systems                                                           */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="systems"
-        label="Systems"
-        title="Five systems, ordered by how much you can verify"
-        lede={
           <p>
-            The first two shipped to businesses and are described without their clients. The next two
-            can be opened and read. The last one you can log into. Each card says which before it
-            says anything else.
+            Credentials are found and replaced before the request leaves the process, so an API key
+            pasted into the box never reaches a third party. Across the test set, 18 adversarial
+            inputs are refused and 14 benign questions that resemble them are let through, which is
+            the number that makes the first one mean anything.
           </p>
-        }
-      >
-        <div className="space-y-5">
-          {systems.map((system) => (
-            <SystemSheet key={system.slug} system={system} />
-          ))}
-        </div>
-      </Section>
+        </FeatureRow>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Ask                                                               */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="ask"
-        label="Ask"
-        title="Ask about any of it"
-        lede={
+        <FeatureRow
+          eyebrow="Grounding"
+          icon={Ruler}
+          title="The similarity floor was calibrated, and you can see both sides of it"
+          reverse
+          visual={<CitationList data={ISO_RETRIEVAL} floor={GROUNDING_FLOOR} />}
+          visualNote="Six passages cleared the floor and reached the model. Three did not, and they are still on screen."
+        >
           <p>
-            A live agent over this site&rsquo;s own content. It answers from what is published here
-            and refuses what is not — including anything that would identify the two clients under
-            NDA. It shows its own latency, tokens and cost on every turn, the same way the recorded
-            turns below do.
+            Questions the corpus can answer score {IN_CORPUS_MEAN.toFixed(3)} on average at rank
+            one. Questions it cannot score {OFF_CORPUS_MEAN.toFixed(3)}. That gap of{" "}
+            {SEPARATION.toFixed(3)} is where the floor belongs, and{" "}
+            {GROUNDING_FLOOR.toFixed(2)} sits inside it.
           </p>
-        }
-      >
-        {/* The dock withdraws while this is on screen — see AskDock. */}
-        <div data-ask-inline>
-          <AskPanel />
-        </div>
-      </Section>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Reliability                                                       */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="reliability"
-        label="Reliability"
-        title="How I know the systems behave"
-        lede={
           <p>
-            Anyone can demonstrate an agent answering a question it was built to answer. The
-            interesting cases are the hostile input, the tool call for a thing that does not exist,
-            and the question the corpus cannot support. Below is a real eval suite over the
-            magnetocaloric agent, and six turns recorded from it — including the ones that failed on
-            purpose.
+            The first value I tried was 0.70, which sounded prudent and refused almost every
+            question the system could actually answer. Sweeping the test set turned a guess into a
+            measurement. When nothing clears the floor the system says so and skips the model call
+            entirely, which is cheaper and more honest than a hedged paragraph.
           </p>
-        }
-      >
-        <EvalMatrix />
+        </FeatureRow>
 
-        <div className="mt-12">
-          <div className="legend mb-6">
-            <span className="letter">Recorded turns</span>
-          </div>
-
-          {/* One turn gets the full width and the playback controls, because a
-              reader who scrubs one understands the other five by reading. */}
-          {featured && (
-            <div className="mb-5">
-              <TraceCard turn={featured} featured />
+        <FeatureRow
+          eyebrow="Citations"
+          icon={Link2}
+          title="Every citation links to the passage it came from"
+          veiled
+          visual={
+            <div className="bg-inset border-rule border p-4">
+              <p className="text-ink text-[13.5px] leading-[1.7]">
+                <AnswerText text={ANSWER_SAMPLE.text} knownRefs={ANSWER_SAMPLE.knownRefs} />
+              </p>
             </div>
-          )}
-
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            {rest.map((turn) => (
-              <TraceCard key={turn.id} turn={turn} />
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Background                                                        */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="background"
-        label="Background"
-        title="A materials engineer who learned to build the tools"
-        lede={
+          }
+          visualNote="In the live console the blue handles scroll the evidence pane to the passage and open it."
+        >
           <p>
-            I came to this from composites research, not from a platform team. That is the reason
-            these systems land in engineering organizations: BOMs, revision states, calibration
-            schedules and test-bench data are not domain research for me, and the people who use
-            these tools are the people I trained as.
+            Once the answer is written, every source it cites is checked against what retrieval
+            actually returned. A handle that was never retrieved gets marked in the sentence that
+            used it, rather than logged somewhere nobody looks.
           </p>
-        }
-      >
-        <div className="grid gap-5 md:grid-cols-2">
-          <div className="sheet p-5">
-            <div className="letter mb-4">Computational engineering</div>
-            <p className="prose-doc mb-5 text-base">
-              Differentiable simulation and optimization, in the open. These are the work that makes
-              the domain claim checkable rather than asserted.
-            </p>
-            <ul className="space-y-3">
-              {engineeringRepos.map((repo) => (
-                <li key={repo.name}>
-                  <a
-                    href={repo.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-ink hover:text-verdigris inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
-                  >
-                    {repo.name}
-                    <ExternalLink className="size-3" />
-                  </a>
-                  <p className="text-ink-faint mt-0.5 text-xs leading-relaxed">{repo.note}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="sheet p-5">
-            <div className="letter mb-4">What I work with</div>
-            <dl className="space-y-4">
-              {skills.map((group) => (
-                <div key={group.label}>
-                  <dt className="text-ink mb-2 text-sm font-medium">{group.label}</dt>
-                  <dd>
-                    {group.chips ? (
-                      <div className="flex flex-wrap gap-1.5">
-                        {group.items.map((item) => (
-                          <StackChip key={item} name={item} />
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="text-ink-faint text-xs leading-relaxed">
-                        {group.items.join(" · ")}
-                      </span>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </Section>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Contact                                                           */}
-      {/* ---------------------------------------------------------------- */}
-      <Section
-        id="contact"
-        label="Contact"
-        title="Building this kind of backbone somewhere?"
-        lede={
           <p>
-            I am looking for the role where one person, working agentically, owns the systems a
-            company runs on. If that is the job, I would like to hear about it.
+            That is the third citation above. The model reached for a comparison it had not been
+            given, and the interface says so in the place where the claim is made.
           </p>
-        }
-      >
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <a
-            href={`mailto:${profile.contact.email}`}
-            className="border-ink bg-ink text-ground hover:bg-ink-mid hover:border-ink-mid inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium transition-colors"
-          >
-            {profile.contact.email}
-          </a>
-          <a
-            href={profile.contact.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="text-ink-mid hover:text-ink inline-flex items-center gap-1.5 text-sm transition-colors"
-          >
-            LinkedIn <ExternalLink className="size-3" />
-          </a>
-          <a
-            href={profile.contact.github}
-            target="_blank"
-            rel="noreferrer"
-            className="text-ink-mid hover:text-ink inline-flex items-center gap-1.5 text-sm transition-colors"
-          >
-            GitHub <ExternalLink className="size-3" />
-          </a>
-        </div>
-      </Section>
-    </div>
+        </FeatureRow>
+
+        <FeatureRow
+          eyebrow="Evals"
+          icon={FileCheck2}
+          title="The suite has a before, which is the only reason the after means anything"
+          reverse
+          visual={
+            <div className="p-1">
+              <EvalMetrics metrics={evalReport.metrics} size="md" />
+              <EvalTargetNote className="border-rule mt-4 border-t pt-3" />
+            </div>
+          }
+          visualNote={`Last run on ${evalReport.model}, ${evalReport.tier} tier. ${belowTarget} of ${evalReport.metrics.length} metrics sit under target.`}
+        >
+          <p>
+            The first run scored 85.6%. Three defects it found were mine, and each one was a
+            different kind of wrong: the floor was set to a number I had guessed, the router sent
+            datasheet questions to the telemetry agent because they contain metric words, and one
+            document held a third of the index so broad questions returned five passages from it
+            and nothing else.
+          </p>
+          <p>
+            Two failures turned out to be the test&rsquo;s fault rather than the system&rsquo;s,
+            which is the more useful thing to find. The two judged rows are the least reliable here
+            and are best read as a prompt to go and look at the answer yourself.
+          </p>
+        </FeatureRow>
+
+        <HowItsBuilt />
+        <TechStack />
+        <Resume />
+        <Contact />
+      </main>
+      <SiteFooter />
+      <ProfileAgent />
+    </>
   );
 }
