@@ -213,6 +213,7 @@ body::before {
 
 .field::before {
   z-index: -2;
+  animation: drift-weft 67s ease-in-out infinite alternate;
   /* Both radii are capped against the viewport as well as set in rem. Sized in
      rem alone, a 78rem wash puts the whole of a 390px screen inside its core,
      which measured 4.42:1 behind the location line — the composition has to be
