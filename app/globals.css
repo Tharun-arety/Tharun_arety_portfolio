@@ -84,9 +84,10 @@
  *   sky        a fixed vertical gradient on `html`, a few points of luminance,
  *              so scrolling reads as moving down a panel rather than through a
  *              flat colour field
- *   lattice    a node-and-edge graph, fixed, at an alpha low enough to be felt
- *              rather than read, with the measured grid inside it as substrate
- *   field      one wide radial in the accent hue, clipped to the hero
+ *   dots       a fine matrix, fixed, the grain that stops the ground reading
+ *              as a void
+ *   field      the hero atmosphere: two colour washes and, over them, a
+ *              blurred drawing of light lying across the page
  *
  * All three are painted once and none of them repaints on scroll.
  * ------------------------------------------------------------------------ */
@@ -99,13 +100,17 @@
     0 1px 0 0 rgb(255 255 255 / 0.05) inset,
     0 20px 44px -26px rgb(0 0 0 / 0.9);
 
-  --sky-top: #0d0d11;
-  --sky-bottom: #08080a;
+  --sky-top: #0c0d10;
+  --sky-bottom: #07070a;
 
-  --lattice: rgb(255 255 255 / 0.1);
-  --lattice-step: 160px;
+  /* The dot matrix. Fine, uniform, and the quietest thing on the page. */
+  --dots: rgb(255 255 255 / 0.055);
+  --dot-step: 24px;
 
-  --field: rgb(56 225 196 / 0.08);
+  /* The hero atmosphere: two washes for colour, one band of light for shape. */
+  --aurora-a: rgb(56 225 196 / 0.16);
+  --aurora-b: rgb(96 132 255 / 0.15);
+  --ribbon: rgb(226 240 255 / 0.115);
 }
 
 /* Warm paper rather than pure white: white pages glare, and the warmth is what
@@ -135,12 +140,16 @@
   --color-warm: #8d5310;
   --color-hot: #b03625;
 
-  --sky-top: #f6f5f1;
-  --sky-bottom: #eceae4;
+  --sky-top: #f7f6f2;
+  --sky-bottom: #eae8e1;
 
-  --lattice: rgb(20 20 24 / 0.075);
+  --dots: rgb(20 20 24 / 0.07);
 
-  --field: rgb(15 118 110 / 0.09);
+  --aurora-a: rgb(15 118 110 / 0.14);
+  --aurora-b: rgb(70 100 190 / 0.11);
+  /* On paper the bands read as light falling across it rather than as light
+     itself, so they go white and lift the ground instead of darkening it. */
+  --ribbon: rgb(255 255 255 / 0.85);
 }
 
 html,
@@ -161,54 +170,69 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The lattice.
-   Drawn as a mask rather than as a set of gradients, because the subject is not
-   graph paper — it is a graph. Nodes sit at the junctions and two routed spines
-   step between them the way an agent framework is drawn: orthogonal runs,
-   right-angle elbows, a junction wherever a path changes hands. Both spines
-   enter and leave the tile at the same coordinate they arrived on, so the field
-   is one connected topology across the whole page rather than a repeated motif.
-   The measured grid is still there underneath, inside the same drawing at a
-   fifth of the weight, because the routing has to be laid out on something.
-   One asset, one alpha, and the colour comes from a token, so both themes and
-   any future tuning happen in exactly one place. */
+/* The dot matrix. One tiled dot, uniform across the page, sitting under
+   everything as the texture that stops the ground reading as a void. The
+   drawing that used to live here tried to be a diagram as well as a texture,
+   and a background cannot be both — the atmosphere below is what carries the
+   subject now, and this is only the grain underneath it. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-color: var(--lattice);
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23000' stroke-width='1'%3E%3Cg opacity='.13'%3E%3Cpath d='M40 0V160M80 0V160M120 0V160M0 40H160M0 80H160M0 120H160'/%3E%3C/g%3E%3Cg opacity='.45'%3E%3Cpath d='M0 40H40V120H120V40H160'/%3E%3Cpath d='M80 0V40H120V120H80V160'/%3E%3Cpath d='M0 80H40M120 80H160'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='40' cy='120' r='2.6'/%3E%3Ccircle cx='120' cy='40' r='2.6'/%3E%3Ccircle cx='120' cy='120' r='2.6'/%3E%3Ccircle cx='80' cy='40' r='2.6'/%3E%3Ccircle cx='80' cy='120' r='2.6'/%3E%3Ccircle cx='0' cy='80' r='2.6'/%3E%3Ccircle cx='160' cy='80' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23000' stroke-width='1'%3E%3Cg opacity='.13'%3E%3Cpath d='M40 0V160M80 0V160M120 0V160M0 40H160M0 80H160M0 120H160'/%3E%3C/g%3E%3Cg opacity='.45'%3E%3Cpath d='M0 40H40V120H120V40H160'/%3E%3Cpath d='M80 0V40H120V120H80V160'/%3E%3Cpath d='M0 80H40M120 80H160'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='40' cy='120' r='2.6'/%3E%3Ccircle cx='120' cy='40' r='2.6'/%3E%3Ccircle cx='120' cy='120' r='2.6'/%3E%3Ccircle cx='80' cy='40' r='2.6'/%3E%3Ccircle cx='80' cy='120' r='2.6'/%3E%3Ccircle cx='0' cy='80' r='2.6'/%3E%3Ccircle cx='160' cy='80' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
-  -webkit-mask-size: var(--lattice-step) var(--lattice-step);
-  mask-size: var(--lattice-step) var(--lattice-step);
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
+  background-image: radial-gradient(var(--dots) 1px, transparent 1.7px);
+  background-size: var(--dot-step) var(--dot-step);
 }
 
 /* The one atmospheric moment on the site, spent where a first-time reader is
-   deciding whether to keep going. Applied to a full-width wrapper rather than to
-   a `.shell`, so it needs no viewport arithmetic to reach the edges — `50vw`
-   would have overshot by half a scrollbar and reported a phantom overflow.
-   `isolation` keeps the wash inside this element's own stacking context, so it
-   sits above the ground and below every word without any of them needing a
-   z-index. */
+   deciding whether to keep going. Applied to a full-width wrapper rather than
+   to a `.shell`, so it reaches the edges without any viewport arithmetic, and
+   `isolation` keeps both layers inside this element's own stacking context.
+
+   Two layers, because colour and shape are different jobs. The washes are wide,
+   flat ellipses that tint the top of the page; the bands are a blurred drawing
+   of light lying across it, which is the thing that stops this reading as the
+   generic four-blob gradient every second product page now has. Both fade out
+   well before the foot of the hero, so nothing terminates on an edge. */
 .field {
   position: relative;
   isolation: isolate;
 }
-.field::before {
+.field::before,
+.field::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
   pointer-events: none;
-  background: radial-gradient(64rem 34rem at 20% -4%, var(--field), transparent 72%);
-  /* A radial at this alpha terminates in a faint but visible ellipse edge. The
-     mask fades the whole layer out before the terminator can be read as a line. */
+}
+.field::before {
+  z-index: -2;
+  /* Both radii are capped against the viewport as well as set in rem. Sized in
+     rem alone, a 78rem wash puts the whole of a 390px screen inside its core,
+     which measured 4.42:1 behind the location line — the composition has to be
+     proportionally the same at every width, not just the wide one. */
+  background:
+    radial-gradient(min(78rem, 130vw) min(26rem, 44vh) at 10% -10%, var(--aurora-a), transparent 68%),
+    radial-gradient(min(62rem, 118vw) min(30rem, 48vh) at 82% 2%, var(--aurora-b), transparent 66%);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
   mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+}
+.field::after {
+  z-index: -1;
+  background-color: var(--ribbon);
+  /* Two masks composited: the bands give the shape, the linear fade makes sure
+     they never end on the section boundary. */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='s' x='-40%25' y='-40%25' width='180%25' height='180%25'%3E%3CfeGaussianBlur stdDeviation='58'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23s%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 250C160 96 470 372 880 214 1210 88 1420 52 1900 196' stroke-width='104' opacity='.62'/%3E%3Cpath d='M-260 486C230 640 600 322 1010 498 1350 644 1560 690 1900 452' stroke-width='142' opacity='.42'/%3E%3Cpath d='M-260 92C280 268 690 30 1090 152 1400 246 1590 318 1900 108' stroke-width='66' opacity='.3'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='s' x='-40%25' y='-40%25' width='180%25' height='180%25'%3E%3CfeGaussianBlur stdDeviation='58'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url%28%23s%29' fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cpath d='M-260 250C160 96 470 372 880 214 1210 88 1420 52 1900 196' stroke-width='104' opacity='.62'/%3E%3Cpath d='M-260 486C230 640 600 322 1010 498 1350 644 1560 690 1900 452' stroke-width='142' opacity='.42'/%3E%3Cpath d='M-260 92C280 268 690 30 1090 152 1400 246 1590 318 1900 108' stroke-width='66' opacity='.3'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to bottom, #000 55%, transparent 94%);
+  -webkit-mask-size: cover, 100% 100%;
+  mask-size: cover, 100% 100%;
+  -webkit-mask-position: center top, center top;
+  mask-position: center top, center top;
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 @layer components {
@@ -388,10 +412,10 @@ body::before {
      introduction, it is a caption, so this takes a full phi step above it. */
   .name {
     font-family: var(--font-display);
-    font-size: var(--text-title);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    font-size: clamp(var(--text-title), 2.6vw, var(--text-major));
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
   }
 
   .lede {
