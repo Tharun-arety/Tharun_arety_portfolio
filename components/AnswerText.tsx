@@ -52,7 +52,7 @@ export function AnswerText({
           type="button"
           onClick={() => onCite?.(ref.toUpperCase())}
           title={`Show the ${ref} passage this came from`}
-          className="text-cold border-cold/40 hover:bg-cold/15 mx-0.5 cursor-pointer border-b border-dashed px-0.5 align-baseline font-mono text-[10px] tracking-wide transition-colors"
+          className="text-cold border-cold/40 hover:bg-cold/15 mx-0.5 cursor-pointer border-b border-dashed px-0.5 align-baseline font-mono text-micro tracking-wide transition-colors"
         >
           {ref}
         </button>
@@ -60,7 +60,7 @@ export function AnswerText({
         <span
           key={`cite-${key++}`}
           title="This source was not among the passages retrieved for this answer."
-          className="text-hot border-hot/50 bg-hot/10 mx-0.5 border px-1 align-baseline font-mono text-[10px] tracking-wide"
+          className="text-hot border-hot/50 bg-hot/10 mx-0.5 border px-1 align-baseline font-mono text-micro tracking-wide"
         >
           {ref} ?
         </span>

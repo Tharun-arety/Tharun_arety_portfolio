@@ -25,7 +25,7 @@ export function StatusChip({
   const live = status === "live";
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] tracking-[0.14em] uppercase ${
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-micro tracking-[0.14em] uppercase ${
         live ? "border-cold/50 text-cold" : "border-rule text-faint"
       } ${className}`}
     >

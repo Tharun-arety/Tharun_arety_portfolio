@@ -43,13 +43,13 @@ export function InspectSwitch({
 
       <span className="min-w-0">
         <span
-          className={`block text-[13px] leading-tight transition-colors ${
+          className={`block text-fine leading-tight transition-colors ${
             checked ? "text-ink" : "text-dim group-hover:text-ink"
           }`}
         >
           Inspect mode
         </span>
-        <span className="text-faint block text-[10px] leading-tight">
+        <span className="text-faint block text-micro leading-tight">
           guardrail verdicts, tool calls, cost
         </span>
       </span>

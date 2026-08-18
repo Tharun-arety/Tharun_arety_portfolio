@@ -64,7 +64,7 @@ export function TelemetryChart({ data }: { data: TelemetryResult }) {
     <section className="flex h-full min-h-0 flex-col">
       <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1 pb-2">
         <h3 className="legend shrink-0 after:hidden">Rig telemetry</h3>
-        <p className="text-faint min-w-0 flex-1 truncate font-mono text-[11px]">
+        <p className="text-faint min-w-0 flex-1 truncate font-mono text-micro">
           {data.rig.rigId} · {data.rig.label}
         </p>
         <span className="text-warm micro shrink-0" title="Generated for this demonstration">
@@ -89,7 +89,7 @@ export function TelemetryChart({ data }: { data: TelemetryResult }) {
                 // one line give the row a min-content width wider than a phone,
                 // and the whole panel stops shrinking. Letting them size to
                 // their text and wrap costs nothing on a wide screen.
-                className={`grow cursor-pointer px-3 py-2 text-left text-[11px] whitespace-nowrap transition-colors ${
+                className={`grow cursor-pointer px-3 py-2 text-left text-micro whitespace-nowrap transition-colors ${
                   on ? "bg-raised text-ink" : "bg-panel text-faint hover:text-dim"
                 }`}
               >
@@ -111,15 +111,15 @@ export function TelemetryChart({ data }: { data: TelemetryResult }) {
                 rather than as two unrelated statistics. */}
             <div className="flex items-baseline gap-1.5">
               <span className="micro">span</span>
-              <span className="text-rule-strong font-mono text-[11px]">⌐</span>
-              <span className="tnum text-dim font-mono text-[12px]">{fmt(summary.min)}</span>
-              <span className="text-faint text-[10px]">–</span>
-              <span className="tnum text-dim font-mono text-[12px]">{fmt(summary.max)}</span>
+              <span className="text-rule-strong font-mono text-micro">⌐</span>
+              <span className="tnum text-dim font-mono text-fine">{fmt(summary.min)}</span>
+              <span className="text-faint text-micro">–</span>
+              <span className="tnum text-dim font-mono text-fine">{fmt(summary.max)}</span>
             </div>
             <Readout label="mean" value={summary.mean} unit={summary.unit} />
             <div className="ml-auto flex items-baseline gap-1.5">
               <span className="micro">n</span>
-              <span className="tnum text-dim font-mono text-[12px]">{summary.count}</span>
+              <span className="tnum text-dim font-mono text-fine">{summary.count}</span>
             </div>
           </div>
         )}
@@ -241,7 +241,7 @@ export function TelemetryChart({ data }: { data: TelemetryResult }) {
         </div>
 
         {summary && summary.breaches > 0 && (
-          <p className="border-rule text-hot border-t px-3 py-2 text-[11px] leading-relaxed">
+          <p className="border-rule text-hot border-t px-3 py-2 text-micro leading-relaxed">
             <span className="tnum font-mono">{summary.breaches}</span> of{" "}
             <span className="tnum font-mono">{summary.count}</span> readings outside the
             acceptance limit
@@ -274,11 +274,11 @@ function Readout({
     <div className="flex items-baseline gap-1.5">
       <span className="micro">{label}</span>
       <span
-        className={`tnum font-mono ${emphasis ? "text-ink text-[15px]" : "text-dim text-[12px]"}`}
+        className={`tnum font-mono ${emphasis ? "text-ink text-base" : "text-dim text-fine"}`}
       >
         {fmt(value)}
       </span>
-      <span className="text-faint font-mono text-[10px]">{unit}</span>
+      <span className="text-faint font-mono text-micro">{unit}</span>
     </div>
   );
 }

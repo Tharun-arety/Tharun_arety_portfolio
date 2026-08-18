@@ -58,7 +58,7 @@ function Answer({ text, sources }: { text: string; sources?: Source[] }) {
         <sup
           key={`c-${key++}`}
           title={`${source.title} · similarity ${source.similarity.toFixed(3)}`}
-          className="text-cold ml-0.5 cursor-help font-mono text-[10px]"
+          className="text-cold ml-0.5 cursor-help font-mono text-micro"
         >
           {index + 1}
         </sup>,
@@ -68,7 +68,7 @@ function Answer({ text, sources }: { text: string; sources?: Source[] }) {
         <span
           key={`c-${key++}`}
           title="This source was not retrieved for this question."
-          className="text-hot border-hot/50 bg-hot/10 mx-0.5 border px-1 font-mono text-[10px]"
+          className="text-hot border-hot/50 bg-hot/10 mx-0.5 border px-1 font-mono text-micro"
         >
           {ref} ?
         </span>,
@@ -84,7 +84,7 @@ function Answer({ text, sources }: { text: string; sources?: Source[] }) {
       {order.length > 0 && (
         <span className="border-rule mt-2.5 block border-t pt-2">
           {order.map((source, index) => (
-            <span key={source.ref} className="text-faint flex gap-2 text-[10.5px] leading-relaxed">
+            <span key={source.ref} className="text-faint flex gap-2 text-micro leading-relaxed">
               <span className="text-cold shrink-0 font-mono">{index + 1}</span>
               <span className="min-w-0 flex-1">{source.title}</span>
               <span className="tnum shrink-0 font-mono">{source.similarity.toFixed(3)}</span>
@@ -207,9 +207,9 @@ export function ProfileAgent() {
           className="border-cold/50 bg-cold/15 text-cold hover:bg-cold/25 fixed right-5 bottom-5 z-50 flex h-14 cursor-pointer items-center gap-3 rounded-full border px-5 shadow-2xl backdrop-blur transition-colors sm:right-8 sm:bottom-8"
         >
           <MessageSquare className="size-5 shrink-0" aria-hidden="true" />
-          <span className="text-left text-[13px] leading-tight font-medium">
+          <span className="text-left text-fine leading-tight font-medium">
             Ask about my work
-            <span className="text-dim block text-[10px] font-normal">grounded in my background</span>
+            <span className="text-dim block text-micro font-normal">grounded in my background</span>
           </span>
         </button>
       )}
@@ -224,8 +224,8 @@ export function ProfileAgent() {
           <header className="border-rule bg-panel flex shrink-0 items-center gap-3 border-b px-4 py-3">
             <ShieldCheck className="text-cold size-4 shrink-0" aria-hidden="true" />
             <div className="min-w-0 flex-1">
-              <p className="text-ink text-[13px] leading-tight font-medium">Ask about my work</p>
-              <p className="text-faint text-[10px] leading-tight">
+              <p className="text-ink text-fine leading-tight font-medium">Ask about my work</p>
+              <p className="text-faint text-micro leading-tight">
                 Answers only from what is written about me
               </p>
             </div>
@@ -242,7 +242,7 @@ export function ProfileAgent() {
           <div ref={scrollRef} className="pane-scroll min-h-0 flex-1 space-y-4 px-4 py-4">
             {turns.length === 0 && !streaming && (
               <div className="space-y-3">
-                <p className="text-dim text-[12.5px] leading-relaxed">
+                <p className="text-dim text-fine leading-relaxed">
                   This runs the same pipeline as the prototype further up the page, over a corpus
                   of my background. Ask it something it does not know and it will say so instead of
                   guessing.
@@ -253,9 +253,9 @@ export function ProfileAgent() {
                       key={suggestion}
                       type="button"
                       onClick={() => void send(suggestion)}
-                      className="border-rule text-dim hover:bg-raised hover:text-ink flex w-full cursor-pointer items-start gap-2 border-b px-1 py-2.5 text-left text-[12.5px] leading-snug transition-colors"
+                      className="border-rule text-dim hover:bg-raised hover:text-ink flex w-full cursor-pointer items-start gap-2 border-b px-1 py-2.5 text-left text-fine leading-snug transition-colors"
                     >
-                      <span className="text-faint mt-px shrink-0 font-mono text-[10px]">›</span>
+                      <span className="text-faint mt-px shrink-0 font-mono text-micro">›</span>
                       <span className="min-w-0 flex-1">{suggestion}</span>
                     </button>
                   ))}
@@ -266,14 +266,14 @@ export function ProfileAgent() {
             {turns.map((turn, index) => (
               <div key={index}>
                 {turn.role === "user" ? (
-                  <p className="text-faint border-rule-strong border-l-2 pl-2.5 text-[12px] leading-relaxed">
+                  <p className="text-faint border-rule-strong border-l-2 pl-2.5 text-fine leading-relaxed">
                     {turn.content}
                   </p>
                 ) : (
                   <div
                     className={`border-l-2 pl-2.5 ${turn.refused ? "border-warm/60" : "border-cold/50"}`}
                   >
-                    <p className="text-ink text-[13px] leading-[1.65]">
+                    <p className="text-ink text-fine leading-[1.65]">
                       <Answer text={turn.content} sources={turn.sources} />
                     </p>
                   </div>
@@ -284,14 +284,14 @@ export function ProfileAgent() {
             <div aria-live="polite" className="contents">
               {streaming && (
                 <div className="border-cold/50 border-l-2 pl-2.5">
-                  <p className="text-ink text-[13px] leading-[1.65] whitespace-pre-wrap">
+                  <p className="text-ink text-fine leading-[1.65] whitespace-pre-wrap">
                     {streaming}
                     <span className="bg-cold cursor-bar ml-0.5 inline-block h-3 w-[2px] align-middle" />
                   </p>
                 </div>
               )}
               {busy && !streaming && (
-                <p className="text-faint flex items-center gap-2 font-mono text-[10px]">
+                <p className="text-faint flex items-center gap-2 font-mono text-micro">
                   <Loader2 className="size-3 animate-spin" />
                   retrieving
                 </p>
@@ -299,13 +299,13 @@ export function ProfileAgent() {
             </div>
 
             {error && (
-              <p className="text-hot border-hot/40 bg-hot/5 border px-2.5 py-2 text-[11.5px] leading-relaxed">
+              <p className="text-hot border-hot/40 bg-hot/5 border px-2.5 py-2 text-fine leading-relaxed">
                 {error}
               </p>
             )}
 
             {refusedCount > 0 && (
-              <p className="text-faint border-rule border-t pt-3 text-[10.5px] leading-relaxed">
+              <p className="text-faint border-rule border-t pt-3 text-micro leading-relaxed">
                 A refusal here is the grounding floor doing its job. Nothing in the corpus scored
                 high enough, so no answer was written rather than one being invented.
               </p>
@@ -334,7 +334,7 @@ export function ProfileAgent() {
                 disabled={busy}
                 aria-label="Ask about my work"
                 placeholder="Ask a question…"
-                className="text-ink placeholder:text-faint max-h-24 min-h-[2rem] flex-1 resize-none bg-transparent text-[13px] leading-relaxed outline-none disabled:opacity-50"
+                className="text-ink placeholder:text-faint max-h-24 min-h-[2rem] flex-1 resize-none bg-transparent text-fine leading-relaxed outline-none disabled:opacity-50"
               />
               <button
                 type="submit"

@@ -34,10 +34,10 @@ export function SiteHeader() {
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <Monogram />
           <span className="min-w-0">
-            <span className="text-ink block truncate text-[13px] leading-tight font-medium">
+            <span className="text-ink block truncate text-fine leading-tight font-medium">
               Tharun Arety
             </span>
-            <span className="text-faint block truncate text-[10px] leading-tight">
+            <span className="text-faint block truncate text-micro leading-tight">
               AI-Leveraged Systems Architect
             </span>
           </span>
@@ -48,7 +48,7 @@ export function SiteHeader() {
             <a
               key={item.href}
               href={item.href}
-              className="text-dim hover:text-ink text-[12px] transition-colors"
+              className="text-dim hover:text-ink text-fine transition-colors"
             >
               {item.label}
             </a>
@@ -91,13 +91,13 @@ export function Contact() {
 
         <a
           href={`mailto:${EMAIL}`}
-          className="text-cold hover:text-ink mt-8 inline-flex items-center gap-3 text-[19px] transition-colors lg:text-[24px]"
+          className="text-cold hover:text-ink mt-8 inline-flex items-center gap-3 text-lift transition-colors lg:text-title"
         >
           <Mail className="size-5 shrink-0" aria-hidden="true" />
           {EMAIL}
         </a>
 
-        <p className="text-faint mt-6 text-[12px]">Augsburg, Germany · Open to relocation</p>
+        <p className="text-faint mt-6 text-fine">Augsburg, Germany · Open to relocation</p>
       </div>
     </section>
   );
@@ -108,7 +108,7 @@ export function SiteFooter() {
     <footer className="border-rule border-t">
       <div className="shell flex flex-wrap items-start justify-between gap-6 py-10">
         <div className="max-w-[52ch]">
-          <p className="text-faint text-[11px] leading-relaxed">
+          <p className="text-faint text-micro leading-relaxed">
             The document corpus is real public web pages, fetched at seed time and cited with links
             back to the original. The rig telemetry is synthetic, generated for the demonstration,
             and is not any company&rsquo;s production data.
@@ -118,7 +118,7 @@ export function SiteFooter() {
           href={REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-[12px] transition-colors"
+          className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
         >
           <GithubMark className="size-3.5" />
           Source on GitHub

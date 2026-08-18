@@ -50,8 +50,8 @@ export function EvalMetrics({
   metrics: Metric[];
   size?: "sm" | "md";
 }) {
-  const label = size === "md" ? "text-[12px]" : "text-[10px]";
-  const figure = size === "md" ? "text-[11px]" : "text-[9px]";
+  const label = size === "md" ? "text-fine" : "text-micro";
+  const figure = size === "md" ? "text-micro" : "text-micro";
   const bar = size === "md" ? "h-1.5" : "h-1";
 
   return (
@@ -88,7 +88,7 @@ export function EvalMetrics({
  *  places they appear. */
 export function EvalTargetNote({ className = "" }: { className?: string }) {
   return (
-    <p className={`text-faint text-[10px] leading-relaxed ${className}`}>
+    <p className={`text-faint text-micro leading-relaxed ${className}`}>
       <span className="bg-hot/70 mr-1 inline-block h-2 w-px align-[-1px]" /> Target{" "}
       {(TARGET * 100).toFixed(0)}%. Faithfulness and relevance are scored by a judge model and
       are the least reliable rows here. Read them as a signal to go and look.

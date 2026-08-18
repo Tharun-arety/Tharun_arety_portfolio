@@ -77,7 +77,7 @@ export function Resume() {
           <a
             href={RESUME_PATH}
             download
-            className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-[13px] transition-colors"
+            className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
           >
             <Download className="size-3.5" aria-hidden="true" />
             Download the CV
@@ -91,15 +91,15 @@ export function Resume() {
               key={entry.role}
               className="border-rule grid gap-2 border-t pt-6 lg:grid-cols-[11rem_1fr] lg:gap-8"
             >
-              <p className="tnum text-faint font-mono text-[11px]">{entry.period}</p>
+              <p className="tnum text-faint font-mono text-micro">{entry.period}</p>
               <div>
-                <h4 className="text-ink text-[15px] leading-snug font-medium">{entry.role}</h4>
-                <p className="text-dim mt-0.5 text-[13px]">
+                <h4 className="text-ink text-base leading-snug font-medium">{entry.role}</h4>
+                <p className="text-dim mt-0.5 text-fine">
                   {entry.organisation} · {entry.place}
                 </p>
                 <ul className="mt-3 space-y-2">
                   {entry.lines.map((line) => (
-                    <li key={line} className="text-dim text-[13.5px] leading-[1.7]">
+                    <li key={line} className="text-dim text-fine leading-[1.7]">
                       {line}
                     </li>
                   ))}
@@ -115,9 +115,9 @@ export function Resume() {
             <dl className="mt-5 space-y-4">
               {EDUCATION.map((item) => (
                 <div key={item.award} className="border-rule border-t pt-4">
-                  <dt className="text-ink text-[14px] font-medium">{item.award}</dt>
-                  <dd className="text-dim mt-1 text-[13px]">{item.place}</dd>
-                  <dd className="tnum text-faint mt-0.5 font-mono text-[11px]">{item.period}</dd>
+                  <dt className="text-ink text-base font-medium">{item.award}</dt>
+                  <dd className="text-dim mt-1 text-fine">{item.place}</dd>
+                  <dd className="tnum text-faint mt-0.5 font-mono text-micro">{item.period}</dd>
                 </div>
               ))}
             </dl>
@@ -128,20 +128,20 @@ export function Resume() {
             <dl className="mt-5 space-y-4">
               <div className="border-rule border-t pt-4">
                 <dt className="micro">languages</dt>
-                <dd className="text-dim mt-1 text-[13px]">
+                <dd className="text-dim mt-1 text-fine">
                   English (C1). German (B1, working towards C1).
                 </dd>
               </div>
               <div className="border-rule border-t pt-4">
                 <dt className="micro">work status</dt>
-                <dd className="text-dim mt-1 text-[13px]">
+                <dd className="text-dim mt-1 text-fine">
                   Indian national, authorised to work in Germany. No sponsorship required, and
                   available immediately.
                 </dd>
               </div>
               <div className="border-rule border-t pt-4">
                 <dt className="micro">scholarship</dt>
-                <dd className="text-dim mt-1 text-[13px]">
+                <dd className="text-dim mt-1 text-fine">
                   Albert Leimer Stiftung and DAAD, for academic performance during the M.Sc.
                 </dd>
               </div>
@@ -149,7 +149,7 @@ export function Resume() {
           </div>
         </div>
 
-        <p className="text-faint mt-12 text-[12px] leading-relaxed">
+        <p className="text-faint mt-12 text-fine leading-relaxed">
           Anything else is best asked directly:{" "}
           <a
             href={`mailto:${EMAIL}`}

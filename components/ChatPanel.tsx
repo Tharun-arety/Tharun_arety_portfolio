@@ -143,7 +143,7 @@ export function ChatPanel({
       <header className="border-rule flex shrink-0 flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-5 py-3">
         <div className="flex items-baseline gap-3">
           <h3 className="legend after:hidden">Agent</h3>
-          <p className="text-faint font-mono text-[10px]">knowledge · telemetry</p>
+          <p className="text-faint font-mono text-micro">knowledge · telemetry</p>
         </div>
         <InspectSwitch checked={inspect} onChange={onInspectChange} />
       </header>
@@ -151,7 +151,7 @@ export function ChatPanel({
       <div ref={scrollRef} className="pane-scroll min-h-0 flex-1 space-y-7 px-5 py-5">
         {turns.length === 0 && !streaming && (
           <div className="space-y-4">
-            <p className="text-dim text-[13px] leading-relaxed">
+            <p className="text-dim text-fine leading-relaxed">
               Ask about magnetocaloric cooling from the document corpus, or about measured
               performance from the test rigs. Turn on Inspect mode above and every answer carries
               the guardrail verdicts, tool calls and token cost that produced it.
@@ -162,7 +162,7 @@ export function ChatPanel({
                   key={suggestion.label}
                   type="button"
                   onClick={() => void send(suggestion.label)}
-                  className={`border-rule flex w-full cursor-pointer items-start gap-2.5 border-b px-1 py-3.5 text-left text-[13px] leading-snug transition-colors ${
+                  className={`border-rule flex w-full cursor-pointer items-start gap-2.5 border-b px-1 py-3.5 text-left text-fine leading-snug transition-colors ${
                     suggestion.probe
                       ? "text-warm/85 hover:bg-warm/5 hover:text-warm"
                       : "text-dim hover:bg-panel hover:text-ink"
@@ -171,13 +171,13 @@ export function ChatPanel({
                   {suggestion.probe ? (
                     <ShieldAlert className="mt-0.5 size-3.5 shrink-0" />
                   ) : (
-                    <span className="text-faint mt-px shrink-0 font-mono text-[11px]">›</span>
+                    <span className="text-faint mt-px shrink-0 font-mono text-micro">›</span>
                   )}
                   <span className="min-w-0 flex-1">{suggestion.label}</span>
                 </button>
               ))}
             </div>
-            <p className="text-faint text-[11px] leading-relaxed">
+            <p className="text-faint text-micro leading-relaxed">
               The last two are supposed to fail. They are how you watch the guardrails work.
             </p>
           </div>
@@ -186,13 +186,13 @@ export function ChatPanel({
         {turns.map((turn, index) => (
           <div key={index}>
             {turn.role === "user" ? (
-              <p className="text-faint border-rule-strong border-l-2 pl-3 text-[13px] leading-relaxed">
+              <p className="text-faint border-rule-strong border-l-2 pl-3 text-fine leading-relaxed">
                 {turn.content}
               </p>
             ) : (
               <>
                 <div className={`border-l-2 pl-3 ${turn.refused ? "border-hot/60" : "border-rule"}`}>
-                  <p className="text-ink text-[14px] leading-[1.7]">
+                  <p className="text-ink text-base leading-[1.7]">
                     <AnswerText text={turn.content} knownRefs={refsFor(turn)} onCite={onCite} />
                   </p>
                 </div>
@@ -211,7 +211,7 @@ export function ChatPanel({
         <div aria-live="polite" className="contents">
           {streaming && (
             <div className="border-rule border-l-2 pl-3">
-              <p className="text-ink text-[14px] leading-[1.7] whitespace-pre-wrap">
+              <p className="text-ink text-base leading-[1.7] whitespace-pre-wrap">
                 {streaming}
                 <span className="bg-cold cursor-bar ml-0.5 inline-block h-3.5 w-[2px] align-middle" />
               </p>
@@ -219,7 +219,7 @@ export function ChatPanel({
           )}
 
           {status && (
-            <p className="text-faint flex items-center gap-2 font-mono text-[10px]">
+            <p className="text-faint flex items-center gap-2 font-mono text-micro">
               <Loader2 className="size-3 shrink-0 animate-spin" />
               <span className="truncate">
                 {status.agent.toLowerCase()}
@@ -236,7 +236,7 @@ export function ChatPanel({
         )}
 
         {error && (
-          <p className="text-hot border-hot/40 bg-hot/5 border px-3 py-2 text-[12px] leading-relaxed">
+          <p className="text-hot border-hot/40 bg-hot/5 border px-3 py-2 text-fine leading-relaxed">
             {error} Try the question again. If it keeps failing, the model or database key is
             probably not configured on this deployment.
           </p>
@@ -264,12 +264,12 @@ export function ChatPanel({
             disabled={busy}
             aria-label="Ask the agent"
             placeholder="Ask about the corpus or a test rig…"
-            className="text-ink placeholder:text-faint max-h-40 min-h-[3.5rem] flex-1 resize-none bg-transparent text-[14px] leading-relaxed outline-none disabled:opacity-50"
+            className="text-ink placeholder:text-faint max-h-40 min-h-[3.5rem] flex-1 resize-none bg-transparent text-base leading-relaxed outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={busy || !draft.trim()}
-            className="border-cold/40 bg-cold/10 text-cold hover:bg-cold/20 flex h-9 min-w-[88px] shrink-0 cursor-pointer items-center justify-center gap-1.5 border px-3 text-[12px] transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+            className="border-cold/40 bg-cold/10 text-cold hover:bg-cold/20 flex h-9 min-w-[88px] shrink-0 cursor-pointer items-center justify-center gap-1.5 border px-3 text-fine transition-colors disabled:cursor-not-allowed disabled:opacity-30"
           >
             {busy ? (
               <>

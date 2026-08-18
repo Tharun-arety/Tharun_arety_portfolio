@@ -98,14 +98,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         <section className="shell pt-12 pb-10 lg:pt-20">
           <Link
             href="/projects"
-            className="text-faint hover:text-ink inline-flex items-center gap-2 text-[12px] transition-colors"
+            className="text-faint hover:text-ink inline-flex items-center gap-2 text-fine transition-colors"
           >
             <ArrowLeft className="size-3.5" aria-hidden="true" />
             All projects
           </Link>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <span className="tnum text-faint font-mono text-[12px]">{project.index}</span>
+            <span className="tnum text-faint font-mono text-fine">{project.index}</span>
             <StatusChip status={project.status} />
           </div>
 
@@ -118,7 +118,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-[13px] font-medium transition-colors"
+                className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine font-medium transition-colors"
               >
                 {project.liveLabel ?? "Open the live app"}
                 <ArrowUpRight className="size-4" aria-hidden="true" />
@@ -129,7 +129,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-[13px] transition-colors"
+                className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
               >
                 <GithubMark className="size-4" />
                 Read the source
@@ -138,7 +138,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </div>
 
           {project.liveNote && (
-            <p className="text-faint mt-4 max-w-[54ch] text-[12px] leading-relaxed">
+            <p className="text-faint mt-4 max-w-[54ch] text-fine leading-relaxed">
               {project.liveNote}
             </p>
           )}
@@ -147,15 +147,15 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               visitor who does this single thing has seen the argument. */}
           {project.tryThis && (
             <div className="border-cold/40 bg-cold/5 mt-6 max-w-[62ch] border-l-2 py-3 pl-4">
-              <p className="text-cold flex items-center gap-2 text-[12px] font-medium">
+              <p className="text-cold flex items-center gap-2 text-fine font-medium">
                 <MousePointerClick className="size-3.5 shrink-0" aria-hidden="true" />
                 Try this first
               </p>
-              <p className="text-dim mt-2 text-[13px] leading-relaxed">{project.tryThis}</p>
+              <p className="text-dim mt-2 text-fine leading-relaxed">{project.tryThis}</p>
             </div>
           )}
 
-          <dl className="border-rule text-faint mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6 font-mono text-[11px]">
+          <dl className="border-rule text-faint mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t pt-6 font-mono text-micro">
             <Meta label="domain" value={project.domain} />
             <Meta label="stack" value={project.stack.join(", ")} />
           </dl>
@@ -166,7 +166,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <h2 className="legend">The situation</h2>
             <div className="mt-6 max-w-[68ch] space-y-4">
               {project.caseStudy.context.map((paragraph) => (
-                <p key={paragraph} className="text-dim text-[15px] leading-[1.75]">
+                <p key={paragraph} className="text-dim text-base leading-[1.75]">
                   {paragraph}
                 </p>
               ))}
@@ -180,7 +180,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
             <div className="min-w-0 space-y-4">
               {project.caseStudy.architecture.map((paragraph) => (
-                <p key={paragraph} className="text-dim text-[14.5px] leading-[1.75]">
+                <p key={paragraph} className="text-dim text-base leading-[1.75]">
                   {paragraph}
                 </p>
               ))}
@@ -190,7 +190,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 scrolls sideways on a phone instead of just the diagram. */}
             <div className="min-w-0">
               <ProjectDiagram slug={project.slug} />
-              <p className="text-faint mt-3 text-[11.5px] leading-relaxed">
+              <p className="text-faint mt-3 text-fine leading-relaxed">
                 Drawn, not screenshotted. The production interfaces belong to the companies running
                 them, and a form does not show where the agent sits or what stops it.
               </p>
@@ -200,7 +200,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           {project.featured && (
             <div className="mt-14">
               <h2 className="legend">Running, right here</h2>
-              <p className="text-dim mt-4 max-w-[58ch] text-[14px] leading-[1.7]">
+              <p className="text-dim mt-4 max-w-[58ch] text-base leading-[1.7]">
                 Not a recording. Ask it something, then try one of the two probes that are meant to
                 fail.
               </p>
@@ -242,14 +242,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {project.caseStudy.results.map((result) => (
               <div key={result.label} className="border-rule border-t pt-5">
-                <p className="tnum text-ink font-mono text-[26px] leading-none">{result.value}</p>
+                <p className="tnum text-ink font-mono text-title leading-none">{result.value}</p>
                 <p className="micro mt-3">{result.label}</p>
-                <p className="text-dim mt-2 text-[13px] leading-relaxed">{result.note}</p>
+                <p className="text-dim mt-2 text-fine leading-relaxed">{result.note}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-dim mt-10 max-w-[62ch] text-[14.5px] leading-[1.75]">
+          <p className="text-dim mt-10 max-w-[62ch] text-base leading-[1.75]">
             {project.outcome}
           </p>
         </section>
@@ -260,7 +260,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             className="frame hover:border-rule-strong group flex flex-wrap items-center gap-x-6 gap-y-3 p-6 transition-colors"
           >
             <span className="micro">next</span>
-            <span className="text-ink min-w-0 flex-1 text-[16px] leading-snug font-medium">
+            <span className="text-ink min-w-0 flex-1 text-base leading-snug font-medium">
               {next.title}
             </span>
             <ArrowRight

@@ -67,7 +67,7 @@ export function HowItsBuilt() {
         </h2>
 
         <div className="frame mt-10 overflow-x-auto p-5">
-          <pre className="text-dim font-mono text-[10.5px] leading-[1.55] whitespace-pre">
+          <pre className="text-dim font-mono text-micro leading-[1.55] whitespace-pre">
             {PIPELINE}
           </pre>
         </div>
@@ -75,13 +75,13 @@ export function HowItsBuilt() {
         <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
           {DECISIONS.map((decision) => (
             <div key={decision.title}>
-              <h3 className="text-ink text-[15px] leading-snug font-medium">{decision.title}</h3>
-              <p className="text-dim mt-3 text-[13.5px] leading-[1.7]">{decision.body}</p>
+              <h3 className="text-ink text-base leading-snug font-medium">{decision.title}</h3>
+              <p className="text-dim mt-3 text-fine leading-[1.7]">{decision.body}</p>
               <a
                 href={`${REPO_URL}/blob/main/${decision.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cold hover:text-ink mt-3 inline-block font-mono text-[11px] underline decoration-dotted underline-offset-4 transition-colors"
+                className="text-cold hover:text-ink mt-3 inline-block font-mono text-micro underline decoration-dotted underline-offset-4 transition-colors"
               >
                 {decision.file}
               </a>

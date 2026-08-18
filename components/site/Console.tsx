@@ -93,13 +93,13 @@ export function Console() {
       <header className="border-rule bg-panel flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-b px-4 py-2.5">
         <div className="flex min-w-0 items-center gap-2.5">
           <Mark />
-          <p className="text-dim truncate text-[12px] leading-tight">
+          <p className="text-dim truncate text-fine leading-tight">
             Magnetocaloric engineering agent
           </p>
         </div>
 
         {health && (
-          <dl className="text-faint hidden items-center gap-5 font-mono text-[10px] md:flex">
+          <dl className="text-faint hidden items-center gap-5 font-mono text-micro md:flex">
             <Stat label="model" value={health.model} />
             {health.corpus && (
               <Stat label="corpus" value={`${health.corpus.chunks}/${health.corpus.documents}`} />

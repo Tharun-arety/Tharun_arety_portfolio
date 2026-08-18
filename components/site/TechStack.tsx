@@ -139,7 +139,7 @@ export function TechStack() {
                             <path d={path} />
                           </svg>
                         )}
-                        <span className="text-dim w-full truncate text-center text-[11px]">
+                        <span className="text-dim w-full truncate text-center text-micro">
                           {tool.label}
                         </span>
                       </li>
@@ -153,7 +153,7 @@ export function TechStack() {
                   {group.practices.map((practice) => (
                     <li
                       key={practice}
-                      className="border-rule text-dim rounded-full border px-3 py-1.5 text-[12px]"
+                      className="border-rule text-dim rounded-full border px-3 py-1.5 text-fine"
                     >
                       {practice}
                     </li>

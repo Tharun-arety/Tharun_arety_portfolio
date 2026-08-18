@@ -42,10 +42,10 @@ export function CorpusPanel({
     <section className="flex h-full min-h-0 flex-col">
       <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1 pb-2">
         <h3 className="legend shrink-0 after:hidden">Knowledge corpus</h3>
-        <p className="text-faint min-w-0 flex-1 truncate text-[11px]">
+        <p className="text-faint min-w-0 flex-1 truncate text-micro">
           fetched at seed time, not committed to the repository
         </p>
-        <span className="tnum text-faint shrink-0 font-mono text-[10px]">
+        <span className="tnum text-faint shrink-0 font-mono text-micro">
           {documents.length} docs · {total} chunks
         </span>
       </header>
@@ -59,7 +59,7 @@ export function CorpusPanel({
             rel="noopener noreferrer"
             className="border-rule hover:bg-raised/60 group flex items-center gap-2.5 border-b px-3 py-2 transition-colors last:border-b-0"
           >
-            <span className="text-dim w-[104px] shrink-0 font-mono text-[10px] tracking-wide">
+            <span className="text-dim w-[104px] shrink-0 font-mono text-micro tracking-wide">
               {doc.sourceRef}
             </span>
 
@@ -71,11 +71,11 @@ export function CorpusPanel({
               />
             </span>
 
-            <span className="tnum text-faint w-8 shrink-0 text-right font-mono text-[10px]">
+            <span className="tnum text-faint w-8 shrink-0 text-right font-mono text-micro">
               {doc.chunks}
             </span>
 
-            <span className="text-dim group-hover:text-ink min-w-0 flex-1 truncate text-[11px] transition-colors">
+            <span className="text-dim group-hover:text-ink min-w-0 flex-1 truncate text-micro transition-colors">
               {doc.docTitle}
             </span>
 
@@ -91,11 +91,11 @@ export function CorpusPanel({
             key={source.sourceRef}
             className="border-rule flex items-start gap-2.5 border-b px-3 py-2 opacity-60 last:border-b-0"
           >
-            <span className="text-warm w-[104px] shrink-0 font-mono text-[10px] tracking-wide">
+            <span className="text-warm w-[104px] shrink-0 font-mono text-micro tracking-wide">
               {source.sourceRef}
             </span>
             <TriangleAlert className="text-warm mt-0.5 size-3 shrink-0" />
-            <p className="text-faint min-w-0 flex-1 text-[10px] leading-relaxed">
+            <p className="text-faint min-w-0 flex-1 text-micro leading-relaxed">
               In the manifest, unreachable at ingest
               {source.detail ? `: ${source.detail}` : ""}. Recorded and skipped rather than
               failing the run.

@@ -43,7 +43,7 @@ export function FeatureRow({
         <div className={`min-w-0 ${reverse ? "lg:order-1" : ""}`}>
           <div className="frame p-3">{visual}</div>
           {visualNote && (
-            <p className="text-faint mt-3 text-[11px] leading-relaxed">{visualNote}</p>
+            <p className="text-faint mt-3 text-micro leading-relaxed">{visualNote}</p>
           )}
         </div>
       </div>

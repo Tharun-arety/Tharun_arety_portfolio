@@ -40,8 +40,8 @@ export function WhatIDo() {
           {BLOCKS.map((block) => (
             <div key={block.title}>
               <block.icon className="text-cold size-6" strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="text-ink mt-4 text-[16px] leading-snug font-medium">{block.title}</h3>
-              <p className="text-dim mt-3 text-[14px] leading-[1.7]">{block.body}</p>
+              <h3 className="text-ink mt-4 text-base leading-snug font-medium">{block.title}</h3>
+              <p className="text-dim mt-3 text-base leading-[1.7]">{block.body}</p>
             </div>
           ))}
         </div>

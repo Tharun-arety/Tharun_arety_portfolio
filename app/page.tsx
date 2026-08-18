@@ -104,7 +104,7 @@ export default function Page() {
           veiled
           visual={
             <div className="bg-inset border-rule border p-4">
-              <p className="text-ink text-[13.5px] leading-[1.7]">
+              <p className="text-ink text-fine leading-[1.7]">
                 <AnswerText text={ANSWER_SAMPLE.text} knownRefs={ANSWER_SAMPLE.knownRefs} />
               </p>
             </div>

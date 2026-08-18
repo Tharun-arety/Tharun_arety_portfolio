@@ -44,27 +44,27 @@ export function GoldenThread() {
     <Shell>
       <Head
         label="traceability · receipt to searchable change notice"
-        right={<span className="text-cold font-mono text-[10px]">8 links</span>}
+        right={<span className="text-cold font-mono text-micro">8 links</span>}
       />
       <ol className="divide-rule divide-y">
         {THREAD.map((step) => (
           <li key={step.n} className="flex gap-3 px-3 py-2">
-            <span className="tnum text-faint w-3 shrink-0 font-mono text-[10px] leading-5">
+            <span className="tnum text-faint w-3 shrink-0 font-mono text-micro leading-5">
               {step.n}
             </span>
             <span className="min-w-0 flex-1">
               <span className="flex flex-wrap items-baseline gap-x-2">
                 <span className="micro">{step.domain}</span>
                 <span
-                  className={`font-mono text-[9px] tracking-wide ${
+                  className={`font-mono text-micro tracking-wide ${
                     step.breach ? "text-hot" : "text-cold"
                   }`}
                 >
                   {step.state}
                 </span>
               </span>
-              <span className="text-ink block text-[11.5px] leading-tight">{step.line}</span>
-              <span className="text-faint block font-mono text-[9.5px] leading-tight">
+              <span className="text-ink block text-fine leading-tight">{step.line}</span>
+              <span className="text-faint block font-mono text-micro leading-tight">
                 {step.ref}
               </span>
             </span>
@@ -82,16 +82,16 @@ export function ApprovalDiff() {
     <Shell>
       <Head
         label="approval inbox · ecm impact analyst"
-        right={<span className="text-warm font-mono text-[10px]">Pending</span>}
+        right={<span className="text-warm font-mono text-micro">Pending</span>}
       />
-      <p className="text-dim border-rule border-b px-3 py-2 text-[11.5px] leading-relaxed">
+      <p className="text-dim border-rule border-b px-3 py-2 text-fine leading-relaxed">
         Raise a change request over FLD-WA-001: specify minimum ethanol fraction on the transfer
         fluid drawing. Reaches 1 product, 2 assemblies above it, 3 captured baselines.
       </p>
 
       <div className="px-3 py-2">
         <p className="micro mb-1.5">field-level changes this proposal would make</p>
-        <table className="w-full border-collapse font-mono text-[9.5px]">
+        <table className="w-full border-collapse font-mono text-micro">
           <thead>
             <tr className="text-faint text-left">
               <th className="pb-1 font-normal">CHANGE</th>
@@ -118,15 +118,15 @@ export function ApprovalDiff() {
       </div>
 
       <div className="border-rule flex flex-wrap items-center gap-2 border-t px-3 py-2">
-        <span className="border-cold/50 text-cold rounded-full border px-2.5 py-1 text-[10px]">
+        <span className="border-cold/50 text-cold rounded-full border px-2.5 py-1 text-micro">
           Approve &amp; apply
         </span>
-        <span className="border-rule text-faint rounded-full border px-2.5 py-1 text-[10px]">
+        <span className="border-rule text-faint rounded-full border px-2.5 py-1 text-micro">
           Reject
         </span>
-        <span className="text-faint ml-auto font-mono text-[9px]">note required to reject</span>
+        <span className="text-faint ml-auto font-mono text-micro">note required to reject</span>
       </div>
-      <p className="text-warm border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-warm border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Approving runs the tool for real, inside one transaction, with your name on it.
       </p>
     </Shell>
@@ -148,20 +148,20 @@ export function OfflineSuite() {
     <Shell>
       <Head
         label="offline suite · deterministic client"
-        right={<span className="text-cold font-mono text-[10px]">5 / 5 pass</span>}
+        right={<span className="text-cold font-mono text-micro">5 / 5 pass</span>}
       />
       <ul className="divide-rule divide-y">
         {CASES.map((testCase) => (
           <li key={testCase.name} className="flex gap-2.5 px-3 py-2">
             <Check className="text-cold mt-0.5 size-3 shrink-0" aria-hidden="true" />
             <span className="min-w-0">
-              <span className="text-ink block text-[11.5px] leading-tight">{testCase.name}</span>
-              <span className="text-faint block text-[10px] leading-snug">{testCase.detail}</span>
+              <span className="text-ink block text-fine leading-tight">{testCase.name}</span>
+              <span className="text-faint block text-micro leading-snug">{testCase.detail}</span>
             </span>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Run against a stub model client, so a regression check spends no tokens.
       </p>
     </Shell>
@@ -187,10 +187,10 @@ export function Funnel() {
         {FUNNEL.map((row) => (
           <li key={row.stage} className="px-3 py-2">
             <div className="flex items-baseline gap-2">
-              <span className="text-ink w-20 shrink-0 text-[11.5px]">{row.stage}</span>
-              <span className="tnum text-ink font-mono text-[13px]">{row.reached}</span>
-              {row.step && <span className="text-faint text-[10px]">{row.step}</span>}
-              <span className="tnum text-faint ml-auto shrink-0 font-mono text-[10px]">
+              <span className="text-ink w-20 shrink-0 text-fine">{row.stage}</span>
+              <span className="tnum text-ink font-mono text-fine">{row.reached}</span>
+              {row.step && <span className="text-faint text-micro">{row.step}</span>}
+              <span className="tnum text-faint ml-auto shrink-0 font-mono text-micro">
                 {row.sitting} here now
               </span>
             </div>
@@ -210,7 +210,7 @@ export function Funnel() {
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule flex items-center gap-3 border-t px-3 py-2 text-[10px]">
+      <p className="text-faint border-rule flex items-center gap-3 border-t px-3 py-2 text-micro">
         <span className="flex items-center gap-1.5">
           <span className="bg-cold/35 inline-block h-1 w-4 rounded-sm" /> reached
         </span>
@@ -246,14 +246,14 @@ export function Dwell() {
       <ul className="divide-rule divide-y">
         {DWELL.map((row) => (
           <li key={row.stage} className="flex items-center gap-3 px-3 py-2">
-            <span className="text-dim w-20 shrink-0 text-[11.5px]">{row.stage}</span>
+            <span className="text-dim w-20 shrink-0 text-fine">{row.stage}</span>
             <span className="bg-rule h-1 flex-1 rounded-sm">
               <span
                 className="bg-warm block h-1 rounded-sm"
                 style={{ width: `${(row.days / max) * 100}%` }}
               />
             </span>
-            <span className="tnum text-ink w-12 shrink-0 text-right font-mono text-[11px]">
+            <span className="tnum text-ink w-12 shrink-0 text-right font-mono text-micro">
               {row.days}d
             </span>
           </li>
@@ -264,17 +264,17 @@ export function Dwell() {
         <p className="micro mb-1.5">longest idle right now</p>
         <ul className="space-y-1">
           {IDLE.map((row) => (
-            <li key={row.who} className="flex items-baseline gap-2 text-[10.5px]">
+            <li key={row.who} className="flex items-baseline gap-2 text-micro">
               <span className="text-dim min-w-0 flex-1 truncate">
                 {row.who} <span className="text-faint">· {row.role}</span>
               </span>
-              <span className="text-faint shrink-0 font-mono text-[9px]">{row.source}</span>
+              <span className="text-faint shrink-0 font-mono text-micro">{row.source}</span>
               <span className="tnum text-warm w-8 shrink-0 text-right font-mono">{row.days}d</span>
             </li>
           ))}
         </ul>
       </div>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         The failure of a pipeline is rarely a wrong decision. It is no decision.
       </p>
     </Shell>
@@ -296,13 +296,13 @@ export function Attribution() {
       <Head label="activity · every move has a name on it" />
       <ul className="divide-rule divide-y">
         {ACTIVITY.map((row) => (
-          <li key={row.who} className="flex items-baseline gap-2 px-3 py-2 text-[11.5px]">
+          <li key={row.who} className="flex items-baseline gap-2 px-3 py-2 text-fine">
             <span className="text-ink shrink-0">{row.who}</span>
             <span className="text-faint">moved to</span>
             <span className={row.out ? "text-hot" : "text-cold"}>{row.move}</span>
             <span className="text-faint">by</span>
             <span className="text-dim min-w-0 truncate">{row.by}</span>
-            <span className="text-faint ml-auto shrink-0 font-mono text-[9px]">{row.when}</span>
+            <span className="text-faint ml-auto shrink-0 font-mono text-micro">{row.when}</span>
           </li>
         ))}
       </ul>
@@ -336,19 +336,19 @@ export function SchemaGate() {
               <span className="flex items-baseline gap-2">
                 <span className="micro">{row.field}</span>
                 <span
-                  className={`font-mono text-[11px] ${row.ok ? "text-ink" : "text-hot line-through"}`}
+                  className={`font-mono text-micro ${row.ok ? "text-ink" : "text-hot line-through"}`}
                 >
                   {row.value}
                 </span>
               </span>
               {row.note && (
-                <span className="text-faint block text-[10px] leading-snug">{row.note}</span>
+                <span className="text-faint block text-micro leading-snug">{row.note}</span>
               )}
             </span>
           </li>
         ))}
       </ul>
-      <p className="text-hot border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-hot border-rule border-t px-3 py-2 text-micro leading-relaxed">
         A misread date is not visibly wrong anywhere downstream. The schema is the only place it can
         still be caught.
       </p>
@@ -366,32 +366,32 @@ export function CadenceSplit() {
         <div className="px-3 py-2.5">
           <p className="flex items-baseline gap-2">
             <span className="micro">read</span>
-            <span className="text-ink text-[11.5px]">once per document</span>
-            <span className="text-warm ml-auto font-mono text-[10px]">expensive</span>
+            <span className="text-ink text-fine">once per document</span>
+            <span className="text-warm ml-auto font-mono text-micro">expensive</span>
           </p>
-          <p className="text-faint mt-1 text-[10px] leading-snug">
+          <p className="text-faint mt-1 text-micro leading-snug">
             A vision pass over a photograph of paper, plus validation.
           </p>
         </div>
         <div className="px-3 py-2.5">
           <p className="flex items-baseline gap-2">
             <span className="micro">watch</span>
-            <span className="text-ink text-[11.5px]">continuously, over stored dates</span>
-            <span className="text-cold ml-auto font-mono text-[10px]">nearly free</span>
+            <span className="text-ink text-fine">continuously, over stored dates</span>
+            <span className="text-cold ml-auto font-mono text-micro">nearly free</span>
           </p>
-          <p className="text-faint mt-1 text-[10px] leading-snug">
+          <p className="text-faint mt-1 text-micro leading-snug">
             A comparison against a horizon. No document is opened again.
           </p>
         </div>
         <div className="flex items-baseline gap-2 px-3 py-2.5">
           <Minus className="text-faint size-3 shrink-0" aria-hidden="true" />
-          <span className="text-dim text-[11px] leading-snug">
+          <span className="text-dim text-micro leading-snug">
             Splitting them is what lets the second one run all the time, which is the only way an
             expiry surfaces before it lapses.
           </span>
         </div>
       </div>
-      <p className="text-cold border-rule border-t px-3 py-2 font-mono text-[10.5px]">
+      <p className="text-cold border-rule border-t px-3 py-2 font-mono text-micro">
         60 min → under 2 min per batch
       </p>
     </Shell>
@@ -420,11 +420,11 @@ export function QuestionShapes() {
       <div className="border-rule border-b px-3 py-2.5">
         <p className="flex items-baseline gap-2">
           <span className="micro">a report answers</span>
-          <span className="text-faint ml-auto font-mono text-[9px]">known in advance</span>
+          <span className="text-faint ml-auto font-mono text-micro">known in advance</span>
         </p>
         <ul className="mt-1.5 space-y-1">
           {BOUNDED.map((q) => (
-            <li key={q} className="text-dim text-[11px] leading-snug">
+            <li key={q} className="text-dim text-micro leading-snug">
               {q}
             </li>
           ))}
@@ -433,17 +433,17 @@ export function QuestionShapes() {
       <div className="px-3 py-2.5">
         <p className="flex items-baseline gap-2">
           <span className="micro">someone has to go and look</span>
-          <span className="text-warm ml-auto font-mono text-[9px]">crosses systems</span>
+          <span className="text-warm ml-auto font-mono text-micro">crosses systems</span>
         </p>
         <ul className="mt-1.5 space-y-1">
           {UNBOUNDED.map((q) => (
-            <li key={q} className="text-ink text-[11px] leading-snug">
+            <li key={q} className="text-ink text-micro leading-snug">
               {q}
             </li>
           ))}
         </ul>
       </div>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         You can build a report for the first list because you can write it down. The second list is
         the one that costs an afternoon, and it is different every time.
       </p>
@@ -466,27 +466,27 @@ export function ImpactScope() {
     <Shell>
       <Head
         label="ecr-26-002 · impact assessment"
-        right={<span className="text-warm font-mono text-[10px]">before approval</span>}
+        right={<span className="text-warm font-mono text-micro">before approval</span>}
       />
       <ul className="divide-rule divide-y">
         {IMPACT.map((row) => (
           <li key={row.label} className="flex items-baseline gap-3 px-3 py-2">
             <span className="micro w-24 shrink-0">{row.label}</span>
-            <span className="text-ink min-w-0 flex-1 font-mono text-[11px]">{row.value}</span>
-            <span className="text-faint shrink-0 text-[9.5px]">{row.note}</span>
+            <span className="text-ink min-w-0 flex-1 font-mono text-micro">{row.value}</span>
+            <span className="text-faint shrink-0 text-micro">{row.note}</span>
           </li>
         ))}
       </ul>
       <div className="border-rule border-t px-3 py-2.5">
         <p className="micro mb-1">on release, the MBOM was rebuilt and repriced</p>
         <p className="flex items-baseline gap-2 font-mono">
-          <span className="tnum text-faint text-[12px] line-through">EUR 2,656.81</span>
-          <span className="text-faint text-[10px]">→</span>
-          <span className="tnum text-ink text-[14px]">EUR 2,620.81</span>
-          <span className="tnum text-cold ml-auto text-[11px]">−36.00</span>
+          <span className="tnum text-faint text-fine line-through">EUR 2,656.81</span>
+          <span className="text-faint text-micro">→</span>
+          <span className="tnum text-ink text-base">EUR 2,620.81</span>
+          <span className="tnum text-cold ml-auto text-micro">−36.00</span>
         </p>
       </div>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         The expensive mistake is approving a change whose full reach nobody worked out. This is that
         work, done before the decision rather than discovered after it.
       </p>
@@ -515,11 +515,11 @@ export function AdoptionPath() {
             >
               {row.phase}
             </p>
-            <p className="text-dim mt-1 text-[11.5px] leading-snug">{row.detail}</p>
+            <p className="text-dim mt-1 text-fine leading-snug">{row.detail}</p>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Read-only first is not caution for its own sake. It means the worst outcome during a trial
         is a wrong answer on a screen, which costs a conversation rather than a record.
       </p>

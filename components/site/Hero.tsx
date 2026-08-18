@@ -24,10 +24,12 @@ export function Hero({ report }: { report: EvalReport }) {
   return (
     <section className="shell pt-16 pb-14 lg:pt-24 lg:pb-20">
       {/* The name is the h1: this page is about a person, and the display line
-          below it is the claim rather than the title. */}
-      <h1 className="text-ink text-[15px] font-medium tracking-tight">Tharun Arety</h1>
-      <p className="text-dim mt-1 text-[13px]">AI-Leveraged Systems Architect</p>
-      <p className="text-faint mt-1 text-[12px]">Augsburg, Germany · Open to relocation</p>
+          below it is the claim rather than the title. Three sizes, each a step
+          apart on the scale, so the introduction reads in the order it is
+          written rather than as one undifferentiated block. */}
+      <h1 className="name text-ink">Tharun Arety</h1>
+      <p className="text-dim mt-1.5 text-base">AI-Leveraged Systems Architect</p>
+      <p className="text-faint mt-1 text-fine">Augsburg, Germany · Open to relocation</p>
 
       <p className="display text-ink mt-10 max-w-[16ch]">I build AI-leveraged systems.</p>
 
@@ -39,21 +41,21 @@ export function Hero({ report }: { report: EvalReport }) {
       <div className="mt-9 flex flex-wrap items-center gap-3">
         <a
           href="#systems"
-          className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-[13px] transition-colors"
+          className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
         >
           Explore the systems
           <ArrowDown className="size-3.5" aria-hidden="true" />
         </a>
         <a
           href="#resume"
-          className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-[13px] transition-colors"
+          className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
         >
           <FileText className="size-3.5" aria-hidden="true" />
           Résumé
         </a>
         <a
           href={`mailto:${EMAIL}`}
-          className="text-dim hover:text-ink inline-flex h-11 items-center gap-2 px-1 text-[13px] transition-colors"
+          className="text-dim hover:text-ink inline-flex h-11 items-center gap-2 px-1 text-fine transition-colors"
         >
           <Mail className="size-3.5" aria-hidden="true" />
           {EMAIL}
@@ -93,8 +95,8 @@ export function Figure({
     <div>
       <dt className="micro">{label}</dt>
       <dd className="mt-1.5">
-        <span className="tnum text-ink font-mono text-[26px] leading-none">{value}</span>
-        <span className="text-faint mt-2 block text-[11px] leading-relaxed">{detail}</span>
+        <span className="tnum text-ink font-mono text-title leading-none">{value}</span>
+        <span className="text-faint mt-2 block text-micro leading-relaxed">{detail}</span>
       </dd>
     </div>
   );

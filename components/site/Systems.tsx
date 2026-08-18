@@ -37,8 +37,8 @@ export function Systems() {
       {/* The featured project, with the thing you can actually operate. */}
       <div className="shell pt-12 lg:pt-16">
         <div className="border-rule flex flex-wrap items-baseline gap-x-4 gap-y-2 border-t pt-8">
-          <span className="tnum text-faint font-mono text-[12px]">{entry.index}</span>
-          <h3 className="text-ink min-w-0 flex-1 text-[19px] leading-snug font-medium">
+          <span className="tnum text-faint font-mono text-fine">{entry.index}</span>
+          <h3 className="text-ink min-w-0 flex-1 text-lift leading-snug font-medium">
             {entry.title}
           </h3>
           <StatusChip status={entry.status} />
@@ -50,7 +50,7 @@ export function Systems() {
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
               <Link
                 href={`/projects/${entry.slug}`}
-                className="text-cold hover:text-ink inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
+                className="text-cold hover:text-ink inline-flex items-center gap-1.5 text-fine font-medium transition-colors"
               >
                 Read the case study
                 <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -60,7 +60,7 @@ export function Systems() {
                   href={entry.repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-[13px] transition-colors"
+                  className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
                 >
                   <GithubMark className="size-3.5" />
                   Source
@@ -70,11 +70,11 @@ export function Systems() {
           </div>
 
           <div className="border-warm/40 bg-warm/5 border-l-2 py-3 pl-4">
-            <p className="text-warm flex items-center gap-2 text-[12px] font-medium">
+            <p className="text-warm flex items-center gap-2 text-fine font-medium">
               <FlaskConical className="size-3.5 shrink-0" aria-hidden="true" />
               What is real here and what is not
             </p>
-            <p className="text-dim mt-2 text-[13px] leading-relaxed">
+            <p className="text-dim mt-2 text-fine leading-relaxed">
               The document corpus is real public web pages, fetched at seed time and cited with
               links back to the original. The rig telemetry is generated for this demonstration. It
               is not any company&rsquo;s production data and it is labelled as synthetic everywhere
@@ -87,7 +87,7 @@ export function Systems() {
           <Console />
         </div>
 
-        <p className="text-faint mt-4 text-[12px] leading-relaxed">
+        <p className="text-faint mt-4 text-fine leading-relaxed">
           Two of the four suggested questions are supposed to fail. They are the quickest way to see
           what the guardrails do.
         </p>

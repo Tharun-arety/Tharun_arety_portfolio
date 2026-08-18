@@ -54,7 +54,7 @@ function Section({
           className={`text-faint size-2.5 shrink-0 transition-transform ${open ? "rotate-90" : ""}`}
         />
         <span className={`micro ${tone === "alert" ? "text-hot" : ""}`}>{title}</span>
-        <span className="tnum text-faint ml-auto shrink-0 font-mono text-[10px]">{meta}</span>
+        <span className="tnum text-faint ml-auto shrink-0 font-mono text-micro">{meta}</span>
       </button>
       {open && <div className="px-2.5 pb-2.5">{children}</div>}
     </div>
@@ -77,21 +77,21 @@ function GuardrailRow({ verdict }: { verdict: GuardrailVerdict }) {
         aria-expanded={open}
         className="hover:bg-raised/60 flex w-full cursor-pointer items-center gap-2 py-0.5 text-left transition-colors"
       >
-        <span className={`w-3 shrink-0 font-mono text-[10px] ${tone}`}>{glyph}</span>
-        <span className="text-dim min-w-0 flex-1 truncate text-[10px]">
+        <span className={`w-3 shrink-0 font-mono text-micro ${tone}`}>{glyph}</span>
+        <span className="text-dim min-w-0 flex-1 truncate text-micro">
           {GUARDRAIL_LABELS[verdict.id] ?? verdict.id}
         </span>
-        <span className="tnum text-faint shrink-0 font-mono text-[9px]">
+        <span className="tnum text-faint shrink-0 font-mono text-micro">
           {verdict.latencyMs.toFixed(1)}ms
         </span>
       </button>
       {open && (
         <div className="border-rule mt-1 mb-1.5 ml-3 space-y-1 border-l pl-2">
           {verdict.reason && (
-            <p className="text-dim text-[10px] leading-relaxed">{verdict.reason}</p>
+            <p className="text-dim text-micro leading-relaxed">{verdict.reason}</p>
           )}
           {verdict.detail && (
-            <pre className="bg-inset text-faint overflow-x-auto p-1.5 font-mono text-[9px] leading-relaxed">
+            <pre className="bg-inset text-faint overflow-x-auto p-1.5 font-mono text-micro leading-relaxed">
               {JSON.stringify(verdict.detail, null, 1)}
             </pre>
           )}
@@ -149,10 +149,10 @@ export function InspectorDrawer({
           {stages.map((stage, i) => (
             <div key={`${stage.name}-${i}`}>
               <div className="flex items-baseline justify-between gap-2">
-                <span className="text-dim text-[10px]">
+                <span className="text-dim text-micro">
                   {STAGE_LABELS[stage.name] ?? stage.name}
                 </span>
-                <span className="tnum text-faint font-mono text-[9px]">
+                <span className="tnum text-faint font-mono text-micro">
                   {stage.durationMs}ms
                   {stage.usage && ` · ${stage.usage.inputTokens}→${stage.usage.outputTokens}t`}
                 </span>
@@ -165,7 +165,7 @@ export function InspectorDrawer({
               </div>
             </div>
           ))}
-          <p className="text-faint pt-1 font-mono text-[9px]">
+          <p className="text-faint pt-1 font-mono text-micro">
             {totals.inputTokens} in · {totals.outputTokens} out
           </p>
         </div>
@@ -182,7 +182,7 @@ export function InspectorDrawer({
             <GuardrailRow key={`${verdict.id}-${i}`} verdict={verdict} />
           ))}
           {trace.refusedBy && (
-            <p className="border-hot/40 bg-hot/5 text-hot mt-2 border-l-2 py-1 pl-2 text-[10px] leading-relaxed">
+            <p className="border-hot/40 bg-hot/5 text-hot mt-2 border-l-2 py-1 pl-2 text-micro leading-relaxed">
               Refused by <span className="font-mono">{trace.refusedBy}</span>. No further model
               calls were made.
             </p>
@@ -191,7 +191,7 @@ export function InspectorDrawer({
       </Section>
 
       <Section title="Routing" meta={trace.intent}>
-        <p className="text-dim text-[10px] leading-relaxed">
+        <p className="text-dim text-micro leading-relaxed">
           {trace.routerRationale || "No rationale returned."}
         </p>
       </Section>
@@ -212,16 +212,16 @@ export function InspectorDrawer({
                 }`}
               >
                 <div className="flex items-baseline justify-between gap-2">
-                  <span className="text-ink font-mono text-[10px]">{attempt.name}</span>
-                  <span className="tnum text-faint font-mono text-[9px]">
+                  <span className="text-ink font-mono text-micro">{attempt.name}</span>
+                  <span className="tnum text-faint font-mono text-micro">
                     {attempt.durationMs}ms
                   </span>
                 </div>
-                <pre className="text-faint mt-0.5 overflow-x-auto font-mono text-[9px]">
+                <pre className="text-faint mt-0.5 overflow-x-auto font-mono text-micro">
                   {JSON.stringify(attempt.arguments)}
                 </pre>
                 {attempt.error && (
-                  <p className="text-hot mt-1 text-[10px] leading-relaxed">{attempt.error}</p>
+                  <p className="text-hot mt-1 text-micro leading-relaxed">{attempt.error}</p>
                 )}
               </div>
             ))}
@@ -236,22 +236,22 @@ export function InspectorDrawer({
         >
           <div className="space-y-0.5">
             {retrieval.kept.map((hit, i) => (
-              <div key={`k-${i}`} className="flex items-baseline gap-2 text-[10px]">
+              <div key={`k-${i}`} className="flex items-baseline gap-2 text-micro">
                 <span className="tnum text-cold w-9 shrink-0 font-mono">
                   {hit.similarity.toFixed(3)}
                 </span>
                 <span className="text-dim min-w-0 flex-1 truncate">{hit.docTitle}</span>
-                <span className="text-faint shrink-0 font-mono text-[9px]">{hit.sourceRef}</span>
+                <span className="text-faint shrink-0 font-mono text-micro">{hit.sourceRef}</span>
               </div>
             ))}
             {retrieval.rejected.length > 0 && <div className="threshold my-1.5" />}
             {retrieval.rejected.map((hit, i) => (
-              <div key={`r-${i}`} className="flex items-baseline gap-2 text-[10px] opacity-55">
+              <div key={`r-${i}`} className="flex items-baseline gap-2 text-micro opacity-55">
                 <span className="tnum text-hot w-9 shrink-0 font-mono">
                   {hit.similarity.toFixed(3)}
                 </span>
                 <span className="text-faint min-w-0 flex-1 truncate">below floor</span>
-                <span className="text-faint shrink-0 font-mono text-[9px]">{hit.sourceRef}</span>
+                <span className="text-faint shrink-0 font-mono text-micro">{hit.sourceRef}</span>
               </div>
             ))}
           </div>
@@ -278,10 +278,10 @@ function Figure({
   return (
     <div className="bg-panel px-2.5 py-1.5">
       <div className="flex items-baseline gap-1">
-        <span className={`tnum truncate ${mono ? "font-mono" : ""} text-[13px] ${colour}`}>
+        <span className={`tnum truncate ${mono ? "font-mono" : ""} text-fine ${colour}`}>
           {value}
         </span>
-        {unit && <span className="text-faint font-mono text-[9px]">{unit}</span>}
+        {unit && <span className="text-faint font-mono text-micro">{unit}</span>}
       </div>
       <div className="micro mt-0.5 truncate">{label}</div>
     </div>

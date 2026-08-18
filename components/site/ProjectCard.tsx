@@ -18,14 +18,14 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="frame flex flex-col p-6">
       <div className="flex items-baseline gap-3">
-        <span className="tnum text-faint font-mono text-[12px]">{project.index}</span>
+        <span className="tnum text-faint font-mono text-fine">{project.index}</span>
         <StatusChip status={project.status} className="ml-auto" />
       </div>
 
-      <h3 className="text-ink mt-3 text-[17px] leading-snug font-medium">{project.title}</h3>
-      <p className="text-dim mt-2.5 text-[13.5px] leading-[1.65]">{project.summary}</p>
+      <h3 className="text-ink mt-3 text-base leading-snug font-medium">{project.title}</h3>
+      <p className="text-dim mt-2.5 text-fine leading-[1.65]">{project.summary}</p>
 
-      <p className="text-faint mt-4 font-mono text-[10px] leading-relaxed">
+      <p className="text-faint mt-4 font-mono text-micro leading-relaxed">
         {project.stack.join(" · ")}
       </p>
 
@@ -34,7 +34,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="border-rule mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 border-t pt-4">
         <Link
           href={`/projects/${project.slug}`}
-          className="text-cold hover:text-ink inline-flex items-center gap-1.5 text-[12.5px] font-medium transition-colors"
+          className="text-cold hover:text-ink inline-flex items-center gap-1.5 text-fine font-medium transition-colors"
         >
           Case study
           <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -46,7 +46,7 @@ export function ProjectCard({ project }: { project: Project }) {
             target="_blank"
             rel="noopener noreferrer"
             title={project.liveNote}
-            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-[12.5px] transition-colors"
+            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
           >
             {project.liveLabel ?? "Live app"}
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
@@ -58,7 +58,7 @@ export function ProjectCard({ project }: { project: Project }) {
             href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-[12.5px] transition-colors"
+            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
           >
             <GithubMark className="size-3.5" />
             Source

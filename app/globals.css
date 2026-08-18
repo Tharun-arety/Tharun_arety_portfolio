@@ -54,6 +54,28 @@
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-text: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Mono", monospace;
+
+  /* -------------------------------------------------------------------------
+   * One scale, built on the golden ratio, sampled at half-steps.
+   *
+   * Every value is a power of phi against a 16px base: the whole steps are
+   * phi^-1, phi, phi^2, phi^3, and the ones between them are the half-powers,
+   * so any two adjacent steps multiply to a full phi jump. That is the
+   * discipline the page was missing — it had eighteen distinct sizes, several
+   * of them half a pixel apart, which is eighteen decisions where five would
+   * do and no reader could tell which of them was deliberate.
+   *
+   * The names say what a size is for rather than how big it is, so a component
+   * asks for the fine print and the scale decides what fine print measures.
+   * ---------------------------------------------------------------------- */
+  --text-micro: 0.618rem;    /* phi^-1    9.89px  legends, field labels */
+  --text-fine: 0.786rem;     /* phi^-1/2 12.58px  captions, notes, chrome */
+  --text-base: 1rem;         /* 1         16px    running text */
+  --text-lift: 1.272rem;     /* phi^1/2  20.35px  ledes, sub-headings */
+  --text-title: 1.618rem;    /* phi      25.89px  the name, section figures */
+  --text-major: 2.058rem;    /* phi^3/2  32.93px */
+  --text-display: 2.618rem;  /* phi^2    41.89px */
+  --text-hero: 4.236rem;     /* phi^3    67.78px  the claim */
 }
 
 /* ---------------------------------------------------------------------------
@@ -62,8 +84,8 @@
  *   sky        a fixed vertical gradient on `html`, a few points of luminance,
  *              so scrolling reads as moving down a panel rather than through a
  *              flat colour field
- *   graticule  a two-tier drafting grid, fixed, at an alpha low enough to be
- *              felt rather than read
+ *   lattice    a node-and-edge graph, fixed, at an alpha low enough to be felt
+ *              rather than read, with the measured grid inside it as substrate
  *   field      one wide radial in the accent hue, clipped to the hero
  *
  * All three are painted once and none of them repaints on scroll.
@@ -80,10 +102,8 @@
   --sky-top: #0d0d11;
   --sky-bottom: #08080a;
 
-  --grid-fine: rgb(255 255 255 / 0.019);
-  --grid-major: rgb(255 255 255 / 0.035);
-  --grid-step: 32px;
-  --grid-major-step: 128px;
+  --lattice: rgb(255 255 255 / 0.1);
+  --lattice-step: 160px;
 
   --field: rgb(56 225 196 / 0.08);
 }
@@ -118,8 +138,7 @@
   --sky-top: #f6f5f1;
   --sky-bottom: #eceae4;
 
-  --grid-fine: rgb(20 20 24 / 0.02);
-  --grid-major: rgb(20 20 24 / 0.036);
+  --lattice: rgb(20 20 24 / 0.075);
 
   --field: rgb(15 118 110 / 0.09);
 }
@@ -142,24 +161,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The graticule. Four tiled hairlines rather than one repeating gradient, so
-   the two tiers keep independent steps. */
+/* The lattice.
+   Drawn as a mask rather than as a set of gradients, because the subject is not
+   graph paper — it is a graph. Nodes sit at the junctions and two routed spines
+   step between them the way an agent framework is drawn: orthogonal runs,
+   right-angle elbows, a junction wherever a path changes hands. Both spines
+   enter and leave the tile at the same coordinate they arrived on, so the field
+   is one connected topology across the whole page rather than a repeated motif.
+   The measured grid is still there underneath, inside the same drawing at a
+   fifth of the weight, because the routing has to be laid out on something.
+   One asset, one alpha, and the colour comes from a token, so both themes and
+   any future tuning happen in exactly one place. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px),
-    linear-gradient(to right, var(--grid-fine) 0 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-fine) 0 1px, transparent 1px);
-  background-size:
-    var(--grid-major-step) var(--grid-major-step),
-    var(--grid-major-step) var(--grid-major-step),
-    var(--grid-step) var(--grid-step),
-    var(--grid-step) var(--grid-step);
+  background-color: var(--lattice);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23000' stroke-width='1'%3E%3Cg opacity='.13'%3E%3Cpath d='M40 0V160M80 0V160M120 0V160M0 40H160M0 80H160M0 120H160'/%3E%3C/g%3E%3Cg opacity='.45'%3E%3Cpath d='M0 40H40V120H120V40H160'/%3E%3Cpath d='M80 0V40H120V120H80V160'/%3E%3Cpath d='M0 80H40M120 80H160'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='40' cy='120' r='2.6'/%3E%3Ccircle cx='120' cy='40' r='2.6'/%3E%3Ccircle cx='120' cy='120' r='2.6'/%3E%3Ccircle cx='80' cy='40' r='2.6'/%3E%3Ccircle cx='80' cy='120' r='2.6'/%3E%3Ccircle cx='0' cy='80' r='2.6'/%3E%3Ccircle cx='160' cy='80' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23000' stroke-width='1'%3E%3Cg opacity='.13'%3E%3Cpath d='M40 0V160M80 0V160M120 0V160M0 40H160M0 80H160M0 120H160'/%3E%3C/g%3E%3Cg opacity='.45'%3E%3Cpath d='M0 40H40V120H120V40H160'/%3E%3Cpath d='M80 0V40H120V120H80V160'/%3E%3Cpath d='M0 80H40M120 80H160'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='40' cy='120' r='2.6'/%3E%3Ccircle cx='120' cy='40' r='2.6'/%3E%3Ccircle cx='120' cy='120' r='2.6'/%3E%3Ccircle cx='80' cy='40' r='2.6'/%3E%3Ccircle cx='80' cy='120' r='2.6'/%3E%3Ccircle cx='0' cy='80' r='2.6'/%3E%3Ccircle cx='160' cy='80' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-size: var(--lattice-step) var(--lattice-step);
+  mask-size: var(--lattice-step) var(--lattice-step);
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
 }
 
 /* The one atmospheric moment on the site, spent where a first-time reader is
@@ -196,7 +221,7 @@ body::before {
     gap: 0.625rem;
     font-family: var(--font-display);
     font-stretch: 88%;
-    font-size: 10px;
+    font-size: var(--text-micro);
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -233,7 +258,7 @@ body::before {
   .micro {
     font-family: var(--font-display);
     font-stretch: 88%;
-    font-size: 9px;
+    font-size: var(--text-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-faint);
@@ -343,7 +368,7 @@ body::before {
      reads shouty, which is why the weight came down as the size went up. */
   .display {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    font-size: clamp(var(--text-display), 6.4vw, var(--text-hero));
     font-weight: 500;
     letter-spacing: -0.03em;
     line-height: 1.05;
@@ -352,19 +377,29 @@ body::before {
 
   .display-sm {
     font-family: var(--font-display);
-    font-size: clamp(1.625rem, 2.8vw, 2.25rem);
+    font-size: clamp(var(--text-title), 3.2vw, var(--text-display));
     font-weight: 500;
     letter-spacing: -0.02em;
     line-height: 1.15;
     text-wrap: balance;
   }
 
+  /* The introduction. A name set at the same size as the running text is not an
+     introduction, it is a caption, so this takes a full phi step above it. */
+  .name {
+    font-family: var(--font-display);
+    font-size: var(--text-title);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
   .lede {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    letter-spacing: -0.003em;
+    font-size: var(--text-lift);
+    line-height: 1.6;
+    letter-spacing: -0.008em;
     color: var(--color-dim);
-    max-width: 46ch;
+    max-width: 42ch;
   }
 
   /* The pill above a headline. */
@@ -378,7 +413,7 @@ body::before {
     background: var(--color-raised);
     font-family: var(--font-display);
     font-stretch: 88%;
-    font-size: 10px;
+    font-size: var(--text-micro);
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -436,7 +471,7 @@ html {
   background: var(--color-raised);
   border: 1px solid var(--color-cold);
   color: var(--color-ink);
-  font-size: 12px;
+  font-size: var(--text-fine);
   transition: top 140ms ease-out;
 }
 .skip-link:focus {

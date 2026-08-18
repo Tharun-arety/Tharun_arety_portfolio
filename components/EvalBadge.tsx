@@ -55,10 +55,10 @@ export function EvalBadge() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="border-rule text-dim hover:text-ink flex h-9 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-[10px] tracking-[0.14em] uppercase transition-colors"
+        className="border-rule text-dim hover:text-ink flex h-9 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-micro tracking-[0.14em] uppercase transition-colors"
       >
         <span className="micro">evals</span>
-        <span className="tnum text-cold font-mono text-[11px] normal-case">
+        <span className="tnum text-cold font-mono text-micro normal-case">
           {(overall * 100).toFixed(0)}%
         </span>
         <ChevronDown className={`size-3 transition-transform ${open ? "rotate-180" : ""}`} />
@@ -66,7 +66,7 @@ export function EvalBadge() {
 
       {open && (
         <div className="border-rule-strong bg-panel absolute right-0 z-30 mt-1 w-[19rem] rounded-xl border p-3 shadow-2xl">
-          <p className="text-faint mb-2.5 font-mono text-[9px] leading-relaxed">
+          <p className="text-faint mb-2.5 font-mono text-micro leading-relaxed">
             offline suite · {report.tier} tier · judged by {report.model}
           </p>
           <EvalMetrics metrics={report.metrics} />

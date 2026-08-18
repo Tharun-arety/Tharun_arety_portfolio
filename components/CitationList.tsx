@@ -100,10 +100,10 @@ export function CitationList({
     <section className="flex h-full min-h-0 flex-col">
       <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1 pb-2">
         <h3 className="legend shrink-0 after:hidden">Retrieved evidence</h3>
-        <p className="text-faint min-w-0 flex-1 truncate text-[11px]">
+        <p className="text-faint min-w-0 flex-1 truncate text-micro">
           {data.query ? `“${data.query}”` : "no query"}
         </p>
-        <span className="tnum text-faint shrink-0 font-mono text-[10px]">
+        <span className="tnum text-faint shrink-0 font-mono text-micro">
           <span className="text-cold">{kept.length}</span> above ·{" "}
           <span className="text-hot">{rejected.length}</span> below
         </span>
@@ -154,9 +154,9 @@ function FloorRule({ floor, rejectedCount }: { floor: number; rejectedCount: num
       <div className="threshold" />
       <div className="mt-1.5 flex items-baseline justify-between gap-3">
         <span className="micro text-hot">Grounding floor</span>
-        <span className="tnum text-hot font-mono text-[10px]">{floor.toFixed(3)}</span>
+        <span className="tnum text-hot font-mono text-micro">{floor.toFixed(3)}</span>
       </div>
-      <p className="text-faint mt-0.5 text-[10px] leading-relaxed">
+      <p className="text-faint mt-0.5 text-micro leading-relaxed">
         {rejectedCount === 0
           ? "Nothing scored below it on this query."
           : `${rejectedCount} passage${rejectedCount === 1 ? "" : "s"} discarded before the model saw them.`}
@@ -198,7 +198,7 @@ function Passage({
         />
 
         <span
-          className={`tnum w-11 shrink-0 font-mono text-[11px] ${below ? "text-hot" : "text-cold"}`}
+          className={`tnum w-11 shrink-0 font-mono text-micro ${below ? "text-hot" : "text-cold"}`}
         >
           {hit.similarity.toFixed(3)}
         </span>
@@ -214,21 +214,21 @@ function Passage({
         </span>
 
         <span className="min-w-0 flex-1">
-          <span className="text-cold block font-mono text-[10px] tracking-wide">
+          <span className="text-cold block font-mono text-micro tracking-wide">
             {hit.sourceRef}
           </span>
-          <span className="text-dim mt-0.5 block truncate text-[11px]">{hit.docTitle}</span>
+          <span className="text-dim mt-0.5 block truncate text-micro">{hit.docTitle}</span>
         </span>
       </button>
 
       {open && (
         <div className="border-rule bg-inset space-y-2 border-t px-3 py-2.5">
-          <p className="text-dim text-[11px] leading-relaxed whitespace-pre-wrap">{hit.text}</p>
+          <p className="text-dim text-micro leading-relaxed whitespace-pre-wrap">{hit.text}</p>
           <a
             href={hit.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cold hover:text-ink inline-flex items-center gap-1 font-mono text-[10px] transition-colors"
+            className="text-cold hover:text-ink inline-flex items-center gap-1 font-mono text-micro transition-colors"
           >
             <ExternalLink className="size-2.5" />
             {new URL(hit.sourceUrl).hostname}

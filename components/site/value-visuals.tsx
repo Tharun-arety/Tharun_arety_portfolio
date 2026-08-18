@@ -59,21 +59,21 @@ export function RefusalEconomics() {
           <li key={row.kind} className="px-3 py-2.5">
             <p className="flex items-baseline gap-2">
               <span
-                className={`text-[11.5px] font-medium ${row.bad ? "text-hot" : "text-cold"}`}
+                className={`text-fine font-medium ${row.bad ? "text-hot" : "text-cold"}`}
               >
                 {row.kind}
               </span>
               <span
-                className={`ml-auto font-mono text-[10px] ${row.bad ? "text-hot" : "text-faint"}`}
+                className={`ml-auto font-mono text-micro ${row.bad ? "text-hot" : "text-faint"}`}
               >
                 {row.cost}
               </span>
             </p>
-            <p className="text-dim mt-1 text-[10.5px] leading-snug">{row.detail}</p>
+            <p className="text-dim mt-1 text-micro leading-snug">{row.detail}</p>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Guardrails are not there to make an agent timid. They are there because two of these cost
         almost nothing and the third is not recoverable.
       </p>
@@ -98,17 +98,17 @@ export function EvalProgress() {
         {RUNS.map((row) => (
           <li key={row.run} className="px-3 py-2.5">
             <div className="flex items-baseline gap-2">
-              <span className="text-ink text-[11.5px]">{row.run}</span>
-              <span className="tnum text-cold ml-auto font-mono text-[12px]">{row.score}%</span>
+              <span className="text-ink text-fine">{row.run}</span>
+              <span className="tnum text-cold ml-auto font-mono text-fine">{row.score}%</span>
             </div>
             <div className="bg-rule mt-1.5 h-1 w-full rounded-sm">
               <div className="bg-cold h-1 rounded-sm" style={{ width: `${row.score}%` }} />
             </div>
-            <p className="text-faint mt-1.5 text-[10px] leading-snug">{row.fixed}</p>
+            <p className="text-faint mt-1.5 text-micro leading-snug">{row.fixed}</p>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Without the first row, the last one is only a number I chose to publish.
       </p>
     </Shell>
@@ -138,11 +138,11 @@ export function WorkShape() {
               <X className="text-hot mt-0.5 size-3 shrink-0" aria-hidden="true" />
             )}
             <span className="micro w-24 shrink-0">{row.trait}</span>
-            <span className="text-dim min-w-0 flex-1 text-[11px] leading-snug">{row.value}</span>
+            <span className="text-dim min-w-0 flex-1 text-micro leading-snug">{row.value}</span>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         High volume, stable rules, little judgement, expensive when wrong. That combination is where
         automation pays, and it is rarer than the sales pitch for it suggests.
       </p>
@@ -168,10 +168,10 @@ export function LapseCost() {
           <li key={row.when} className="px-3 py-2.5">
             <p className="flex items-baseline gap-2">
               <span className="micro w-16 shrink-0">{row.when}</span>
-              <span className="text-ink min-w-0 flex-1 text-[11px] leading-snug">{row.what}</span>
+              <span className="text-ink min-w-0 flex-1 text-micro leading-snug">{row.what}</span>
             </p>
             <p
-              className={`mt-0.5 pl-[4.5rem] font-mono text-[9.5px] ${
+              className={`mt-0.5 pl-[4.5rem] font-mono text-micro ${
                 row.tone === "hot" ? "text-hot" : row.tone === "warm" ? "text-warm" : "text-faint"
               }`}
             >
@@ -180,7 +180,7 @@ export function LapseCost() {
           </li>
         ))}
       </ol>
-      <p className="text-cold border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-cold border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Monitoring moves the discovery from the audit back to thirty days before expiry, where it
         costs an email.
       </p>
@@ -205,23 +205,23 @@ export function SourceMix() {
       <ul className="divide-rule divide-y">
         {SOURCES.map((row) => (
           <li key={row.name} className="flex items-center gap-3 px-3 py-2">
-            <span className="text-dim w-24 shrink-0 text-[11.5px]">{row.name}</span>
+            <span className="text-dim w-24 shrink-0 text-fine">{row.name}</span>
             <span className="bg-rule h-1 flex-1 rounded-sm">
               <span
                 className={`block h-1 rounded-sm ${row.paid ? "bg-warm" : "bg-cold"}`}
                 style={{ width: `${(row.pct / 35) * 100}%` }}
               />
             </span>
-            <span className="tnum text-ink w-8 shrink-0 text-right font-mono text-[11px]">
+            <span className="tnum text-ink w-8 shrink-0 text-right font-mono text-micro">
               {row.pct}%
             </span>
-            <span className="tnum text-faint w-5 shrink-0 text-right font-mono text-[10px]">
+            <span className="tnum text-faint w-5 shrink-0 text-right font-mono text-micro">
               {row.count}
             </span>
           </li>
         ))}
       </ul>
-      <p className="text-faint border-rule flex flex-wrap items-center gap-x-3 border-t px-3 py-2 text-[10px]">
+      <p className="text-faint border-rule flex flex-wrap items-center gap-x-3 border-t px-3 py-2 text-micro">
         <span className="flex items-center gap-1.5">
           <span className="bg-cold inline-block h-1 w-4 rounded-sm" /> costs you nothing per hire
         </span>
@@ -229,7 +229,7 @@ export function SourceMix() {
           <span className="bg-warm inline-block h-1 w-4 rounded-sm" /> billed as a percentage
         </span>
       </p>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         The only channel billed per hire is the second smallest. You can make that trade knowingly,
         but only if attribution was recorded at the point of application.
       </p>
@@ -253,20 +253,20 @@ export function VacancyCost() {
         {VACANCY.map((row) => (
           <div key={row.label} className="flex items-baseline gap-2 px-3 py-2.5">
             <span
-              className={`tnum font-mono text-[16px] ${
+              className={`tnum font-mono text-base ${
                 row.tone === "hot" ? "text-hot" : row.tone === "warm" ? "text-warm" : "text-ink"
               }`}
             >
               {row.value}
             </span>
-            <span className="text-faint font-mono text-[10px]">{row.unit}</span>
-            <span className="text-dim ml-auto max-w-[60%] text-right text-[10.5px] leading-snug">
+            <span className="text-faint font-mono text-micro">{row.unit}</span>
+            <span className="text-dim ml-auto max-w-[60%] text-right text-micro leading-snug">
               {row.label}
             </span>
           </div>
         ))}
       </div>
-      <p className="text-faint border-rule border-t px-3 py-2 text-[10.5px] leading-relaxed">
+      <p className="text-faint border-rule border-t px-3 py-2 text-micro leading-relaxed">
         Multiply the first two by whatever an empty seat costs you and you have the figure this is
         measured against. The third is the one you can do something about this afternoon.
       </p>
