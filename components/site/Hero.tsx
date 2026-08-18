@@ -22,7 +22,7 @@ export function Hero({ report }: { report: EvalReport }) {
   const cases = caseTotals(report);
 
   return (
-    <section className="field shell pt-16 pb-14 lg:pt-24 lg:pb-20">
+    <section className="shell pt-16 pb-14 lg:pt-24 lg:pb-20">
       {/* The name is the h1: this page is about a person, and the display line
           below it is the claim rather than the title. */}
       <h1 className="text-ink text-[15px] font-medium tracking-tight">Tharun Arety</h1>

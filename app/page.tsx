@@ -44,7 +44,10 @@ export default function Page() {
     <>
       <SiteHeader />
       <main id="main">
-        <div id="top">
+        {/* `field` is here rather than on the hero itself: the hero is a
+            `.shell`, so a wash inside it would stop at the 1200px column.
+            This wrapper is already full width. */}
+        <div id="top" className="field">
           <Hero report={evalReport} />
         </div>
 

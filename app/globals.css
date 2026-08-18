@@ -137,10 +137,6 @@ body {
   /* Transparent so the sky shows through. `--color-ground` is still the token
      anything opaque asks for, including the sticky header's scrim. */
   background: transparent;
-  /* `clip` rather than `hidden`: it contains the full-bleed hero wash without
-     turning the body into a scroll container, which would break the sticky
-     header. */
-  overflow-x: clip;
   color: var(--color-ink);
   font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
@@ -167,9 +163,12 @@ body::before {
 }
 
 /* The one atmospheric moment on the site, spent where a first-time reader is
-   deciding whether to keep going. `isolation` keeps the wash inside this
-   section's own stacking context, so it sits above the ground and below every
-   word without any of them needing a z-index. */
+   deciding whether to keep going. Applied to a full-width wrapper rather than to
+   a `.shell`, so it needs no viewport arithmetic to reach the edges — `50vw`
+   would have overshot by half a scrollbar and reported a phantom overflow.
+   `isolation` keeps the wash inside this element's own stacking context, so it
+   sits above the ground and below every word without any of them needing a
+   z-index. */
 .field {
   position: relative;
   isolation: isolate;
@@ -177,11 +176,7 @@ body::before {
 .field::before {
   content: "";
   position: absolute;
-  /* Full-bleed horizontally. The hero is a `.shell`, so an `inset: 0` wash stops
-     dead at the 1200px column and leaves a visible vertical seam on wide
-     screens. This reaches the viewport edges without ever widening the page,
-     and `overflow-x: clip` on the body is the belt to that pair of braces. */
-  inset: 0 calc(50% - 50vw);
+  inset: 0;
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(64rem 34rem at 20% -4%, var(--field), transparent 72%);
