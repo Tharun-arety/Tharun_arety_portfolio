@@ -5,84 +5,123 @@
  *
  * Every surface token is named for its job rather than its colour, so a
  * component never asks for "dark grey". It asks for the recessed surface, or
- * the raised one, and the theme decides what that means. The elevation order
- * holds in both directions:
+ * the raised one, and the theme decides what that means.
  *
- *   inset  <  veil  <  ground  <  panel  <  raised
- *
- * In dark that runs black to grey. In light it runs grey to white. Either way
- * the agent panel sits on `raised` and reads as the nearest thing to the
- * viewer, which is the whole point of that decision.
+ * The ground is a true neutral carbon in dark and warm paper in light — no hue
+ * in the darks at all, which is what lets the three accents be the only colour
+ * on either page. A blue-black ground turns every accent into a variation on
+ * the ground, and the whole page reads as one wash.
  *
  * The three verdict colours are the exception, because they carry meaning
  * rather than mood. Cold is verified: inside a limit, above the floor. Warm is
  * attention. Hot is a breach. Light mode darkens and saturates them so they
- * stay legible on a pale ground, but the mapping never changes.
+ * stay legible on paper, but the mapping never changes, and they stay
+ * cyan/amber/red rather than green/amber/red so the pass-fail distinction does
+ * not rest on the one axis a colour-blind reader loses.
  *
  * Dark is the default. An inline script in `layout.tsx` resolves the stored or
  * system preference and stamps `data-theme` before first paint.
  * ------------------------------------------------------------------------ */
 
 @theme {
-  --color-ground: #0b1015;
-  --color-panel: #121a21;
-  --color-raised: #17222b;
-  --color-inset: #0d151b;
-  --color-veil: #0f171e;
+  --color-ground: #0a0a0c;
+  --color-panel: #151519;
+  --color-raised: #1d1d22;
+  --color-inset: #060608;
+  /* Translucent on purpose. A banded section is a scrim over the ground rather
+     than a different colour, so the graticule below runs continuously beneath
+     the whole page instead of stopping at every band edge. */
+  --color-veil: rgb(255 255 255 / 0.024);
 
-  --color-rule: #22303c;
-  --color-rule-strong: #35495c;
+  --color-rule: #27272e;
+  --color-rule-strong: #3b3b45;
 
-  --color-ink: #dde7ef;
-  --color-dim: #93a7b8;
-  --color-faint: #7a8b9c;
+  --color-ink: #f2f2f5;
+  --color-dim: #a3a3ad;
+  --color-faint: #85858f;
 
   /* Verified: inside limits, above the floor. */
-  --color-cold: #57d7e0;
-  --color-cold-dim: #1e5c66;
+  --color-cold: #38e1c4;
+  --color-cold-dim: #12564c;
+  /* Large-area fill. Without it a button, a chip and a link are three copies of
+     one 10%-alpha wash, and nothing on the page has weight. */
+  --color-cold-deep: #0d3f39;
   /* Measured, worth attention. */
-  --color-warm: #f2a65a;
+  --color-warm: #f0b429;
   /* Outside a limit, or blocked by a guardrail. */
-  --color-hot: #e5644e;
+  --color-hot: #ff5c4d;
 
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, "Cascadia Mono", monospace;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-text: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Mono", monospace;
 }
+
+/* ---------------------------------------------------------------------------
+ * The background: three layers, all CSS, no images and no JavaScript.
+ *
+ *   sky        a fixed vertical gradient on `html`, a few points of luminance,
+ *              so scrolling reads as moving down a panel rather than through a
+ *              flat colour field
+ *   graticule  a two-tier drafting grid, fixed, at an alpha low enough to be
+ *              felt rather than read
+ *   field      one wide radial in the accent hue, clipped to the hero
+ *
+ * All three are painted once and none of them repaints on scroll.
+ * ------------------------------------------------------------------------ */
 
 :root {
   color-scheme: dark;
   /* A card lifts off a dark ground with a deep, tight shadow. On a light ground
      the same shadow reads as dirt, so each theme sets its own. */
   --frame-shadow:
-    0 1px 0 0 rgb(255 255 255 / 0.04) inset,
-    0 18px 40px -24px rgb(0 0 0 / 0.8);
+    0 1px 0 0 rgb(255 255 255 / 0.05) inset,
+    0 20px 44px -26px rgb(0 0 0 / 0.9);
+
+  --sky-top: #0d0d11;
+  --sky-bottom: #08080a;
+
+  --grid-fine: rgb(255 255 255 / 0.019);
+  --grid-major: rgb(255 255 255 / 0.035);
+  --grid-step: 32px;
+  --grid-major-step: 128px;
+
+  --field: rgb(56 225 196 / 0.08);
 }
 
-/* Warm off-white rather than pure white: white pages glare, and the slight
-   warmth stops the greys reading as blue. */
+/* Warm paper rather than pure white: white pages glare, and the warmth is what
+   stops a light theme reading as an unstyled document. */
 :root[data-theme="light"] {
   color-scheme: light;
   --frame-shadow:
     0 1px 0 0 rgb(255 255 255 / 0.9) inset,
-    0 10px 26px -18px rgb(20 24 28 / 0.28);
+    0 12px 28px -20px rgb(28 26 22 / 0.26);
 
-  --color-ground: #f4f4f1;
-  --color-panel: #fbfbfa;
+  --color-ground: #f3f2ee;
+  --color-panel: #fbfaf8;
   --color-raised: #ffffff;
-  --color-inset: #ebebe7;
-  --color-veil: #ebebe7;
+  --color-inset: #e4e2db;
+  --color-veil: rgb(20 20 24 / 0.038);
 
-  --color-rule: #dedcd6;
-  --color-rule-strong: #b9b6ad;
+  --color-rule: #dfdcd4;
+  --color-rule-strong: #bab6ab;
 
-  --color-ink: #14181c;
-  --color-dim: #4c545c;
-  --color-faint: #5d656d;
+  --color-ink: #16161a;
+  --color-dim: #52525b;
+  --color-faint: #606068;
 
-  --color-cold: #0a6470;
-  --color-cold-dim: #a7dde3;
-  --color-warm: #9a5b12;
-  --color-hot: #b53826;
+  --color-cold: #0e6d66;
+  --color-cold-dim: #99f6e4;
+  --color-cold-deep: #ccfbf1;
+  --color-warm: #8d5310;
+  --color-hot: #b03625;
+
+  --sky-top: #f6f5f1;
+  --sky-bottom: #eceae4;
+
+  --grid-fine: rgb(20 20 24 / 0.02);
+  --grid-major: rgb(20 20 24 / 0.036);
+
+  --field: rgb(15 118 110 / 0.09);
 }
 
 html,
@@ -90,12 +129,66 @@ body {
   min-height: 100%;
 }
 
+html {
+  background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom)) fixed;
+}
+
 body {
-  background: var(--color-ground);
+  /* Transparent so the sky shows through. `--color-ground` is still the token
+     anything opaque asks for, including the sticky header's scrim. */
+  background: transparent;
+  /* `clip` rather than `hidden`: it contains the full-bleed hero wash without
+     turning the body into a scroll container, which would break the sticky
+     header. */
+  overflow-x: clip;
   color: var(--color-ink);
-  font-family: var(--font-display);
-  font-feature-settings: "ss01", "ss03";
+  font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
+}
+
+/* The graticule. Four tiled hairlines rather than one repeating gradient, so
+   the two tiers keep independent steps. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-fine) 0 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-fine) 0 1px, transparent 1px);
+  background-size:
+    var(--grid-major-step) var(--grid-major-step),
+    var(--grid-major-step) var(--grid-major-step),
+    var(--grid-step) var(--grid-step),
+    var(--grid-step) var(--grid-step);
+}
+
+/* The one atmospheric moment on the site, spent where a first-time reader is
+   deciding whether to keep going. `isolation` keeps the wash inside this
+   section's own stacking context, so it sits above the ground and below every
+   word without any of them needing a z-index. */
+.field {
+  position: relative;
+  isolation: isolate;
+}
+.field::before {
+  content: "";
+  position: absolute;
+  /* Full-bleed horizontally. The hero is a `.shell`, so an `inset: 0` wash stops
+     dead at the 1200px column and leaves a visible vertical seam on wide
+     screens. This reaches the viewport edges without ever widening the page,
+     and `overflow-x: clip` on the body is the belt to that pair of braces. */
+  inset: 0 calc(50% - 50vw);
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(64rem 34rem at 20% -4%, var(--field), transparent 72%);
+  /* A radial at this alpha terminates in a faint but visible ellipse edge. The
+     mask fades the whole layer out before the terminator can be read as a line. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
 }
 
 @layer components {
@@ -106,6 +199,8 @@ body {
     display: flex;
     align-items: center;
     gap: 0.625rem;
+    font-family: var(--font-display);
+    font-stretch: 88%;
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.16em;
@@ -141,6 +236,8 @@ body {
 
   /* Engraved micro-label, inline. */
   .micro {
+    font-family: var(--font-display);
+    font-stretch: 88%;
     font-size: 9px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -220,6 +317,14 @@ body {
  * reader is deciding whether to start a conversation, so it gets whitespace,
  * large type and rounded framing instead.
  *
+ * Three faces, three jobs. Bricolage Grotesque letters anything that is a
+ * heading or a label, using its width axis so a legend is genuinely condensed
+ * rather than a normal face squeezed with letter-spacing, and its optical-size
+ * axis so display sizes are drawn for display sizes. Geist carries running
+ * text. Geist Mono carries every measurement. Sub-headings at 16-19px fall to
+ * Geist along with the rest of the body, because a display face at 16px is a
+ * display face used wrongly.
+ *
  * Rounding lives only here. Nothing in this block is used inside the console.
  * ------------------------------------------------------------------------ */
 
@@ -239,27 +344,30 @@ body {
     box-shadow: var(--frame-shadow);
   }
 
+  /* Large, medium-weight and tight reads confident. Large, heavy and tight
+     reads shouty, which is why the weight came down as the size went up. */
   .display {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.5vw, 3.25rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.06;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     text-wrap: balance;
   }
 
   .display-sm {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.6vw, 2rem);
-    font-weight: 600;
-    letter-spacing: -0.015em;
+    font-size: clamp(1.625rem, 2.8vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
     line-height: 1.15;
     text-wrap: balance;
   }
 
   .lede {
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.7;
+    letter-spacing: -0.003em;
     color: var(--color-dim);
     max-width: 46ch;
   }
@@ -273,6 +381,8 @@ body {
     border: 1px solid var(--color-rule);
     border-radius: var(--radius-chip);
     background: var(--color-raised);
+    font-family: var(--font-display);
+    font-stretch: 88%;
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.16em;
@@ -317,7 +427,7 @@ html {
   [role="switch"],
   textarea {
     touch-action: manipulation;
-    -webkit-tap-highlight-color: rgb(87 215 224 / 0.15);
+    -webkit-tap-highlight-color: rgb(56 225 196 / 0.15);
   }
 }
 

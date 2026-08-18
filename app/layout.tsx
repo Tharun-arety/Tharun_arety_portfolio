@@ -1,30 +1,44 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 /**
- * Two families, each with one job.
+ * Three families, each with one job, and no overlap between them.
  *
- * Space Grotesk carries the chrome: headings, legends, prose. Its clipped
- * terminals and squared bowls read as drawn rather than typeset, which suits an
- * instrument. JetBrains Mono carries everything that is a measurement, because
- * scores, limits, source handles and tool arguments get read in columns and
- * compared, and proportional digits make that harder than it needs to be.
+ * Bricolage Grotesque letters the page: headings, legends, every field label.
+ * Its width axis is the reason it is here rather than a neutral grotesque — a
+ * legend is lettered condensed, and squeezing a normal-width face with
+ * letter-spacing only ever looks squeezed. Its optical-size axis means the
+ * display sizes are drawn for display sizes rather than scaled up from text.
  *
- * Self-hosted through next/font, so there is no third-party request on load and
- * no layout shift when the faces arrive.
+ * Geist carries running text. It was built for interfaces, so it holds up at
+ * the small sizes this page spends most of its words in — which is the job a
+ * display face was doing here before, and doing badly.
+ *
+ * Geist Mono carries every measurement, because scores, limits, source handles
+ * and tool arguments get read in columns and compared, and proportional digits
+ * make that harder than it needs to be. It pairs with Geist by construction
+ * rather than by luck.
+ *
+ * All three self-hosted through next/font, so there is no third-party request
+ * on load and nothing shifts when the faces arrive.
  */
-const display = Space_Grotesk({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+const text = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-jetbrains",
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -54,8 +68,8 @@ export const metadata: Metadata = {
  */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f4f1" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1015" },
+    { media: "(prefers-color-scheme: light)", color: "#f3f2ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0c" },
   ],
 };
 
@@ -76,7 +90,7 @@ try {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${text.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
