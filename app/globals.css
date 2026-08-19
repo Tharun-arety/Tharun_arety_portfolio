@@ -121,6 +121,18 @@
   --aurora-a: rgb(56 225 196 / 0.38);
   --aurora-b: rgb(96 132 255 / 0.34);
   --ribbon: rgb(226 240 255 / 0.2);
+
+  /* The same light, landing on the masthead. Four tones rather than two,
+     because a two-stop gradient reads as a gradient and this has to read as a
+     surface being lit: `low` is the letter in shadow, `mid` is it unlit, `high`
+     is the crest, and `cool` is the breath of the aurora's own colour just past
+     the crest — the reason it looks like light with a source rather than a
+     brightness slider. `low` stays well clear of `--color-faint`, so the dimmest
+     letter is still white type in shadow rather than grey type. */
+  --sheen-low: #a5a5b0;
+  --sheen-mid: #f2f2f5;
+  --sheen-high: #ffffff;
+  --sheen-cool: #e2f6f1;
 }
 
 /* Warm paper rather than pure white: white pages glare, and the warmth is what
@@ -154,6 +166,15 @@
   --sky-bottom: #eae8e1;
 
   --dots: rgb(20 20 24 / 0.07);
+
+  /* On paper the sweep cannot lighten the letter, because lighter is less ink
+     and less ink reads as weaker rather than as lit. So it deepens instead: the
+     crest is the densest point and the cool stop is the cold accent at its
+     darkest, which is the same statement made the only way paper can make it. */
+  --sheen-low: #3a3a44;
+  --sheen-mid: #16161a;
+  --sheen-high: #0b0b0e;
+  --sheen-cool: #123c37;
 
   --aurora-a: rgb(15 118 110 / 0.28);
   --aurora-b: rgb(70 100 190 / 0.24);
@@ -289,6 +310,18 @@ body::before {
    sees twice; `alternate` means neither ever snaps back to a start frame. Both
    animate transform only, so this is composited and costs no layout. The
    reduced-motion block above already stops it — nothing extra is needed here. */
+/* The crest crossing the name. Paired with `alternate` above, so it rakes one
+   way and then the other, and the reduced-motion block that stops every other
+   animation on the page stops this one on a frame that is still composed. */
+@keyframes masthead-light {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
 @keyframes drift-warp {
   from {
     transform: translate3d(-2.5%, -1.6%, 0) scale(1.04) rotate(-0.6deg);
@@ -506,6 +539,48 @@ body::before {
        any rendered size; the optical axis should follow the job, not the
        pixels, and here the two disagree. */
     font-variation-settings: "opsz" 96;
+  }
+
+  /* The light already lying across the hero, landing on the name.
+   *
+   * `.field` paints a blurred drawing of light across the top of the page, and
+   * the masthead sits inside it. So the letters are lit by a gradient clipped to
+   * their own shapes rather than by a new effect invented for them, and the
+   * crest travels the way those layers travel: a long period, `alternate`, so it
+   * never snaps back to a start frame.
+   *
+   * The background is 160% of the box, which is what makes every frame of the
+   * sweep composed rather than only the ends. The window onto the gradient is
+   * 62.5% of it, the crest sits at the middle, so the crest is inside the window
+   * at both extremes and crosses the name rather than arriving and leaving.
+   *
+   * This is the one thing on the page that animates a paint property instead of
+   * a transform, so it is not composited. It is one element of about a fifth of
+   * a screen, which is affordable where a full-width layer would not have been —
+   * that is why the aurora behind it moves by transform and this does not.
+   *
+   * Guarded, because the fallback for an unsupported `background-clip` is a
+   * transparent heading. Outside the guard the name is simply `--color-ink`. */
+  @supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .masthead {
+      background-image: linear-gradient(
+        100deg,
+        var(--sheen-low) 0%,
+        var(--sheen-mid) 25%,
+        var(--sheen-high) 44%,
+        var(--sheen-cool) 50%,
+        var(--sheen-high) 56%,
+        var(--sheen-mid) 75%,
+        var(--sheen-low) 100%
+      );
+      background-size: 160% 100%;
+      background-repeat: no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: masthead-light 17s ease-in-out infinite alternate;
+    }
   }
 
   /* Large, medium-weight and tight reads confident. Large, heavy and tight
