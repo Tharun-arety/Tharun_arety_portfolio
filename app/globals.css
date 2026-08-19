@@ -131,8 +131,6 @@
      the crest — the reason it looks like light with a source rather than a
      brightness slider. `low` stays well clear of `--color-faint`, so the dimmest
      letter is still white type in shadow rather than grey type. */
-  --paths-ink: #dfe7f5;
-
   --sheen-low: #8d94a6;
   --sheen-high: #ffffff;
   --sheen-crest: rgb(255 255 255 / 0.92);
@@ -175,8 +173,6 @@
      and less ink reads as weaker rather than as lit. So it deepens instead: the
      crest is the densest point and the cool stop is the cold accent at its
      darkest, which is the same statement made the only way paper can make it. */
-  --paths-ink: #1d2436;
-
   --sheen-low: #4a4a57;
   --sheen-high: #0b0b0e;
   --sheen-crest: rgb(11 11 14 / 0.92);
@@ -192,73 +188,6 @@
   /* On paper the bands read as light falling across it rather than as light
      itself, so they go white and lift the ground instead of darkening it. */
   --ribbon: rgb(255 255 255 / 1);
-}
-
-/* The flowing-paths field. One dash the length of a third of each curve,
-   travelling it end to end: `pathLength: 1` on the path means the dash pattern
-   is written as a fraction rather than in the user units every curve in the fan
-   measures differently.
-
-   `slice` rather than the default `meet`, because the drawing is 2.2:1 and the
-   hero is nearer 1.4:1 — fitted, it would letterbox and leave the top and foot
-   of the section empty, which is where the light is supposed to be. */
-.field-paths {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  color: var(--paths-ink);
-  /* At full strength the fan runs straight through the lede, and a curve
-     crossing a line of text at the same weight as the text is a curve you read.
-     Half opacity and a mask that thins it through the body copy keeps it a
-     ground rather than a foreground. */
-  opacity: 0.5;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 6%,
-    rgb(0 0 0 / 0.8) 30%,
-    rgb(0 0 0 / 0.28) 60%,
-    transparent 86%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 6%,
-    rgb(0 0 0 / 0.8) 30%,
-    rgb(0 0 0 / 0.28) 60%,
-    transparent 86%
-  );
-}
-
-/* Silences the washes, so the paths stand on their own. */
-.field--paths::before,
-.field--paths::after {
-  display: none;
-}
-
-/* Paths carrying the field alone need the presence the washes were giving it. */
-.field--paths .field-paths {
-  opacity: 0.72;
-}
-
-.field-paths svg {
-  width: 100%;
-  height: 100%;
-}
-
-.field-path {
-  stroke-dasharray: 0.32 0.68;
-  animation-name: path-flow;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes path-flow {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
 }
 
 /* The one place the gutter widens. `.shell` and the masthead both read it, so
