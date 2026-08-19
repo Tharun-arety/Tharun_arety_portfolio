@@ -461,14 +461,33 @@ body::before {
     text-wrap: balance;
   }
 
-  /* The introduction. A name set at the same size as the running text is not an
-     introduction, it is a caption, so this takes a full phi step above it. */
+  /* The introduction, in three sizes that are each one full phi step apart:
+     the greeting at phi, the name at phi^2, the claim beside it at phi^3. That
+     is the whole hierarchy of the hero expressed as one ratio, repeated twice,
+     rather than as three sizes that happen to look right together.
+
+     The weight comes down as the size goes up, for the reason `.display` gives:
+     the name is now large enough that 600 would read as shouting rather than as
+     an introduction. */
+  .greeting {
+    font-family: var(--font-display);
+    /* Every term is the name's divided by phi — the bounds and the viewport
+       coefficient alike — so the step between the two holds at exactly phi from
+       the narrowest screen to the widest, instead of only at the sizes where
+       both clamps happen to be resting on a bound. */
+    font-size: clamp(var(--text-lift), 2.472vw, var(--text-title));
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--color-faint);
+  }
+
   .name {
     font-family: var(--font-display);
-    font-size: clamp(var(--text-title), 2.6vw, var(--text-major));
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.08;
+    font-size: clamp(var(--text-major), 4vw, var(--text-display));
+    font-weight: 500;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
   }
 
   .lede {
