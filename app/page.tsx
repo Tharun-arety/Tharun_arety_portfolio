@@ -18,6 +18,7 @@ import { AnswerText } from "@/components/AnswerText";
 import { CitationList } from "@/components/CitationList";
 import { EvalMetrics, EvalTargetNote, type EvalReport } from "@/components/EvalMetrics";
 import { InspectorDrawer } from "@/components/InspectorDrawer";
+import { BeyondChat } from "@/components/site/BeyondChat";
 import { FeatureRow } from "@/components/site/FeatureRow";
 import { Hero } from "@/components/site/Hero";
 import { HowItsBuilt } from "@/components/site/HowItsBuilt";
@@ -52,6 +53,7 @@ export default function Page() {
         </div>
 
         <WhatIDo />
+        <BeyondChat />
         <Systems />
 
         <FeatureRow
