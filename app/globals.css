@@ -118,9 +118,11 @@
   --dot-step: 24px;
 
   /* The hero atmosphere: two washes for colour, one band of light for shape. */
-  --aurora-a: rgb(56 225 196 / 0.38);
-  --aurora-b: rgb(96 132 255 / 0.34);
-  --ribbon: rgb(226 240 255 / 0.2);
+  --aurora-a: rgb(56 225 196 / 0.6);
+  --aurora-b: rgb(96 132 255 / 0.55);
+  --aurora-c: rgb(150 104 255 / 0.34);
+  --glow: rgb(214 240 255 / 0.1);
+  --ribbon: rgb(226 240 255 / 0.28);
 
   /* The same light, landing on the masthead. Four tones rather than two,
      because a two-stop gradient reads as a gradient and this has to read as a
@@ -129,10 +131,10 @@
      the crest — the reason it looks like light with a source rather than a
      brightness slider. `low` stays well clear of `--color-faint`, so the dimmest
      letter is still white type in shadow rather than grey type. */
-  --sheen-low: #a5a5b0;
-  --sheen-mid: #f2f2f5;
+  --sheen-low: #8d94a6;
   --sheen-high: #ffffff;
-  --sheen-cool: #e2f6f1;
+  --sheen-crest: rgb(255 255 255 / 0.92);
+  --sheen-cool: rgb(176 255 238 / 0.95);
 }
 
 /* Warm paper rather than pure white: white pages glare, and the warmth is what
@@ -171,13 +173,18 @@
      and less ink reads as weaker rather than as lit. So it deepens instead: the
      crest is the densest point and the cool stop is the cold accent at its
      darkest, which is the same statement made the only way paper can make it. */
-  --sheen-low: #3a3a44;
-  --sheen-mid: #16161a;
+  --sheen-low: #4a4a57;
   --sheen-high: #0b0b0e;
-  --sheen-cool: #123c37;
+  --sheen-crest: rgb(11 11 14 / 0.92);
+  --sheen-cool: rgb(6 74 68 / 0.95);
 
-  --aurora-a: rgb(15 118 110 / 0.28);
-  --aurora-b: rgb(70 100 190 / 0.24);
+  --aurora-a: rgb(13 130 120 / 0.5);
+  --aurora-b: rgb(64 96 200 / 0.44);
+  --aurora-c: rgb(126 82 210 / 0.3);
+  /* A tint rather than white. On paper a white glow is not a highlight, it is
+     an absence — it bleaches the wash it sits in and the whole field goes to
+     blank page. */
+  --glow: rgb(198 240 236 / 0.55);
   /* On paper the bands read as light falling across it rather than as light
      itself, so they go white and lift the ground instead of darkening it. */
   --ribbon: rgb(255 255 255 / 1);
@@ -222,6 +229,11 @@ body::before {
   pointer-events: none;
   background-image: radial-gradient(var(--dots) 1px, transparent 1.7px);
   background-size: var(--dot-step) var(--dot-step);
+  /* Densest where the page begins and gone by the fold. A uniform matrix reads
+     as wallpaper; one that falls away gives the ground a centre of gravity and
+     lets the sections below sit on plain dark. */
+  -webkit-mask-image: radial-gradient(125% 82% at 50% -6%, #000 26%, rgb(0 0 0 / 0.42) 62%, transparent 100%);
+  mask-image: radial-gradient(125% 82% at 50% -6%, #000 26%, rgb(0 0 0 / 0.42) 62%, transparent 100%);
 }
 
 /* The one atmospheric moment on the site, spent where a first-time reader is
@@ -258,10 +270,12 @@ body::before {
      which measured 4.42:1 behind the location line — the composition has to be
      proportionally the same at every width, not just the wide one. */
   background:
-    radial-gradient(min(78rem, 130vw) min(28rem, 46vh) at 6% 7%, var(--aurora-a), transparent 64%),
-    radial-gradient(min(66rem, 122vw) min(32rem, 52vh) at 89% 12%, var(--aurora-b), transparent 68%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 6%, transparent 84%);
-  mask-image: linear-gradient(to bottom, #000 6%, transparent 84%);
+    radial-gradient(min(44rem, 84vw) min(22rem, 36vh) at 30% 30%, var(--glow), transparent 70%),
+    radial-gradient(min(58rem, 104vw) min(26rem, 42vh) at 6% 24%, var(--aurora-a), transparent 68%),
+    radial-gradient(min(56rem, 100vw) min(28rem, 46vh) at 90% 20%, var(--aurora-b), transparent 70%),
+    radial-gradient(min(46rem, 86vw) min(23rem, 38vh) at 72% 62%, var(--aurora-c), transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 12%, #000 34%, transparent 90%);
+  mask-image: linear-gradient(to bottom, #000 12%, #000 34%, transparent 90%);
 }
 .field::after {
   z-index: -1;
@@ -315,10 +329,14 @@ body::before {
    animation on the page stops this one on a frame that is still composed. */
 @keyframes masthead-light {
   from {
-    background-position: 0% 50%;
+    background-position:
+      0% 50%,
+      0 0;
   }
   to {
-    background-position: 100% 50%;
+    background-position:
+      100% 50%,
+      0 0;
   }
 }
 
@@ -455,6 +473,16 @@ body::before {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The rule above parks every animation on its last frame, and the crest's
+     last frame has it off the end of the name. Put it back in the middle, so
+     what a reader who has asked for no motion gets is the effect held still
+     rather than the effect absent. */
+  .masthead {
+    background-position:
+      50% 50%,
+      0 0 !important;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -543,43 +571,50 @@ body::before {
 
   /* The light already lying across the hero, landing on the name.
    *
-   * `.field` paints a blurred drawing of light across the top of the page, and
-   * the masthead sits inside it. So the letters are lit by a gradient clipped to
-   * their own shapes rather than by a new effect invented for them, and the
-   * crest travels the way those layers travel: a long period, `alternate`, so it
-   * never snaps back to a start frame.
+   * Two layers clipped to the letterforms, because the effect has a standing
+   * part and a moving part and one gradient cannot be both.
    *
-   * The background is 160% of the box, which is what makes every frame of the
-   * sweep composed rather than only the ends. The window onto the gradient is
-   * 62.5% of it, the crest sits at the middle, so the crest is inside the window
-   * at both extremes and crosses the name rather than arriving and leaving.
+   * Underneath, a vertical fall from white to `--sheen-low`. This is the half
+   * that has to hold on its own: it is what the name looks like in a screenshot,
+   * with motion disabled, and at the moment the page paints. A single ramp
+   * across the width — which is what this was before — reads at a glance as
+   * plain white type, and did.
    *
-   * This is the one thing on the page that animates a paint property instead of
-   * a transform, so it is not composited. It is one element of about a fifth of
-   * a screen, which is affordable where a full-width layer would not have been —
-   * that is why the aurora behind it moves by transform and this does not.
+   * On top, the crest: a soft band of white with the cold accent at its centre,
+   * transparent at both ends so the layer below shows through everywhere else.
+   * It is 300% of the box against the fade's 100%, so the window onto it is a
+   * third of its length: the crest starts off one end, crosses the name, and
+   * leaves at the other, rather than sitting on the letters permanently. Paired
+   * with `alternate`, it rakes one way and then the other.
+   *
+   * This is the one thing on the page that animates a paint property rather than
+   * a transform, so it is not composited. One element of about a fifth of a
+   * screen is affordable where a full-width layer would not have been, which is
+   * why the aurora behind it still moves by transform and this does not.
    *
    * Guarded, because the fallback for an unsupported `background-clip` is a
    * transparent heading. Outside the guard the name is simply `--color-ink`. */
   @supports ((background-clip: text) or (-webkit-background-clip: text)) {
     .masthead {
-      background-image: linear-gradient(
-        100deg,
-        var(--sheen-low) 0%,
-        var(--sheen-mid) 25%,
-        var(--sheen-high) 44%,
-        var(--sheen-cool) 50%,
-        var(--sheen-high) 56%,
-        var(--sheen-mid) 75%,
-        var(--sheen-low) 100%
-      );
-      background-size: 160% 100%;
+      background-image:
+        linear-gradient(
+          100deg,
+          transparent 34%,
+          var(--sheen-crest) 44%,
+          var(--sheen-cool) 50%,
+          var(--sheen-crest) 56%,
+          transparent 66%
+        ),
+        linear-gradient(to bottom, var(--sheen-high) 0%, var(--sheen-high) 30%, var(--sheen-low) 100%);
+      background-size:
+        300% 100%,
+        100% 100%;
       background-repeat: no-repeat;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       -webkit-text-fill-color: transparent;
-      animation: masthead-light 17s ease-in-out infinite alternate;
+      animation: masthead-light 9s ease-in-out infinite alternate;
     }
   }
 
