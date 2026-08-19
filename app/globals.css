@@ -75,7 +75,13 @@
   --text-title: 1.618rem;    /* phi      25.89px  the name, section figures */
   --text-major: 2.058rem;    /* phi^3/2  32.93px */
   --text-display: 2.618rem;  /* phi^2    41.89px */
-  --text-hero: 4.236rem;     /* phi^3    67.78px  the claim */
+  /* The half-step the scale skipped, because until the hero was set in two
+     columns nothing needed it. `--text-hero` is a full phi step above
+     `--text-display`, and the size that fits the name and the claim side by
+     side sits between them — so it is that half-step, phi^5/2, rather than a
+     number chosen to make a line break work. */
+  --text-grand: 3.330rem;    /* phi^5/2  53.28px  the name and the claim */
+  --text-hero: 4.236rem;     /* phi^3    67.78px */
 }
 
 /* ---------------------------------------------------------------------------
@@ -103,8 +109,15 @@
      The greeting derives from it rather than being sized on its own — 0.382 is
      1/phi^2 — so the step between the greeting and the name is phi squared at
      every width by construction rather than at the two widths where both
-     clamps happen to rest on a bound. */
-  --display-step: clamp(var(--text-display), 6.4vw, var(--text-hero));
+     clamps happen to rest on a bound.
+
+     The cap is what lets the claim break after "I build" rather than after the
+     hyphen in "AI-leveraged": one line of it measures 9.7 times the font size,
+     and only at this step does that fit the phi share of the row at every width
+     from 1024 up while the name still fits the other share. The viewport term
+     is set so the narrowest two-column layout resolves under the cap rather
+     than against it. */
+  --display-step: clamp(var(--text-display), 5vw, var(--text-grand));
 
   /* A card lifts off a dark ground with a deep, tight shadow. On a light ground
      the same shadow reads as dirt, so each theme sets its own. */

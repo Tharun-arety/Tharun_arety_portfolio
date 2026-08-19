@@ -28,17 +28,21 @@ export function Hero({ report }: { report: EvalReport }) {
 
   return (
     <section className="shell pt-16 pb-14 lg:pt-24 lg:pb-20">
-      {/* Two columns in golden proportion. The introduction takes phi and leads,
+      {/* Two columns in golden proportion. The introduction leads from the left,
           because the page is about a person and the name is the h1. The claim
-          answers it from the far edge, flush right, at the same size: they are
-          one sentence spoken across the width of the hero, and the reader's eye
+          answers from the far edge, flush right, at the same size: they are one
+          sentence spoken across the width of the hero, and the reader's eye
           crosses the gap rather than descending a hierarchy.
+
+          Phi goes to the claim rather than to the name because the claim is the
+          longer of the two statements, and its second line has to hold together
+          on one line for the break to fall where it should.
 
           No `order` anywhere. The markup is already in reading order, which is
           also the order a phone stacks it in. */}
-      <div className="grid gap-y-10 lg:grid-cols-[1.618fr_1fr] lg:items-start lg:gap-x-16">
+      <div className="grid gap-y-10 lg:grid-cols-[1fr_1.618fr] lg:items-start lg:gap-x-12">
         <div>
-          <p className="greeting">Hello,</p>
+          <p className="greeting">Hello!</p>
           {/* The salutation runs into the name on one line, so the h1 holds both
               halves and a screen reader announces the whole introduction. */}
           <h1 className="display text-ink mt-1">
@@ -53,7 +57,13 @@ export function Hero({ report }: { report: EvalReport }) {
             property both sizes come from, so it tracks them: 0.42 is 1/phi^2
             times the greeting's line-height, and the quarter-rem is `mt-1`. */}
         <p className="display text-ink lg:pt-[calc(var(--display-step)*0.42+0.25rem)] lg:text-right">
-          I build AI-leveraged systems.
+          {/* The break is set rather than left to the wrapper, at every width.
+              Balanced wrapping evens the lines, which here means breaking at the
+              hyphen in "AI-leveraged" — the one place in this sentence where a
+              break changes what it says. No phone is wide enough to hold the
+              second line whole at this size, so there it wraps once more, but it
+              wraps between the two words rather than through the compound. */}
+          I build <span className="block">AI-leveraged systems.</span>
         </p>
       </div>
 
