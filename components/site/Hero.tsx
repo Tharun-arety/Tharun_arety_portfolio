@@ -4,10 +4,19 @@
  * The name, the role and the positioning statement are the user's own words and
  * are used as written.
  *
- * The composition rests on one ratio and one size. The columns divide phi to
- * one; the name and the claim take the same display size at either end of that
- * division; and the greeting is that size divided by phi squared. Three
- * decisions, all of them the same decision.
+ * Two statements, each set to the full measure of the page, one under the
+ * other. The name is the masthead — computed from the column's own width rather
+ * than picked off the type scale, so it runs edge to edge at every size — and
+ * the claim is the widest line the scale has. Between them sit a hairline and a
+ * faceplate legend, which is the vocabulary the rest of the site is written in,
+ * and which is what stops a name at this size reading as vanity rather than as
+ * a masthead.
+ *
+ * This replaces a two-column arrangement that had the name and the claim
+ * competing for one row. Neither could be as large as it wanted, and the claim
+ * could not hold its line: "AI-leveraged systems." needs 9.7 times its font
+ * size, and no share of that row ever gave it that. Stacked, both take the
+ * whole width, and the break problem stops existing.
  *
  * The figure strip underneath is what separates this from every other
  * freelancer landing page: four numbers, none of them typed into the markup.
@@ -27,82 +36,76 @@ export function Hero({ report }: { report: EvalReport }) {
   const cases = caseTotals(report);
 
   return (
-    <section className="shell pt-16 pb-14 lg:pt-24 lg:pb-20">
-      {/* Two columns in golden proportion. The introduction leads from the left,
-          because the page is about a person and the name is the h1. The claim
-          answers from the far edge, flush right, at the same size: they are one
-          sentence spoken across the width of the hero, and the reader's eye
-          crosses the gap rather than descending a hierarchy.
-
-          Phi goes to the claim rather than to the name because the claim is the
-          longer of the two statements, and its second line has to hold together
-          on one line for the break to fall where it should.
-
-          No `order` anywhere. The markup is already in reading order, which is
-          also the order a phone stacks it in. */}
-      <div className="grid gap-y-10 lg:grid-cols-[1fr_1.618fr] lg:items-start lg:gap-x-12">
-        <div>
-          <p className="greeting">Hello!</p>
-          {/* The salutation runs into the name on one line, so the h1 holds both
-              halves and a screen reader announces the whole introduction. */}
-          <h1 className="display text-ink mt-1">
-            <span className="greeting">I&rsquo;m</span> Tharun Arety
-          </h1>
-          <p className="text-dim mt-4 text-lift leading-snug">AI-Leveraged Systems Architect</p>
-          <p className="text-faint mt-2 text-fine">Augsburg, Germany · Open to relocation</p>
-        </div>
-
-        {/* The padding drops the claim's first line onto the name's, since the
-            name sits one greeting-line down. Derived from the same custom
-            property both sizes come from, so it tracks them: 0.42 is 1/phi^2
-            times the greeting's line-height, and the quarter-rem is `mt-1`. */}
-        <p className="display text-ink lg:pt-[calc(var(--display-step)*0.42+0.25rem)] lg:text-right">
-          {/* The break is set rather than left to the wrapper, at every width.
-              Balanced wrapping evens the lines, which here means breaking at the
-              hyphen in "AI-leveraged" — the one place in this sentence where a
-              break changes what it says. No phone is wide enough to hold the
-              second line whole at this size, so there it wraps once more, but it
-              wraps between the two words rather than through the compound. */}
-          I build <span className="block">AI-leveraged systems.</span>
-        </p>
+    <section className="shell pt-10 pb-12 lg:pt-14 lg:pb-16">
+      {/* The greeting and the name are one heading, so the introduction is
+          announced as a sentence rather than as a name with a fragment loose
+          above it. `masthead-fit` is the size container the name measures
+          itself against; it is a bare wrapper and does nothing else. */}
+      <div className="masthead-fit">
+        <h1 className="text-ink">
+          <span className="greeting block">Hello! I&rsquo;m</span>
+          <span className="masthead mt-2 block">Tharun Arety</span>
+        </h1>
       </div>
 
-      {/* Below the row rather than inside the left column, so a phone reads the
-          introduction, then the claim, then what the claim means. Threaded into
-          the left column instead, the claim would come after the buttons on the
-          only layout where it cannot be seen at the same time as the name. */}
-      <p className="lede mt-10 max-w-[52ch]">
-        I turn fragmented business data, documents, knowledge and workflows into systems that AI
-        agents can understand, operate and continuously improve.
+      {/* The faceplate legend: everything a letterhead would carry, engraved
+          under the rule the masthead sits on. The role is the one line here set
+          at reading size, because it is the one that has to be read rather than
+          scanned. */}
+      <div className="border-rule mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t pt-4 lg:mt-8">
+        <span className="micro">portfolio</span>
+        <p className="text-ink text-lift leading-snug">AI-Leveraged Systems Architect</p>
+        <p className="text-faint text-fine sm:ml-auto">Augsburg, Germany · Open to relocation</p>
+      </div>
+
+      {/* The claim, at the top of the scale and across the whole measure, which
+          is what lets it hold one line at every width down to a small phone.
+          The span forces the break for the widths below that: balanced wrapping
+          would take the hyphen in "AI-leveraged", the one break in this sentence
+          that changes what it says. */}
+      <p className="display text-ink mt-10 lg:mt-12">
+        I build <span className="block sm:inline">AI-leveraged systems.</span>
       </p>
 
-      <div className="mt-9 flex flex-wrap items-center gap-3">
-        <a
-          href="#systems"
-          className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
-        >
-          Explore the systems
-          <ArrowDown className="size-3.5" aria-hidden="true" />
-        </a>
-        <a
-          href="#resume"
-          className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
-        >
-          <FileText className="size-3.5" aria-hidden="true" />
-          Résumé
-        </a>
-        <a
-          href={`mailto:${EMAIL}`}
-          className="text-dim hover:text-ink inline-flex h-11 items-center gap-2 px-1 text-fine transition-colors"
-        >
-          <Mail className="size-3.5" aria-hidden="true" />
-          {EMAIL}
-        </a>
+      <div className="mt-10 grid gap-y-8 lg:grid-cols-[1.618fr_1fr] lg:items-start lg:gap-x-12">
+        <p className="lede max-w-[52ch]">
+          I turn fragmented business data, documents, knowledge and workflows into systems that AI
+          agents can understand, operate and continuously improve.
+        </p>
+
+        {/* Stacked in the narrow column rather than run on beside the lede, so
+            the whole action group fits one row of it and the row's height stays
+            the lede's. */}
+        <div className="flex flex-col items-start gap-3 lg:items-end">
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="#systems"
+              className="border-cold/50 bg-cold/10 text-cold hover:bg-cold/20 inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
+            >
+              Explore the systems
+              <ArrowDown className="size-3.5" aria-hidden="true" />
+            </a>
+            <a
+              href="#resume"
+              className="border-rule text-dim hover:text-ink hover:border-rule-strong inline-flex h-11 items-center gap-2 rounded-full border px-5 text-fine transition-colors"
+            >
+              <FileText className="size-3.5" aria-hidden="true" />
+              Résumé
+            </a>
+          </div>
+          <a
+            href={`mailto:${EMAIL}`}
+            className="text-dim hover:text-ink inline-flex items-center gap-2 text-fine transition-colors"
+          >
+            <Mail className="size-3.5" aria-hidden="true" />
+            {EMAIL}
+          </a>
+        </div>
       </div>
 
       {/* Four measurements from the prototype below, so the claim above arrives
           with evidence attached rather than after it. */}
-      <dl className="border-rule mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t pt-8 lg:grid-cols-4">
+      <dl className="border-rule mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t pt-8 lg:mt-12 lg:grid-cols-4">
         <Figure
           value={`${(overall * 100).toFixed(1)}%`}
           label="mean eval score"

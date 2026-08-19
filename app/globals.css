@@ -75,13 +75,7 @@
   --text-title: 1.618rem;    /* phi      25.89px  the name, section figures */
   --text-major: 2.058rem;    /* phi^3/2  32.93px */
   --text-display: 2.618rem;  /* phi^2    41.89px */
-  /* The half-step the scale skipped, because until the hero was set in two
-     columns nothing needed it. `--text-hero` is a full phi step above
-     `--text-display`, and the size that fits the name and the claim side by
-     side sits between them — so it is that half-step, phi^5/2, rather than a
-     number chosen to make a line break work. */
-  --text-grand: 3.330rem;    /* phi^5/2  53.28px  the name and the claim */
-  --text-hero: 4.236rem;     /* phi^3    67.78px */
+  --text-hero: 4.236rem;     /* phi^3    67.78px  the claim */
 }
 
 /* ---------------------------------------------------------------------------
@@ -101,23 +95,14 @@
 :root {
   color-scheme: dark;
 
-  /* The one display size on the page, declared once because two things take it:
-     the name and the claim, which are two halves of one statement spoken across
-     the width of the hero. Sized apart, one of them becomes the caption of the
-     other. Declared apart, they drift the first time either is touched.
+  /* The claim's size. The greeting derives from it rather than being sized on
+     its own — 0.382 is 1/phi^2 — so the step between them is phi squared at
+     every width by construction, not only where both clamps rest on a bound. */
+  --display-step: clamp(var(--text-major), 6.4vw, var(--text-hero));
 
-     The greeting derives from it rather than being sized on its own — 0.382 is
-     1/phi^2 — so the step between the greeting and the name is phi squared at
-     every width by construction rather than at the two widths where both
-     clamps happen to rest on a bound.
-
-     The cap is what lets the claim break after "I build" rather than after the
-     hyphen in "AI-leveraged": one line of it measures 9.7 times the font size,
-     and only at this step does that fit the phi share of the row at every width
-     from 1024 up while the name still fits the other share. The viewport term
-     is set so the narrowest two-column layout resolves under the cap rather
-     than against it. */
-  --display-step: clamp(var(--text-display), 5vw, var(--text-grand));
+  /* The gutter, named because the masthead has to know it: its size is the
+     measure of the page, and the measure is the shell minus two of these. */
+  --shell-gutter: 1.25rem;
 
   /* A card lifts off a dark ground with a deep, tight shadow. On a light ground
      the same shadow reads as dirt, so each theme sets its own. */
@@ -175,6 +160,14 @@
   /* On paper the bands read as light falling across it rather than as light
      itself, so they go white and lift the ground instead of darkening it. */
   --ribbon: rgb(255 255 255 / 1);
+}
+
+/* The one place the gutter widens. `.shell` and the masthead both read it, so
+   the measure they compute from is the same number. */
+@media (min-width: 64rem) {
+  :root {
+    --shell-gutter: 2rem;
+  }
 }
 
 html,
@@ -466,6 +459,55 @@ body::before {
     box-shadow: var(--frame-shadow);
   }
 
+  /* The masthead: the name set to the measure of the page.
+   *
+   * Not a step on the type scale, because it is not really a type size. It is a
+   * width — the column's — expressed as one, which is why it is computed rather
+   * than chosen. "Tharun Arety" in this face at this tracking runs 5.045 times
+   * its own font size, so dividing the container by a little over that fills the
+   * measure and leaves a hair of clearance for the metric difference between the
+   * fallback face and the real one while it loads.
+   *
+   * `100cqi` is the container's own inline size, so the arithmetic never has to
+   * mention the viewport, the 1200px cap or the gutter. Whatever the column
+   * turns out to be, the name is that wide, at every width, with no breakpoints.
+   *
+   * The consequence is the point: the name and the page are the same width, so
+   * the rule under it, the claim below it and the figure strip at the foot all
+   * begin and end where the name does. Nothing else on the page needs to be
+   * emphatic after that. */
+  .masthead-fit {
+    container-type: inline-size;
+    /* Insurance, and the only reason this is not simply `overflow: visible`.
+       The divisor is calibrated against the real face; the fallback shown during
+       the swap has different metrics, and if it happens to be the wider of the
+       two, clipping a few pixels off one frame is a great deal better than
+       putting a horizontal scrollbar on the document. `clip` rather than
+       `hidden` so this never becomes a scroll container, and on the inline axis
+       only so the descender in "Arety" is untouched. */
+    overflow-x: clip;
+  }
+
+  .masthead {
+    display: block;
+    font-family: var(--font-display);
+    font-size: calc(100cqi / 5.1);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.88;
+    /* The optical size is pinned, and the whole approach depends on it.
+       Left on `auto` the axis widens the letterforms as the size comes down —
+       "Tharun Arety" runs 5.045 times its font size above 100px but 5.51 times
+       at 40px — so one divisor cannot fit the measure at both ends and the name
+       wraps on a phone. Pinned at the top of the axis the ratio is 5.045 flat,
+       and the divisor above holds at every width.
+
+       It is also the right drawing to ask for. A masthead is display type at
+       any rendered size; the optical axis should follow the job, not the
+       pixels, and here the two disagree. */
+    font-variation-settings: "opsz" 96;
+  }
+
   /* Large, medium-weight and tight reads confident. Large, heavy and tight
      reads shouty, which is why the weight came down as the size went up. */
   .display {
@@ -533,12 +575,7 @@ body::before {
     width: 100%;
     max-width: 1200px;
     margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-  @media (min-width: 1024px) {
-    .shell {
-      padding-inline: 2rem;
-    }
+    padding-inline: var(--shell-gutter);
   }
 }
 
