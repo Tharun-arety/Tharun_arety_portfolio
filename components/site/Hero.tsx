@@ -43,7 +43,7 @@ export function Hero({ report }: { report: EvalReport }) {
           itself against; it is a bare wrapper and does nothing else. */}
       <div className="masthead-fit">
         <h1 className="text-ink">
-          <span className="greeting block">Hello! I&rsquo;m</span>
+          <span className="greeting block">Hello! I&rsquo;m</span>{" "}
           <span className="masthead mt-2 block">Tharun Arety</span>
         </h1>
       </div>
