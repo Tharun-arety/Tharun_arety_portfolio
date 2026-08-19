@@ -24,9 +24,9 @@ type Tool = {
   colour?: string;
 };
 
-type Group = { title: string; tools: Tool[]; practices?: string[] };
+export type Group = { title: string; tools: Tool[]; practices?: string[] };
 
-const GROUPS: Group[] = [
+export const GROUPS: Group[] = [
   {
     title: "Agents and AI",
     tools: [

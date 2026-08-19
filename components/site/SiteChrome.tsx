@@ -10,7 +10,7 @@
  */
 
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { FileCode2, Mail } from "lucide-react";
 
 import { GithubMark } from "@/components/site/GithubMark";
 
@@ -114,15 +114,27 @@ export function SiteFooter() {
             and is not any company&rsquo;s production data.
           </p>
         </div>
-        <a
-          href={REPO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
-        >
-          <GithubMark className="size-3.5" />
-          Source on GitHub
-        </a>
+        {/* Two destinations for two kinds of reader. The second is the whole
+            site as Markdown, which is the fastest way for someone to hand this
+            work to a model rather than read it themselves. */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <a
+            href="/llms.txt"
+            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
+          >
+            <FileCode2 className="size-3.5" aria-hidden="true" />
+            /llms.txt
+          </a>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-dim hover:text-ink inline-flex items-center gap-1.5 text-fine transition-colors"
+          >
+            <GithubMark className="size-3.5" />
+            Source on GitHub
+          </a>
+        </div>
       </div>
     </footer>
   );

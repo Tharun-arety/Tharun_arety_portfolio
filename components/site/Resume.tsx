@@ -14,12 +14,12 @@ import { Download } from "lucide-react";
 
 import { EMAIL } from "@/components/site/site-data";
 
-const RESUME_PATH = "/tharun-arety-cv.pdf";
+export const RESUME_PATH = "/tharun-arety-cv.pdf";
 
-const PROFILE =
+export const PROFILE =
   "AI systems builder with an engineering background. I build agentic ERP, CRM and PDM systems, RAG pipelines and MCP integrations that turn fragmented business data into something a team can query. I own the full stack myself: Python and TypeScript services, Postgres and pgvector infrastructure, and the eval suites and guardrail pipelines that keep agents safe to run.";
 
-type Entry = {
+export type Entry = {
   period: string;
   role: string;
   organisation: string;
@@ -27,7 +27,7 @@ type Entry = {
   lines: string[];
 };
 
-const EXPERIENCE: Entry[] = [
+export const EXPERIENCE: Entry[] = [
   {
     period: "2025 – 2026",
     role: "AI Systems Architect / AI Engineer",
@@ -52,7 +52,7 @@ const EXPERIENCE: Entry[] = [
   },
 ];
 
-const EDUCATION = [
+export const EDUCATION = [
   {
     period: "2022 – 2026",
     award: "M.Sc. Materials Engineering",

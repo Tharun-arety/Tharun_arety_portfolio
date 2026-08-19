@@ -9,7 +9,7 @@
 
 import { Network, ShieldCheck, Workflow } from "lucide-react";
 
-const BLOCKS = [
+export const APPROACH = [
   {
     icon: Workflow,
     title: "Manual work that an agent can take over",
@@ -37,7 +37,7 @@ export function WhatIDo() {
         </h2>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
-          {BLOCKS.map((block) => (
+          {APPROACH.map((block) => (
             <div key={block.title}>
               <block.icon className="text-cold size-6" strokeWidth={1.5} aria-hidden="true" />
               <h3 className="text-ink mt-4 text-base leading-snug font-medium">{block.title}</h3>

@@ -93,6 +93,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${display.variable} ${text.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* The llmstxt.org convention. A model handed this page can find the
+            Markdown edition of the whole site without guessing at the path. */}
+        <link rel="alternate" type="text/markdown" href="/llms.txt" title="This site as Markdown" />
       </head>
       <body>
         <a href="#main" className="skip-link">
