@@ -94,6 +94,18 @@
 
 :root {
   color-scheme: dark;
+
+  /* The one display size on the page, declared once because two things take it:
+     the name and the claim, which are two halves of one statement spoken across
+     the width of the hero. Sized apart, one of them becomes the caption of the
+     other. Declared apart, they drift the first time either is touched.
+
+     The greeting derives from it rather than being sized on its own — 0.382 is
+     1/phi^2 — so the step between the greeting and the name is phi squared at
+     every width by construction rather than at the two widths where both
+     clamps happen to rest on a bound. */
+  --display-step: clamp(var(--text-display), 6.4vw, var(--text-hero));
+
   /* A card lifts off a dark ground with a deep, tight shadow. On a light ground
      the same shadow reads as dirt, so each theme sets its own. */
   --frame-shadow:
@@ -445,7 +457,7 @@ body::before {
      reads shouty, which is why the weight came down as the size went up. */
   .display {
     font-family: var(--font-display);
-    font-size: clamp(var(--text-display), 6.4vw, var(--text-hero));
+    font-size: var(--display-step);
     font-weight: 500;
     letter-spacing: -0.03em;
     line-height: 1.05;
@@ -461,33 +473,21 @@ body::before {
     text-wrap: balance;
   }
 
-  /* The introduction, in three sizes that are each one full phi step apart:
-     the greeting at phi, the name at phi^2, the claim beside it at phi^3. That
-     is the whole hierarchy of the hero expressed as one ratio, repeated twice,
-     rather than as three sizes that happen to look right together.
+  /* The quiet half of the introduction: the salutation above the name, and the
+     "I’m" that runs into it on the same line. Both are the same size, a
+     phi-squared step under the name, and both are set faint so the name is the
+     only thing in the block anyone reads from across the room.
 
-     The weight comes down as the size goes up, for the reason `.display` gives:
-     the name is now large enough that 600 would read as shouting rather than as
-     an introduction. */
+     There is no `.name` any more. The name is `.display`, because it is the
+     same size as the claim, and two classes that resolve to the same thing are
+     two places for it to stop being true. */
   .greeting {
     font-family: var(--font-display);
-    /* Every term is the name's divided by phi — the bounds and the viewport
-       coefficient alike — so the step between the two holds at exactly phi from
-       the narrowest screen to the widest, instead of only at the sizes where
-       both clamps happen to be resting on a bound. */
-    font-size: clamp(var(--text-lift), 2.472vw, var(--text-title));
+    font-size: calc(var(--display-step) * 0.382);
     font-weight: 400;
     letter-spacing: -0.01em;
     line-height: 1.1;
     color: var(--color-faint);
-  }
-
-  .name {
-    font-family: var(--font-display);
-    font-size: clamp(var(--text-major), 4vw, var(--text-display));
-    font-weight: 500;
-    letter-spacing: -0.028em;
-    line-height: 1.05;
   }
 
   .lede {
